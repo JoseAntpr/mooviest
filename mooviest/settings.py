@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'mooviest.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db3h2va3uddoi7',
-        'USER': 'urivxqziadhppw',
-        'PASSWORD': 'sMCXj3BwhKn454RjIMBPlhjpaa',
-        'HOST': 'ec2-54-83-59-154.compute-1.amazonaws.com',
+        'NAME': 'mooviest',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -93,9 +93,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ES'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
