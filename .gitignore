@@ -1,3 +1,5 @@
 venv
 
 mooviest/settings.py
+
+.*
