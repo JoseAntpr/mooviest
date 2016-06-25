@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mooviest',
     'home',
     'movie',
     'contact',
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'mooviest.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,13 +79,25 @@ WSGI_APPLICATION = 'mooviest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'db3h2va3uddoi7',
+#        'USER': 'urivxqziadhppw',
+#        'PASSWORD': 'sMCXj3BwhKn454RjIMBPlhjpaa',
+#        'HOST': 'ec2-54-83-59-154.compute-1.amazonaws.com',
+#        'PORT': '5432',
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db3h2va3uddoi7',
-        'USER': 'urivxqziadhppw',
-        'PASSWORD': 'sMCXj3BwhKn454RjIMBPlhjpaa',
-        'HOST': 'ec2-54-83-59-154.compute-1.amazonaws.com',
+        'NAME': 'mooviest',
+        'USER': 'samuel',
+        'PASSWORD': 'samuel',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -93,9 +106,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ES'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
@@ -108,3 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
