@@ -38,19 +38,18 @@ class Emotion(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
-    synopsis = models.CharField(max_length=800)
-    duration = models.TimeField('Duration')
-    date = models.DateField('Date')
+    synopsis = models.TextField(max_length=800)
+    duration = models.DurationField('Duration')
+    released = models.PositiveSmallIntegerField(null=True)
     country = models.CharField(max_length=30)
     movie_producer = models.CharField(max_length=100)
-    saga_order = models.IntegerField(default = 1)
-    average = models.FloatField()
+    saga_order = models.IntegerField(default=1,blank=True)
+    average = models.DecimalField(default=0, max_digits=4, decimal_places=2, null=True, blank=True)
     participations = models.ManyToManyField(Celebrity, through =
     'Participation')
-    saga = models.ForeignKey(Saga, on_delete=models.CASCADE)
+    saga = models.ForeignKey(Saga,null=True,blank=True,on_delete=models.CASCADE)
     genres = models.ManyToManyField(Genre)
-    emotions = models.ManyToManyField(Emotion)
-    pub_date = models.DateTimeField('date published')
+    emotions = models.ManyToManyField(Emotion,blank=True)
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 class Participation(models.Model):
