@@ -41,7 +41,8 @@ INSTALLED_APPS = (
     'home',
     'movie',
     'contact',
-    'api'
+    'api',
+    'rest_framework'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,17 +80,16 @@ WSGI_APPLICATION = 'mooviest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'db3h2va3uddoi7',
-#        'USER': 'urivxqziadhppw',
-#        'PASSWORD': 'sMCXj3BwhKn454RjIMBPlhjpaa',
-#        'HOST': 'ec2-54-83-59-154.compute-1.amazonaws.com',
-#        'PORT': '5432',
-#    }
-#}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mooviest',
+        'USER': 'root',
+        'PASSWORD': '********',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -112,3 +112,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGE_SIZE': 10
+}

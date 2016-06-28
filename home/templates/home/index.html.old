@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="header">
+          <h1>Mooviest</h1>
+          <h3>¡Tu sitio de búsqueda, comparación y recomendación de películas!</h3>
+          <br>
+          <div class="row">
+          <div class="col-lg-offset-4 col-lg-4">
+            <div class="input-group">
+              <input type="text" class="form-control input-lg" placeholder="Buscar...">
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-lg" type="button"><span class="glyphicon glyphicon-search"></span></button>
+              </span>
+            </div>
+          </div>
+          </div>
+    </div>
+
+    <div class="container">
+
+      <section id="about">
+        <h2>¿QUÉ ES MOOVIEST?</h2>
+        <br>
+        <div class="row">
+          <div class="about-icons col-md-offset-1 col-md-2">
+            <img class="img-responsive" src="{% static "img/search.png" %}"></img>
+            <h4>Busca</h4>
+            <p>Busca las películas que quieras ver.</p>
+          </div>
+          <div class="about-icons col-md-offset-2 col-md-2">
+            <img class="img-responsive" src="{% static "img/assessment.png" %}"></img>
+            <h4>Compara</h4>
+            <p>Echa un vistazo a sus puntuaciones y, sobre todo, a nuestras puntuaciones globales.</p>
+          </div>
+          <div class="about-icons col-md-offset-2 col-md-2">
+            <img class="img-responsive" src="{% static "img/check.png" %}"></img>
+            <h4>Decide</h4>
+            <p>Ahora podrá tomar una decisión más acertada y precisa, en menos tiempo.</p>
+          </div>
+        </div>
+      </section>
+
+      <hr>
+
+      <section id="estrenos">
+        <br>
+        <h2>ESTRENOS</h2>
+        <br>
+
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+             <div class="col-lg-offset-1 col-lg-2"><img src="sisters.jpg"></div>
+              <div class="col-lg-2"><img src="batmanvsuperman.jpg"></div>
+              <div class="col-lg-2"><img src="londonfallen.jpg"></div>
+              <div class="col-lg-2"><img src="blancanieves.jpg"></div>
+              <div class="col-lg-2"><img src="divergente.jpg"></div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </section>
+
+      <hr>
+
+      <section id="populares">
+        <br>
+        <h2>MÁS POPULARES</h2>
+        <br>
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+             <a href="#"><div class="col-lg-offset-1 col-lg-2"><img src="star_wars/star_wars.jpg"></div></a>
+              <div class="col-lg-2"><img src="birdman.jpg"></div>
+              <a href="#"><div class="col-lg-2"><img src="http://pics.filmaffinity.com/El_hombre_de_acero-919390391-large.jpg"></div></a>
+              <div class="col-lg-2"><img src="renacido.jpg"></div>
+              <a href="#"><div class="col-lg-2"><img src="Marte/marte.jpg"></div><a/>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </section>
+
+      <hr>
+
+      <section id="sources">
+        <br>
+        <h2>PUNTUACIONES DE</h2>
+        <br>
+        <div class="row">
+          <div class="col-md-offset-3 col-md-2"><img class="img-responsive" src="{% static "img/imdb.png" %}"></div>
+          <div class="col-md-2"><img class="img-responsive" src="{% static "img/SensaCine.png" %}"></div>
+          <div class="col-md-2"><img class="img-responsive" src="{% static "img/Rotten_tomatoes.png" %}"></div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-offset-4 col-md-2"><img class="img-responsive" src="{% static "img/film_affinity.png" %}"></div>
+          <div class="col-md-2"><img class="img-responsive" src="{% static "img/tviso.png" %}"></div>
+        </div>
+
+        <hr>
+
+      </section>
+
+      <section id="support">
+        
+      </section>
+
+    </div>
+{% endblock content %}

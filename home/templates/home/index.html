@@ -1,12 +1,29 @@
-<!--
-<!DOCTYPE HTML>
-<html lang="en">
-<head>
-    <title>My Home Page</title>
-</head>
-<body>
-<p>My Content</p>
-</body>
-</html>
--->
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="header">
+
+    </div>
+
+    <div class="container">
+      <div class="content">
+        <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
+          <a href="#" class="btn" data-action="open" data-side="right">
+            <img class="img-responsive" src="http://a.dilcdn.com/bl/wp-content/uploads/sites/6/2015/10/star-wars-force-awakens-official-poster.jpg">
+          </a>
+          <br>
+          <button type="button" class="btn btn-success btn-round"><span class="glyphicon glyphicon-ok"></span></button>
+          <button type="button" class="btn btn-danger btn-round"><span class="glyphicon glyphicon-remove"></span></button>
+          <button type="button" class="btn btn-default btn-round"><span class="glyphicon glyphicon-heart"></span></button>
+        </div>
+      </div>
+    </div>
+    <div class="sidebars">
+      <div class="sidebar left" style="left: -400px;">Left</div>
+      <div class="sidebar right" style="right: -400px;">
+        <a class="btn" data-action="close" data-side="right"><span class="glyphicon glyphicon-remove"></span></a>
+      </div>
+      <div class="sidebar top" style="top: -400px;">Top</div>
+      <div class="sidebar bottom" style="bottom: -400px;">Bottom</div>
+    </div>
+{% endblock content %}
