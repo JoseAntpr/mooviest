@@ -5,14 +5,20 @@ from django.utils import timezone
 
 # Create your models here.
 class Lang(models.Model):
-    code = models.CharField(max_length=20)
+    code = models.CharField(max_length=20,null=False)
     def __str__(self):              # __unicode__ on Python 2
         return self.code
+
+class Country(models.Model):
+    name = models.CharField(max_length=20)
+    lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    def __str__(self):              # __unicode__ on Python 2
+        return self.award
 
 class Celebrity(models.Model):
     name = models.CharField(max_length=50)
     born = models.DateField('Born')
-    image = models.CharField(max_length=255)
+    image = models.CharField(max_length=255,null=True)
     twitter_account = models.CharField(max_length=30)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
@@ -39,7 +45,7 @@ class Role_lang(models.Model):
         return self.name
 
 class Saga(models.Model):
-    code = models.CharField(max_length=20)
+    code = models.CharField(max_length=20,null=False,default='s')
     def __str__(self):              # __unicode__ on Python 2
         return self.code
 
@@ -52,7 +58,7 @@ class Saga_lang(models.Model):
         return self.name
 
 class Genre(models.Model):
-    code = models.CharField(max_length=20)
+    code = models.CharField(max_length=20,null=False,default='g')
     def __str__(self):              # __unicode__ on Python 2
         return self.code
 
@@ -64,7 +70,7 @@ class Genre_lang(models.Model):
         return self.name
 
 class Emotion(models.Model):
-    code = models.CharField(max_length=20)
+    code = models.CharField(max_length=20,null=False,default='e')
     def __str__(self):              # __unicode__ on Python 2
         return self.code
 
@@ -77,7 +83,7 @@ class Emotion_lang(models.Model):
         return self.name
 
 class Movie(models.Model):
-    image = models.CharField(max_length=255)
+    image = models.CharField(max_length=255,null=True)
     duration = models.DurationField('Duration')
     released = models.PositiveSmallIntegerField(null=True)
     movie_producer = models.CharField(max_length=100)
@@ -90,6 +96,7 @@ class Movie(models.Model):
     emotions = models.ManyToManyField(Emotion,blank=True)
     def __str__(self):              # __unicode__ on Python 2
         return self.duration
+
 
 class Movie_lang(models.Model):
     title = models.CharField(max_length=100)
@@ -134,12 +141,6 @@ class Catalogue_lang(models.Model):
     url = models.CharField(max_length=255)
     price = models.DecimalField(default=0, max_digits=4, decimal_places=2, null=True, blank=True)
     catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE)
-    lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
-    def __str__(self):              # __unicode__ on Python 2
-        return self.award
-
-class Country(models.Model):
-    name = models.CharField(max_length=20)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     def __str__(self):              # __unicode__ on Python 2
         return self.award
