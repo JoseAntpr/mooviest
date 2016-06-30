@@ -11,7 +11,7 @@ class Lang(models.Model):
 
 class Country(models.Model):
     name = models.CharField(max_length=20)
-    lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    lang = models.ForeignKey(Lang, null=True, on_delete=models.SET_NULL)
     def __str__(self):              # __unicode__ on Python 2
         return self.award
 
@@ -84,9 +84,9 @@ class Emotion_lang(models.Model):
 
 class Movie(models.Model):
     image = models.CharField(max_length=255,null=True)
-    duration = models.DurationField('Duration')
+    runtime = models.PositiveSmallIntegerField(null=True)
     released = models.PositiveSmallIntegerField(null=True)
-    movie_producer = models.CharField(max_length=100)
+    movie_producer = models.CharField(max_length=255)
     saga_order = models.IntegerField(default=1,blank=True)
     average = models.DecimalField(default=0, max_digits=4, decimal_places=2, null=True, blank=True)
     participations = models.ManyToManyField(Celebrity, through =
@@ -101,7 +101,7 @@ class Movie(models.Model):
 class Movie_lang(models.Model):
     title = models.CharField(max_length=100)
     synopsis = models.CharField(max_length=800)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, null= True, on_delete=models.SET_NULL)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     def __str__(self):              # __unicode__ on Python 2
@@ -110,7 +110,7 @@ class Movie_lang(models.Model):
 class Participation(models.Model):
     celebrity = models.ForeignKey(Celebrity, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
-    role = models.ForeignKey(Role, on_delete = models.CASCADE)
+    role = models.ForeignKey(Role, null=True, on_delete = models.SET_NULL)
     def __str__(self):              # __unicode__ on Python 2
         return self.role
     class Meta:
