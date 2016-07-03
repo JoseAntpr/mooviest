@@ -85,8 +85,12 @@ class Emotion_lang(models.Model):
 class Movie(models.Model):
     image = models.CharField(max_length=255,null=True)
     runtime = models.PositiveSmallIntegerField(null=True)
-    released = models.PositiveSmallIntegerField(null=True)
     movie_producer = models.CharField(max_length=255)
+    title = models.CharField(max_length=100)
+    synopsis = models.TextField(max_length=800)
+    duration = models.DurationField('Duration')
+    released = models.PositiveSmallIntegerField(null=True)
+    country = models.CharField(max_length=30)
     saga_order = models.IntegerField(default=1,blank=True)
     average = models.DecimalField(default=0, max_digits=4, decimal_places=2, null=True, blank=True)
     participations = models.ManyToManyField(Celebrity, through =
@@ -94,6 +98,7 @@ class Movie(models.Model):
     saga = models.ForeignKey(Saga,null=True,blank=True,on_delete=models.CASCADE)
     genres = models.ManyToManyField(Genre)
     emotions = models.ManyToManyField(Emotion,blank=True)
+    
     def __str__(self):              # __unicode__ on Python 2
         return self.duration
 
@@ -104,6 +109,7 @@ class Movie_lang(models.Model):
     country = models.ForeignKey(Country, null= True, on_delete=models.SET_NULL)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
