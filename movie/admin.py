@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Lang, Country, Movie, Celebrity, Celebrity_lang,Role,Role_lang,Saga,Saga_lang,Genre,Genre_lang,Emotion,Emotion_lang,Movie,Movie_lang,Participation,Participation_lang,Streaming,Catalogue,Catalogue_lang
+from .models import Lang, Country, Movie, Celebrity, Celebrity_lang,Role,Role_lang,Saga,Saga_lang,Genre,Genre_lang,Emotion,Emotion_lang,Movie,Movie_lang,Participation,Participation_lang,Streaming,Catalogue,Catalogue_lang,Rating,Source
 
 
 
@@ -24,3 +24,5 @@ admin.site.register(Participation_lang)
 admin.site.register(Streaming)
 admin.site.register(Catalogue)
 admin.site.register(Catalogue_lang)
+admin.site.register(Source)
+admin.site.register(Rating)
