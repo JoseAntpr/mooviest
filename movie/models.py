@@ -98,7 +98,7 @@ class Movie(models.Model):
     saga = models.ForeignKey(Saga,null=True,blank=True,on_delete=models.CASCADE)
     genres = models.ManyToManyField(Genre)
     emotions = models.ManyToManyField(Emotion,blank=True)
-    
+
     def __str__(self):              # __unicode__ on Python 2
         return self.duration
 
