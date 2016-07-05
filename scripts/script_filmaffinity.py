@@ -10,16 +10,22 @@ def rating_filmaffinity(film):
     html = response.read().decode("utf8")
     soup = BeautifulSoup(html, 'html.parser')
 
-    lista = soup.find_all("div",{"class":"avgrat-box"})
     rating_str = ""
     count_str = ""
+    lista = soup.find_all("div",{"class":"avgrat-box"})
+
     if len(lista) > 0:
-        rating_str = lista[0].get_text()
+        rating_str = lista[0].get_text().strip()
         lista = soup.find_all("div",{"class":"ratcount-box"})
-        count_str = lista[0].get_text()
+        count_str = lista[0].get_text().strip()
     else:
-        rating_str = soup.find(id="movie-rat-avg").get_text().strip()
-        count_str = soup.find(itemprop="ratingCount").get_text()
+        try:
+            rating_str = soup.find(id="rt").get_text().strip()
+            count_str = soup.find(itemprop="rt").get_text().strip()
+        except AttributeError:
+            rating_str = "0"
+            count_str = "0"
+            print(film+" rating:_, count:_")
 
     rating = int(rating_str.replace(",", ""))
     count = int(count_str.replace(".", ""))
@@ -28,6 +34,7 @@ def rating_filmaffinity(film):
 
 #example, call function rating_filmaffinity
 r,c = rating_filmaffinity("E.T., el extraterrestre")
+#r,c = rating_filmaffinity("Los juegos del hambre")
 
 print(r)
 print(c)
