@@ -20,8 +20,8 @@ def rating_filmaffinity(film):
         count_str = lista[0].get_text().strip()
     else:
         try:
-            rating_str = soup.find(id="rt").get_text().strip()
-            count_str = soup.find(itemprop="rt").get_text().strip()
+            rating_str = soup.find(id="movie-rat-avg").get_text().strip()
+            count_str = soup.find(itemprop="ratingCount").get_text().strip()
         except AttributeError:
             rating_str = "0"
             count_str = "0"
