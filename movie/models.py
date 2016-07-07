@@ -93,6 +93,11 @@ class Streaming(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
+class Source(models.Model):
+    name = models.CharField(max_length=50)
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
+
 class Movie(models.Model):
     genres = models.ManyToManyField(Genre)
     participations = models.ManyToManyField(Celebrity, through =
@@ -101,6 +106,7 @@ class Movie(models.Model):
     emotions = models.ManyToManyField(Emotion,blank=True)
     saga = models.ForeignKey(Saga,null=True,blank=True,on_delete=models.CASCADE)
     catalogues = models.ManyToManyField(Streaming, through ='Catalogue')
+    ratings = models.ManyToManyField(Source,blank=True,through = 'Rating')
     original_title = models.CharField(max_length=100)
     runtime = models.PositiveSmallIntegerField(null=True)
     released = models.PositiveSmallIntegerField(null=True)
@@ -119,6 +125,13 @@ class Movie_lang(models.Model):
     synopsis = models.CharField(max_length=800)
     def __str__(self):              # __unicode__ on Python 2
         return self.title
+
+class Rating(models.Model):
+    source = models.ForeignKey(Source, on_delete = models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
+    sourceid = models.CharField(max_length=30)
+    rating = models.PositiveSmallIntegerField(default=0,null=True)
+    count = models.PositiveSmallIntegerField(null=True,default=0)
 
 class Catalogue(models.Model):
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
