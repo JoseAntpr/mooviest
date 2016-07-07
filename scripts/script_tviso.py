@@ -28,14 +28,106 @@ def get_info_tviso(idm,token,mediaType):
 
     return data
 
-def movie_parser_tviso(data):
+def parser_movie(data):
     # MOVIE
     runtime = int(data["runtime"])
     released = int(data["year"])
-    imdb = data["imdb"]
+    imdb = str(data["imdb"])
+    movie = {
+        "runtime": runtime,
+        "released": released,
+        "movie_producer": "",
+        "saga_order": 1,
+        "average": 0.0,
+        "image": ""
+    }
+
+    return movie
+
+def parser_rating(data):
+    source = "Tviso"
+    movie = str(data["original_name"])
+    sourceid = int(data["idm"])
+    rating = int(data["rating"]*10)
+    count = int(data["ratings_num"])
+    rating = {
+        "source": source,
+        "movie": movie,
+        "sourceid": sourceid,
+        "rating": rating,
+        "count": count
+    }
+
+    return rating
+
+def parser_celbrities_paticipations(data):
+
+    movie = data["original_name"]
+    celebrity_list = []
+    participation_list = []
+    for actor in data["cast"]:
+        face = ""
+        try:
+            face =  actor["images"]["face"]
+        except TypeError:
+            face = ""
+
+        name = actor["name"]
+        character = actor["role"]
+        celebrity = {
+            "name": name,
+            "born": "",
+            "twitter_account":"",
+            "image": face,
+        }
+        celebrity_list.append(celebrity)
+
+        participation = {
+            "movie": movie,
+            "celecbrity": name,
+            "role": "actor",
+            "character": character
+        }
+        participation_list.append(participation)
+
+    return celebrity_list, participation_list
+
+def parser_produces_paticipations(data):
+
+    movie = data["original_name"]
+    celebrity_list = []
+    participation_list = []
+    for produce in data["produce"]:
+        face = ""
+        try:
+            face =  actor["images"]["face"]
+        except TypeError:
+            face = ""
+
+        name = actor["name"]
+        character = actor["role"]
+        celebrity = {
+            "name": name,
+            "born": "",
+            "twitter_account":"",
+            "image": face,
+        }
+        celebrity_list.append(celebrity)
+
+        participation = {
+            "movie": movie,
+            "celecbrity": name,
+            "role": "actor",
+            "character": character
+        }
+        participation_list.append(participation)
+
+    return celebrity_list, participation_list
+
+def movie_parser_tviso(data):
+
     movie_producer_list = []
     genre_list = []
-
 
     for produce in data["produce"]:
         movie_producer_list.append(produce["name"])
@@ -46,21 +138,7 @@ def movie_parser_tviso(data):
         genre_list.append(genre)
 
     casting_list = []
-    for actor in data["cast"]:
-        face = ""
-        try:
-            face =  actor["images"]["face"]
-            print(face)
-        except TypeError:
-            face = ""
 
-        item = {
-            "name": actor["name"],
-            "name_film": actor["role"],
-            "face": face
-        }
-        casting_list.append(item)
-    print(casting_list)
 
     #return imdb, runtime, released, producer, genre_list
 
@@ -84,8 +162,7 @@ secret = 'bhRNt7TaHhuVcKxExK3n'
 auth_token = "85fe8eceed84c250d254be5aed2ba525"
 print(auth_token)
 mediaType = "2"
-idm = "10"
+idm = "5411"
 data = get_info_tviso(idm,auth_token,mediaType)
 print(data["error"])
-#print(data)
-movie_parser_tviso(data)
+print(data)
