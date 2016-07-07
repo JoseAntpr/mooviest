@@ -10,10 +10,10 @@ class Lang(models.Model):
         return self.code
 
 class Country(models.Model):
-    name = models.CharField(max_length=20)
     lang = models.ForeignKey(Lang, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=20,null=False)
     def __str__(self):              # __unicode__ on Python 2
-        return self.award
+        return self.name
 
 class Celebrity(models.Model):
     name = models.CharField(max_length=50)
@@ -24,13 +24,13 @@ class Celebrity(models.Model):
         return self.name
 
 class Celebrity_lang(models.Model):
+    celebrity = models.ForeignKey(Celebrity, on_delete=models.CASCADE)
+    lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     biography = models.CharField(max_length=600)
     address = models.CharField(max_length=100)
     nationality = models.CharField(max_length=30)
-    celebrity = models.ForeignKey(Celebrity, on_delete=models.CASCADE)
-    lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     def __str__(self):              # __unicode__ on Python 2
-        return self.biography
+        return self.celebrity + " " + self.lang
 
 class Role(models.Model):
     code = models.CharField(max_length=20)
@@ -38,9 +38,9 @@ class Role(models.Model):
         return self.code
 
 class Role_lang(models.Model):
-    name = models.CharField(max_length=20)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    name = models.CharField(max_length=20)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
@@ -50,10 +50,10 @@ class Saga(models.Model):
         return self.code
 
 class Saga_lang(models.Model):
-    name = models.CharField(max_length=30)
-    synopsis = models.CharField(max_length=800)
     saga = models.ForeignKey(Saga, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    synopsis = models.CharField(max_length=800)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
@@ -63,9 +63,9 @@ class Genre(models.Model):
         return self.code
 
 class Genre_lang(models.Model):
-    name = models.CharField(max_length=20)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    name = models.CharField(max_length=20)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
@@ -75,35 +75,35 @@ class Emotion(models.Model):
         return self.code
 
 class Emotion_lang(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.CharField(max_length=50)
     emotion = models.ForeignKey(Emotion, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    description = models.CharField(max_length=50)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
 class Movie(models.Model):
-    image = models.CharField(max_length=255,null=True)
+    genres = models.ManyToManyField(Genre)
+    participations = models.ManyToManyField(Celebrity, through =
+    'Participation')
+    emotions = models.ManyToManyField(Emotion,blank=True)
+    saga = models.ForeignKey(Saga,null=True,blank=True,on_delete=models.CASCADE)
+    original_title = models.CharField(max_length=100)
     runtime = models.PositiveSmallIntegerField(null=True)
     released = models.PositiveSmallIntegerField(null=True)
+    image = models.CharField(max_length=255,null=True)
     movie_producer = models.CharField(max_length=255)
     saga_order = models.IntegerField(default=1,blank=True)
     average = models.DecimalField(default=0, max_digits=4, decimal_places=2, null=True, blank=True)
-    participations = models.ManyToManyField(Celebrity, through =
-    'Participation')
-    saga = models.ForeignKey(Saga,null=True,blank=True,on_delete=models.CASCADE)
-    genres = models.ManyToManyField(Genre)
-    emotions = models.ManyToManyField(Emotion,blank=True)
     def __str__(self):              # __unicode__ on Python 2
-        return self.duration
-
+        return self.original_title
 
 class Movie_lang(models.Model):
-    title = models.CharField(max_length=100)
-    synopsis = models.CharField(max_length=800)
-    country = models.ForeignKey(Country, null= True, on_delete=models.SET_NULL)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, null= True, on_delete=models.SET_NULL)
+    title = models.CharField(max_length=100)
+    synopsis = models.CharField(max_length=800)    
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
@@ -111,15 +111,16 @@ class Participation(models.Model):
     celebrity = models.ForeignKey(Celebrity, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     role = models.ForeignKey(Role, null=True, on_delete = models.SET_NULL)
+    character = models.CharField(max_length=100, default="")
     def __str__(self):              # __unicode__ on Python 2
-        return self.role
+        return self.character
     class Meta:
         unique_together = (("celebrity", "movie","role"),)
 
 class Participation_lang(models.Model):
-    award = models.CharField(max_length=200)
     participation = models.ForeignKey(Participation, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    award = models.CharField(max_length=200)
     def __str__(self):              # __unicode__ on Python 2
         return self.award
 
@@ -133,14 +134,14 @@ class Catalogue(models.Model):
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     streaming = models.ForeignKey(Streaming, on_delete = models.CASCADE)
     def __str__(self):              # __unicode__ on Python 2
-        return self.streaming.name
+        return self.streaming
     class Meta:
         unique_together = (("movie", "streaming"),)
 
 class Catalogue_lang(models.Model):
-    url = models.CharField(max_length=255)
-    price = models.DecimalField(default=0, max_digits=4, decimal_places=2, null=True, blank=True)
     catalogue = models.ForeignKey(Catalogue, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    url = models.CharField(max_length=255)
+    price = models.DecimalField(default=0, max_digits=4, decimal_places=2, null=True, blank=True)
     def __str__(self):              # __unicode__ on Python 2
-        return self.award
+        return self.catalogue + " " + self.lang
