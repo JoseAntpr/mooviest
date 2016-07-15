@@ -9,7 +9,7 @@ html, body {
 	width: 100%;
 }
 
-.container {
+.container .content {
   position: relative;
 	margin-top: 15vh;
 	padding: 50px;
@@ -24,7 +24,7 @@ html, body {
 }
 
 .navbar {
-	background-color: #BA1313 !important;
+	background-color: #9b0000 !important;
 	color: white !important;
 	padding: 15px;
 	border-bottom: 0px;
@@ -44,52 +44,43 @@ html, body {
     color: white;
 }
 
-#estrenos {
-	text-align: center;
-	height: 50vh;
+ul.stack {
+	position: relative;
+	list-style-type: none;
 }
 
-#estrenos img {
-	width: 90%;
-	height: 90%;
+li.poster0 {
+	position: absolute;
+	z-index: 0;
 }
 
-#populares {
-	text-align: center;
-	height: 50vh;
+li.poster1 {
+	position: absolute;
+	z-index: 1;
 }
 
-#populares img {
-	width: 90%;
-	height: 90%;
+li.poster2 {
+	position: absolute;
+	z-index: 2;
 }
 
-#about {
-	text-align: center;
-	height: 45vh;
+li.poster3 {
+	position: absolute;
+	z-index: 3;
 }
 
-#sources {
-	text-align: center;
+li.poster4 {
+	position: absolute;
+	z-index: 4;
 }
 
-#support {
-  text-align: center;
-}
-
-footer {
+.footer {
+	position: absolute;
+  bottom: 0;
+  width: 100%;
 	background-color: #9b0000;
-}
-
-footer .container {
 	padding: 3vh;
 	margin-top: 10vh;
-	box-shadow: none;
-	border-radius: 0px;
-	background-color: #9b0000;
-}
-
-footer .container a {
 	color: white;
 }
 

@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://s.mlcdn.co/animate.css">
         <link rel="stylesheet" href="{% static "css/styles.css" %}" >
 
     </head>
@@ -59,40 +60,12 @@
         </div>
     </footer>
 
-        <!-- JavaScript -->
-        <script src="http://code.jquery.com/jquery-3.0.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sidebar/3.3.2/jquery.sidebar.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- JavaScript -->
+    <script src="http://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sidebar/3.3.2/jquery.sidebar.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-        <script>
-          $(document).ready(function () {
-             // All sides
-             var sides = ["left", "top", "right", "bottom"];
-             $("h1 span.version").text($.fn.sidebar.version);
-
-             // Initialize sidebars
-             for (var i = 0; i < sides.length; ++i) {
-                 var cSide = sides[i];
-                 $(".sidebar." + cSide).sidebar({side: cSide});
-             }
-
-             // Click handlers
-             $(".btn[data-action]").on("click", function () {
-                 var $this = $(this);
-                 var action = $this.attr("data-action");
-                 var side = $this.attr("data-side");
-                 $(".sidebar." + side).trigger("sidebar:" + action);
-                 if (action == "open") {
-                   $(".content").css("width", "70%");
-                   $("footer").css("width", "70%");
-                 } else if (action == "close") {
-                   $(".content").css("width", "100%");
-                   $("footer").css("width", "100%");
-                 }
-                 return false;
-             });
-          });
-        </script>
+    {% block javascript %}{% endblock javascript %}
 
     </body>
 
