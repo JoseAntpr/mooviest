@@ -1,69 +1,114 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
-
     <head>
-        <title>Mooviest</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://s.mlcdn.co/animate.css">
-        <link rel="stylesheet" href="{% static "home/css/styles.css" %}" >
+      <title>Mooviest</title>
+
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=320, height=device-height">
+      <meta name="description" content="Sistema de recomendaciones películas">
+      <meta name="author" content="Mooviest">
+
+    	<!-- Favicon -->
+    	<link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
+    	<link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
+    	<link rel="apple-touch-icon" sizes="72x72" href="assets/favicon/apple-icon-72x72.png">
+    	<link rel="apple-touch-icon" sizes="76x76" href="assets/favicon/apple-icon-76x76.png">
+    	<link rel="apple-touch-icon" sizes="114x114" href="assets/favicon/apple-icon-114x114.png">
+    	<link rel="apple-touch-icon" sizes="120x120" href="assets/favicon/apple-icon-120x120.png">
+    	<link rel="apple-touch-icon" sizes="144x144" href="assets/favicon/apple-icon-144x144.png">
+    	<link rel="apple-touch-icon" sizes="152x152" href="assets/favicon/apple-icon-152x152.png">
+    	<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
+    	<link rel="icon" type="image/png" sizes="192x192"  href="assets/favicon/android-icon-192x192.png">
+    	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    	<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    	<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    	<link rel="manifest" href="assets/favicon/manifest.json">
+    	<meta name="msapplication-TileColor" content="#940123">
+    	<meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+    	<meta name="theme-color" content="#940123">
+
+      <!-- CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <link rel="stylesheet" href="{% static "home/css/animate.css" %}">
+      <link rel="stylesheet" href="{% static "home/css/styles.css" %}">
+
+      <!-- Font Awesome -->
+      <script src="https://use.fontawesome.com/7c5129d645.js"></script>
 
     </head>
 
     <body>
 
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Mooviest</a>
+      <!-- Navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+  			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+  				<span class="sr-only">Toggle navigation</span>
+  				<i class="fa fa-bars"></i>
+        		</button>
+            <a class="navbar-brand" href="#">M</a>
+          </div>
+      		<div class="collapse navbar-collapse" id="navbar">
+      			<ul class="nav navbar-nav navbar-right">
+      			<li class="dropdown">
+      				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe"></i> Idioma<span class="caret"></span></a>
+      				<ul class="dropdown-menu">
+      					<li><a href="index_en.html">English</a></li>
+      					<li><a href="index.html">Español</a></li>
+      				</ul>
+              	</li>
+          	</ul>
+      		</div>
         </div>
-        <div class="navbar-collapse collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">¿Qué es Mooviest?</a></li>
-                <li><a href="#">Estrenos</a></li>
-                <li><a href="#">Más populares</a></li>
-                <li><a href="#">Contacto</a></li>
-            </ul>
-        </div>
-    </div>
+      </div>
 
       {% block content %}{% endblock content %}
 
-    <footer class="footer">
-      <div class="container">
-        <div class="row">
+     <!-- Footer -->
+      <div id="footerwrap">
+        <div class="container">
+          <div class="row">
             <div class="col-lg-4">
-              <p><a href="#">Sobre nosotros</a></p>
-              <p><a href="#">Contacto</a></p>
-              <p><a href="#">Términos del servicio</a></p>
-              <p><a href="#">Política de privacidad</a></p>
+              <h4>Acerca de</h4>
+              <div class="hline-w"></div>
+              <p>
+                Con Mooviest podrás marcar tus películas vistas de manera fácil y cómoda con un simple gesto de swipe. Tus películas vistas y actores preferidos junto con tu contexto
+                y estado de ánimo del día a día permiten a Mooviest realizar recomendaciones de películas mucho más acertadas.
+               </p>
             </div>
             <div class="col-lg-4">
-              <p><a href="#">Estrenos</a></p>
-              <p><a href="#">Más populares</a></p>
-              <p><a href="#">¿Qué es Mooviest?</a></p>
+              <h4>Enlaces</h4>
+              <div class="hline-w"></div>
+              <p>
+                <a href="http://facebook.com/mooviest" target="_blank"><i class="fa fa-facebook"></i></a>
+                <a href="http://twitter.com/mooviest" target="_blank"><i class="fa fa-twitter"></i></a>
+                <a href="https://plus.google.com/110852632495504689943" target="_blank"><i class="fa fa-google-plus"></i></a>
+                <a href="https://instagram.com/mooviest" target="_blank"><i class="fa fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/mooviest" target="_blank"><i class="fa fa-linkedin"></i></a>
+              </p>
             </div>
             <div class="col-lg-4">
-              <p><a target="_blank" href="http://twitter.com/mooviest"><img src="{% static "movie/img/twitter.png" %}"></a>
-                <a target="_blank" href="http://facebook.com/mooviest"><img src="{% static "movie/img/facebook.png" %}"></a>
-                <a target="_blank" href="#"><img src="{% static "movie/img/google+.png" %}"></a>
-                </p>
+              <h4>Nuestro Bunker</h4>
+              <div class="hline-w"></div>
+              <p>
+                C/ Rioja, 25<br/>
+                Torre del Mar, 29740<br/>
+                Málaga</br>
+                España</br>
+              </p>
             </div>
-          </div>
-        </div>
-    </footer>
+          </div><!--/row -->
+        </div><!--/container -->
+      </div><!--/footerwrap -->
+
 
     <!-- JavaScript -->
-    <script src="http://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sidebar/3.3.2/jquery.sidebar.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     {% block javascript %}{% endblock javascript %}
 

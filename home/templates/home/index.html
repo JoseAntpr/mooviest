@@ -23,10 +23,18 @@
 
           <div class="row">
             <div class="col-md-offset-4 col-md-4">
-              <button type="button" class="btn btn-default btn-round seen"><span class="glyphicon glyphicon-ok" style="color: green"></span></button>
-              <button type="button" class="btn btn-default btn-round watchlist"><span class="glyphicon glyphicon-eye-open" style="color: orange"></span></button>
-              <button type="button" class="btn btn-default btn-round favourite"><span class="glyphicon glyphicon-heart" style="color: red"></span></button>
-              <button type="button" class="btn btn-default btn-round blacklist"><span class="glyphicon glyphicon-list" style="color: black"></span></button>
+              <div class="col-md-3">
+                <button type="button" class="btn btn-lg btn-default btn-round not-seen"><i class="fa fa-eye-slash" style="color: black"></i></button>
+              </div>
+              <div class="col-md-3">
+                <button type="button" class="btn btn-lg btn-default btn-round watchlist"><i class="fa fa-hourglass-end" style="color: orange"></i></button>
+              </div>
+              <div class="col-md-3">
+                <button type="button" class="btn btn-lg btn-default btn-round seen"><i class="fa fa-eye" style="color: green"></i></button>
+              </div>
+              <div class="col-md-3">
+                <button type="button" class="btn btn-lg btn-default btn-round favourite"><i class="fa fa-heart" style="color: red"></i></button>
+              </div>
             </div>
           </div>
         </div>
@@ -95,7 +103,7 @@
         swapBottomMovie();
       });
 
-      $('button.blacklist').on('click', function() {
+      $('button.not-seen').on('click', function() {
         swipe('animated bounceOutDown');
         swapBottomMovie();
       });
@@ -105,7 +113,6 @@
       $('.poster-top').addClass(classes);
       $('.poster-top').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
         $('.poster-top').removeClass(classes);
-
         $('.poster-bottom').removeClass('poster-bottom').addClass('poster-aux');
         $('.poster-top').removeClass('poster-top').addClass('poster-bottom');
         $('.poster-aux').removeClass('poster-aux').addClass('poster-top');
@@ -113,7 +120,7 @@
     }
 
     function swapBottomMovie() {
-      $('.poster-bottom #poster').attr('src', 'https://ca.movieposter.com/posters/archive/main/108/MPW-54063');
+      //$('.poster-bottom #poster').attr('src', 'https://ca.movieposter.com/posters/archive/main/108/MPW-54063');
     }
 
   </script>
