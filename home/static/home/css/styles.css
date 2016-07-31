@@ -1,0 +1,138 @@
+{% load staticfiles %}
+@import url(https://fonts.googleapis.com/css?family=Pacifico);
+
+html, body {
+	background-color: lightgray;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.container .content {
+  position: relative;
+	margin-top: 15vh;
+	padding: 50px;
+}
+
+.carousel .glyphicon {
+	color: black;
+}
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}
+
+.navbar {
+	background-color: #9b0000 !important;
+	color: white !important;
+	padding: 15px;
+	border-bottom: 0px;
+}
+
+.navbar-brand {
+	font-family: 'Pacifico', cursive;
+	text-shadow: 1px 1px black;
+	font-size: 3em;
+}
+
+.navbar-default .navbar-brand {
+	color: white;
+}
+
+.nav.navbar-nav.navbar-right li a {
+    color: white;
+}
+
+ul.stack {
+	position: relative;
+	list-style-type: none;
+}
+
+.stack {
+	position: relative;
+}
+
+.poster-bottom {
+	position: absolute;
+	z-index: 0;
+}
+
+.poster-top {
+	position: absolute;
+	z-index: 1;
+}
+
+.footer {
+	position: absolute;
+  bottom: 0;
+  width: 100%;
+	background-color: #9b0000;
+	padding: 3vh;
+	margin-top: 10vh;
+	color: white;
+}
+
+.sidebar.left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 400px;
+    background: white;
+}
+
+.sidebar.right {
+    margin-top: 80px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+    background: white;
+}
+
+.sidebar.bottom {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 400px;
+    background: white;
+}
+
+.sidebar.top {
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 400px;
+    background: white;
+}
+
+.sidebars > .sidebar {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.64);
+    position: fixed;
+    color: white;
+    padding: 30px;
+    font-size: 2em;
+    text-align: right;
+}
+
+.btn-round {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.btn-round.btn-lg {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-round.btn-sm {
+    width: 34px;
+    height: 34px;
+}
+
+.btn-round.btn-xs {
+    width: 24px;
+    height: 24px;
+}

@@ -49,29 +49,14 @@ ul.stack {
 	list-style-type: none;
 }
 
-li.poster0 {
+li.poster-bottom {
 	position: absolute;
 	z-index: 0;
 }
 
-li.poster1 {
-	position: absolute;
+li.poster-top {
+	position: absolute
 	z-index: 1;
-}
-
-li.poster2 {
-	position: absolute;
-	z-index: 2;
-}
-
-li.poster3 {
-	position: absolute;
-	z-index: 3;
-}
-
-li.poster4 {
-	position: absolute;
-	z-index: 4;
 }
 
 .footer {

@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    #'dal',
+    #'dal_select2',
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +45,8 @@ INSTALLED_APPS = (
     'movie',
     'contact',
     'api',
-    'rest_framework'
+    'rest_framework',
+    'nested_admin',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -108,10 +112,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, "static")
+#]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),

@@ -1,27 +1,87 @@
 from django.contrib import admin
-
+import nested_admin
 # Register your models here.
-from .models import Lang, Country, Movie, Celebrity, Celebrity_lang,Role,Role_lang,Saga,Saga_lang,Genre,Genre_lang,Emotion,Emotion_lang,Movie,Movie_lang,Participation,Streaming,Catalogue,Catalogue_lang,Rating,Source
+from .models import *
+
+class Catalogue_langInline(admin.TabularInline):
+    model = Catalogue_lang
+    extra = 0
+
+class CatalogueInline(nested_admin.NestedStackedInline):
+    model = Catalogue
+    extra = 0
+    inlines = [Catalogue_langInline]
+
+class RatingInline(admin.StackedInline):
+    model = Rating
+    extra = 0
+
+class ParticipationInline(admin.StackedInline):
+    model = Participation
+    extra = 1
+
+class Movie_langInline(admin.StackedInline):
+    model = Movie_lang
+    extra = 1
 
 
+class MovieAdmin(nested_admin.NestedModelAdmin):
+    inlines = [
+        Movie_langInline,
+        RatingInline,
+        ParticipationInline,
+        CatalogueInline,
+    ]
 
+class Saga_langInline(admin.StackedInline):
+    model = Saga_lang
+    extra = 1
+
+class SagaAdmin(admin.ModelAdmin):
+    inlines = [Saga_langInline]
+
+class Genre_langInline(admin.StackedInline):
+    model = Genre_lang
+    extra = 1
+
+class GenreAdmin(admin.ModelAdmin):
+    inlines = [Genre_langInline]
+
+class Celebrity_langInline(admin.StackedInline):
+    model = Celebrity_lang
+    extra = 0
+
+class CelebrityAdmin(admin.ModelAdmin):
+    inlines = [
+        Celebrity_langInline,
+        ParticipationInline,
+    ]
+
+class Role_langInline(admin.StackedInline):
+    model = Role_lang
+    extra = 0
+
+class RoleAdmin(admin.ModelAdmin):
+    inlines = [Role_langInline]
+
+class Emotion_langInline(admin.StackedInline):
+    model = Emotion_lang
+    extra = 1
+
+class EmotionAdmin(admin.ModelAdmin):
+    inlines = [Emotion_langInline]
+
+
+admin.site.register(Movie,MovieAdmin)
 admin.site.register(Lang)
 admin.site.register(Country)
-admin.site.register(Celebrity)
-admin.site.register(Celebrity_lang)
-admin.site.register(Role)
-admin.site.register(Role_lang)
-admin.site.register(Saga)
-admin.site.register(Saga_lang)
-admin.site.register(Genre)
-admin.site.register(Genre_lang)
-admin.site.register(Emotion)
-admin.site.register(Emotion_lang)
-admin.site.register(Movie)
-admin.site.register(Movie_lang)
-admin.site.register(Participation)
+admin.site.register(Celebrity,CelebrityAdmin)
+admin.site.register(Role,RoleAdmin)
+admin.site.register(Saga,SagaAdmin)
+admin.site.register(Genre,GenreAdmin)
+admin.site.register(Emotion,EmotionAdmin)
+#admin.site.register(Participation)
 admin.site.register(Streaming)
-admin.site.register(Catalogue)
-admin.site.register(Catalogue_lang)
-admin.site.register(Rating)
+#admin.site.register(Catalogue,CatalogueAdmin)
+#admin.site.register(Rating)
 admin.site.register(Source)

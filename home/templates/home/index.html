@@ -6,39 +6,32 @@
       <div class="content">
         <div class="row">
           <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
-            <ul class="stack">
-              <li class="poster0">
+            <div class="stack">
+              <div class="poster-bottom">
+                <a href="#" class="btn" data-action="open" data-side="right">
+                  <img id="poster" class="img-responsive" src="http://screencrush.com/files/2015/03/avengers-2-poster.jpg">
+                </a>
+              </div>
+              <div class="poster-top">
                 <a href="#" class="btn" data-action="open" data-side="right">
                   <img id="poster" class="img-responsive" src="http://a.dilcdn.com/bl/wp-content/uploads/sites/6/2015/10/star-wars-force-awakens-official-poster.jpg">
                 </a>
-              </li>
-              <li class="poster1">
-                <a href="#" class="btn" data-action="open" data-side="right">
-                  <img id="poster" class="img-responsive" src="http://a.dilcdn.com/bl/wp-content/uploads/sites/6/2015/10/star-wars-force-awakens-official-poster.jpg">
-                </a>
-              </li>
-              <li class="poster2">
-                <a href="#" class="btn" data-action="open" data-side="right">
-                  <img id="poster" class="img-responsive" src="http://a.dilcdn.com/bl/wp-content/uploads/sites/6/2015/10/star-wars-force-awakens-official-poster.jpg">
-                </a>
-              </li>
-              <li class="poster3 top">
-                <a href="#" class="btn" data-action="open" data-side="right">
-                  <img id="poster" class="img-responsive" src="http://a.dilcdn.com/bl/wp-content/uploads/sites/6/2015/10/star-wars-force-awakens-official-poster.jpg">
-                </a>
-              </li>
-            </ul>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+              <button type="button" class="btn btn-default btn-round seen"><span class="glyphicon glyphicon-ok" style="color: green"></span></button>
+              <button type="button" class="btn btn-default btn-round watchlist"><span class="glyphicon glyphicon-eye-open" style="color: orange"></span></button>
+              <button type="button" class="btn btn-default btn-round favourite"><span class="glyphicon glyphicon-heart" style="color: red"></span></button>
+              <button type="button" class="btn btn-default btn-round blacklist"><span class="glyphicon glyphicon-list" style="color: black"></span></button>
+            </div>
           </div>
         </div>
-
-        <div class="row">
-          <button type="button" class="btn btn-success btn-round seen"><span class="glyphicon glyphicon-ok"></span></button>
-          <button type="button" class="btn btn-danger btn-round watchlist"><span class="glyphicon glyphicon-remove"></span></button>
-          <button type="button" class="btn btn-default btn-round favourite"><span class="glyphicon glyphicon-heart"></span></button>
-        </div>
-
       </div>
-      
+
     </div>
     <div class="sidebars">
       <div class="sidebar left" style="left: -400px;">Left</div>
@@ -88,22 +81,41 @@
   <script>
     $(function() {
       $('button.seen').on('click', function() {
-        $('.top').addClass('animated bounceOutRight');
-        $('.top').removeClass('top');
-        for (var i = 0; i < 4; i++) {
-          $('.poster' + i).css('z-index', '');
-        }
-        <!-- FINISH -->
+        swipe('animated bounceOutRight');
+        swapBottomMovie();
       });
 
       $('button.watchlist').on('click', function() {
-        $('.top').addClass('animated bounceOutLeft');
+        swipe('animated bounceOutLeft');
+        swapBottomMovie();
       });
 
       $('button.favourite').on('click', function() {
-        $('.top').addClass('animated bounceOutUp');
+        swipe('animated bounceOutUp');
+        swapBottomMovie();
+      });
+
+      $('button.blacklist').on('click', function() {
+        swipe('animated bounceOutDown');
+        swapBottomMovie();
       });
     });
+
+    function swipe(classes) {
+      $('.poster-top').addClass(classes);
+      $('.poster-top').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+        $('.poster-top').removeClass(classes);
+
+        $('.poster-bottom').removeClass('poster-bottom').addClass('poster-aux');
+        $('.poster-top').removeClass('poster-top').addClass('poster-bottom');
+        $('.poster-aux').removeClass('poster-aux').addClass('poster-top');
+      });
+    }
+
+    function swapBottomMovie() {
+      $('.poster-bottom #poster').attr('src', 'https://ca.movieposter.com/posters/archive/main/108/MPW-54063');
+    }
+
   </script>
 
   {% endblock javascript %}
