@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from api.views import MovieViewSet
+from django.views.generic import TemplateView
 
 router = DefaultRouter()
 router.register(r'movie',MovieViewSet)
@@ -24,7 +25,8 @@ router.register(r'movie',MovieViewSet)
 urlpatterns = [
     url(r'^$', 'home.views.index'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/',include(router.urls)),
-    url(r'api_auth/',include('rest_framework.urls',namespace='rest_framework')),
+    url(r'^api/', include(router.urls)),
+    url(r'^api_auth/', include('rest_framework.urls',namespace='rest_framework')),
     url(r'^nested_admin/', include('nested_admin.urls')),
+    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
 ]
