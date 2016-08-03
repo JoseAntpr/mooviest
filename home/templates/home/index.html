@@ -4,6 +4,10 @@
 
     <div class="container">
       <div class="content">
+
+        <h3 class="text-center">Empieza ya a disfrutar de nuestras recomendaciones y clasifícalas...</h3>
+
+        <!-- Movie recommendations -->
         <div class="row">
           <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
             <div class="stack">
@@ -21,19 +25,70 @@
             </div>
           </div>
 
+          <!-- Buttons -->
           <div class="row">
             <div class="col-md-offset-4 col-md-4">
               <div class="col-md-3">
-                <button type="button" class="btn btn-lg btn-default btn-round not-seen"><i class="fa fa-eye-slash" style="color: black"></i></button>
+                <button type="button" title="Pendiente" class="btn btn-lg btn-default btn-round watchlist"><i class="fa fa-plus" style="color: orange"></i></button>
               </div>
               <div class="col-md-3">
-                <button type="button" class="btn btn-lg btn-default btn-round watchlist"><i class="fa fa-hourglass-end" style="color: orange"></i></button>
+                <button type="button" title="No vista" class="btn btn-lg btn-default btn-round not-seen"><i class="fa fa-times" style="color: red"></i></button>
               </div>
               <div class="col-md-3">
-                <button type="button" class="btn btn-lg btn-default btn-round seen"><i class="fa fa-eye" style="color: green"></i></button>
+                <button type="button" title="Vista" class="btn btn-lg btn-default btn-round seen"><i class="fa fa-check" style="color: green"></i></button>
               </div>
               <div class="col-md-3">
-                <button type="button" class="btn btn-lg btn-default btn-round favourite"><i class="fa fa-heart" style="color: red"></i></button>
+                <button type="button" title="Favorita" class="btn btn-lg btn-default btn-round favourite"><i class="fa fa-heart" style="color: deeppink"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Releases -->
+          <div id="releases">
+            <div class="row">
+              <h2>Estrenos <i class="fa fa-ticket"></i></h2>
+              <div class="hline"></div>
+              <br>
+              <br>
+              <br>
+              <div class="col-lg-3 col-md-3">
+                <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/69/57/6957dfd9e7aa62bcc0d05c2f01550b3d.jpg" alt="" />
+              </div>
+              <div class="col-lg-3 col-md-3">
+                <img src="https://img.tviso.com/ES/poster/w200/3b/0b/3b0b4f3794a4d0b35f2fa9769208e2d6.jpg" alt="" />
+              </div>
+              <div class="col-lg-3 col-md-3">
+                <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/dc/de/dcdecf7123f00b1fb69e8dbab59e1fbf.jpg" alt="" />
+              </div>
+              <div class="col-lg-3 col-md-3">
+                <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/7b/2b/7b2b0b8c96dd22a4582de651aff8f575.jpg" alt="" />
+              </div>
+            </div>
+          </div>
+
+          <br>
+          <br>
+          <br>
+
+          <!-- Most popular -->
+          <div id="popular">
+            <div class="row">
+              <h2>Más populares <i class="fa fa-star"></i></h2>
+              <div class="hline"></div>
+              <br>
+              <br>
+              <br>
+              <div class="col-lg-3 col-md-3">
+                <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/42/a1/42a199505307d8c446730e266b75e44f.jpg" alt="" />
+              </div>
+              <div class="col-lg-3 col-md-3">
+                <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/42/eb/42eb93fb3afd50f61070436a67b4ad08.jpg" alt="" />
+              </div>
+              <div class="col-lg-3 col-md-3">
+                <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/60/02/6002ab8e799067f92451999897117025.jpg" alt="" />
+              </div>
+              <div class="col-lg-3 col-md-3">
+                <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/3f/06/3f06e360a5875ce8ebcc2ada17b364b9.jpg" alt="" />
               </div>
             </div>
           </div>
@@ -89,22 +144,22 @@
   <script>
     $(function() {
       $('button.seen').on('click', function() {
-        swipe('animated bounceOutRight');
+        swipe('animated fadeOutRightBig');
         swapBottomMovie();
       });
 
       $('button.watchlist').on('click', function() {
-        swipe('animated bounceOutLeft');
+        swipe('animated fadeOutLeftBig');
         swapBottomMovie();
       });
 
       $('button.favourite').on('click', function() {
-        swipe('animated bounceOutUp');
+        swipe('animated fadeOutUpBig');
         swapBottomMovie();
       });
 
       $('button.not-seen').on('click', function() {
-        swipe('animated bounceOutDown');
+        swipe('animated fadeOutDownBig');
         swapBottomMovie();
       });
     });
