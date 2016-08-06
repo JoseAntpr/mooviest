@@ -12,6 +12,7 @@ class Lang(models.Model):
 class Country(models.Model):
     lang = models.ForeignKey(Lang, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=20,null=False)
+    code = models.CharField(max_length=10,null=False)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
@@ -103,17 +104,17 @@ class Movie(models.Model):
     participations = models.ManyToManyField(Celebrity, through =
     'Participation')
     langs = models.ManyToManyField(Lang, through = 'Movie_lang')
-    emotions = models.ManyToManyField(Emotion,blank=True)
-    saga = models.ForeignKey(Saga,null=True,blank=True,on_delete=models.CASCADE)
-    catalogues = models.ManyToManyField(Streaming, through ='Catalogue')
-    ratings = models.ManyToManyField(Source,blank=True,through = 'Rating')
-    original_title = models.CharField(max_length=100)
-    runtime = models.PositiveSmallIntegerField(null=True)
-    released = models.PositiveSmallIntegerField(null=True)
-    image = models.CharField(max_length=255,null=True,blank=True)
-    movie_producer = models.CharField(max_length=255)
-    saga_order = models.IntegerField(default=1,blank=True)
-    average = models.DecimalField(default=0, max_digits=4, decimal_places=2, null=True, blank=True)
+    emotions = models.ManyToManyField(Emotion,blank = True)
+    saga = models.ForeignKey(Saga,null = True,blank = True,on_delete = models.CASCADE)
+    catalogues = models.ManyToManyField(Streaming, through = 'Catalogue')
+    ratings = models.ManyToManyField(Source,blank = True,through = 'Rating')
+    original_title = models.CharField(max_length = 100)
+    runtime = models.PositiveSmallIntegerField(null = True)
+    released = models.PositiveSmallIntegerField(null = True)
+    image = models.CharField(max_length = 255,null = True,blank = True)
+    movie_producer = models.CharField(max_length = 255)
+    saga_order = models.IntegerField(default = 1,blank = True)
+    average = models.DecimalField(default = 0, max_digits = 4, decimal_places = 2, null = True, blank = True)
     def __str__(self):              # __unicode__ on Python 2
         return self.original_title
 
@@ -129,9 +130,10 @@ class Movie_lang(models.Model):
 class Rating(models.Model):
     source = models.ForeignKey(Source, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
-    sourceid = models.CharField(max_length=30)
-    rating = models.PositiveSmallIntegerField(default=0,null=True)
-    count = models.IntegerField(null=True,default=0)
+    sourceid = models.CharField(max_length = 30)
+    rating = models.PositiveSmallIntegerField(default = 0,null = True)
+    count = models.IntegerField(null = True,default = 0)
+    date_update = models.DateField(auto_now = True)
 
 class Catalogue(models.Model):
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
