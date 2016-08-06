@@ -12,7 +12,7 @@ class Lang(models.Model):
 class Country(models.Model):
     lang = models.ForeignKey(Lang, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=20,null=False)
-    code = models.CharField(max_length=10,null=False)
+    code = models.CharField(max_length=10,null=False,default='US')
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
@@ -133,7 +133,7 @@ class Rating(models.Model):
     sourceid = models.CharField(max_length = 30)
     rating = models.PositiveSmallIntegerField(default = 0,null = True)
     count = models.IntegerField(null = True,default = 0)
-    date_update = models.DateField(auto_now = True)
+    date_update = models.DateField(auto_now = True, null= True)
 
 class Catalogue(models.Model):
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)

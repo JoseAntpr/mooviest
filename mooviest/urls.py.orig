@@ -17,8 +17,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet
 from rest_framework.routers import DefaultRouter
-
+<<<<<<< 57a21fc7c83292c4b85fb09766cadbebf8eb9958
+from api.views import MovieViewSet
 from django.views.generic import TemplateView
+=======
+>>>>>>> create serializer and viewsets
 
 router = DefaultRouter()
 router.register(r'lang', LangViewSet)
@@ -46,10 +49,9 @@ router.register(r'participation', ParticipationViewSet)
 
 urlpatterns = [
     url(r'^$', 'home.views.index'),
-    url(r'^users/','users.views.index'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/',include(router.urls)),
-    url(r'api_auth/',include('rest_framework.urls',namespace='rest_framework')),
+    url(r'^api/', include(router.urls)),
+    url(r'^api_auth/', include('rest_framework.urls',namespace='rest_framework')),
     url(r'^nested_admin/', include('nested_admin.urls')),
-    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'))
+    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
 ]
