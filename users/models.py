@@ -20,8 +20,8 @@ class UserProfile(models.Model):
     photo_profile = models.ImageField (upload_to = "user/profile" ,default = "user/profile/no-image.png",null = True)
     cover_page = models.ImageField (upload_to = "user/cover" ,default = "user/cover/no-image.png",null = True)
     city = models.CharField(max_length = 35)
-    country = models.ForeignKey(Country, null= True, on_delete=models.SET_NULL)
-    lang = models.ForeignKey(Lang, null= True, on_delete=models.SET_NULL)
+    country = models.ForeignKey(Country, on_delete = models.CASCADE)
+    lang = models.ForeignKey(Lang, on_delete = models.CASCADE)
     followers = models.ManyToManyField("self", symmetrical = False)
     movies = models.ManyToManyField(Movie, through = 'Collection')
 
@@ -29,5 +29,5 @@ class Collection (models.Model):
     user = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     typeMovie = models.ForeignKey(TypeMovie, on_delete = models.CASCADE)
-    class Meta:
+        class Meta:
         unique_together = (("movie", "user"),)
