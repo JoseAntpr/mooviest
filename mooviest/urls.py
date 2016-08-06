@@ -24,6 +24,7 @@ router.register(r'movie',MovieViewSet)
 
 urlpatterns = [
     url(r'^$', 'home.views.index'),
+    url(r'^users/','users.views.index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
     url(r'^api_auth/', include('rest_framework.urls',namespace='rest_framework')),

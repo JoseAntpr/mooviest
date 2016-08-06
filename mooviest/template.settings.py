@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'api',
     'rest_framework',
     'nested_admin',
+    'users',
 )
 
 MIDDLEWARE_CLASSES = (
