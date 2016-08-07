@@ -29,5 +29,5 @@ class Collection (models.Model):
     user = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     typeMovie = models.ForeignKey(TypeMovie, on_delete = models.CASCADE)
-        class Meta:
+    class Meta:
         unique_together = (("movie", "user"),)

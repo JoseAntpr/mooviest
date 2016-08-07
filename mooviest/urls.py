@@ -16,7 +16,9 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet
+from api.viewsets_users import UserViewSet
 from rest_framework.routers import DefaultRouter
+
 
 from django.views.generic import TemplateView
 
@@ -41,6 +43,7 @@ router.register(r'rating', RatingViewSet)
 router.register(r'catalogue', CatalogueViewSet)
 router.register(r'catalogue_lang', Catalogue_langViewSet)
 router.register(r'participation', ParticipationViewSet)
+router.register(r'user',UserViewSet)
 
 
 
