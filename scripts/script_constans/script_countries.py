@@ -1,10 +1,17 @@
 import  urllib.parse, http.client, json
 from base64 import b64encode
+import script_interface as interface
 
-#
+# Contants
+api_url = '/api/country/'
+
+# insert_countries(c, headers), insert all countries in to th DB
+#   Params
+#       - c, conection Api
+#       - headers, headears request
 
 def insert_countries(c, headers):
-	countries=[
+	countries = [
         [
             ['Spain','ES'],
     		['Germany','DE'],
@@ -31,18 +38,11 @@ def insert_countries(c, headers):
 
 	for i in range(0,len(countries)):
 		for j in range(0,len(countries[0])):
-			params = urllib.parse.urlencode(
+			params = json.dumps(
 				{
                     "lang": (i+1),
                     "name": countries[i][j][0],
                     "code": countries[i][j][1]
                 }
 			)
-
-			c.request('POST', '/api/country/', params, headers)
-			#get the response back
-			res = c.getresponse()
-			print(res.status, res.reason)
-			# at this point you could check the status etc
-			# this gets the page text
-			data = res.read()
+			interface.insert_data(c, api_url, params, headers)

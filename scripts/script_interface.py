@@ -3,7 +3,7 @@ from base64 import b64encode
 
 langs = { "en": 1, "es": 2}
 
-countries=[
+countries = [
 	{
 		'ES': 1,
 		'DE': 2,
@@ -35,3 +35,5 @@ def insert_data(c, api_url, js, headers):
     print(res.status, res.reason)
     data = res.read()
     print(data)
+
+	return data
