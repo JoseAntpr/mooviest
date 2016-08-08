@@ -2,7 +2,7 @@ import  urllib.parse, http.client, json
 from base64 import b64encode
 #
 
-def insert_sources(c,userAndPass,headers):
+def insert_sources(c, headers):
     sources = ["FilmAffinity","Sensacine","Tviso","Track.tv","IMDb","Metacritic","RottenTomatoes","Letterboxd"]
     for source in sources:
         params = urllib.parse.urlencode({'name': source})

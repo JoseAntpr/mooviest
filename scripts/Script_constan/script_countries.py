@@ -3,7 +3,7 @@ from base64 import b64encode
 
 #
 
-def insert_countries(c,userAndPass,headers):
+def insert_countries(c, headers):
 	countries=[
         [
             ['Spain','ES'],
