@@ -57,11 +57,10 @@ def get_token():
 	return json.loads(urllib.request.urlopen('https://api.tviso.com/auth_token?id_api=' + id_api + '&secret=' + secret).read().decode('utf8'))["auth_token"]
 
 def insert_data(c, api_url, js, headers):
-
-    c.request('POST', api_url, js, headers)
-    res = c.getresponse()
-    print(res.status, res.reason)
-    data = res.read()
+	c.request('POST', api_url, js, headers)
+	res = c.getresponse()
+	print(res.status, res.reason)
+	data = res.read()
 
 	return data
 
@@ -72,15 +71,13 @@ def insert_data(c, api_url, js, headers):
 #       - mediaType, type of media, 1-Serie/2-Movie/3-TvShow/4-Docu/5-Capitulo
 #   if all ok, data["error"] == 0
 def get_info_tviso(idm, auth_token):
-    url = "https://api.tviso.com/media/full_info?auth_token=" + auth_token + "&idm=" + idm  + "&mediaType=" + mediaType
-
+	url = "https://api.tviso.com/media/full_info?auth_token=" + auth_token + "&idm=" + idm  + "&mediaType=" + mediaType
 	try:
 		response = urllib.request.urlopen(url)
-	    data = json.loads(response.read().decode("utf8"))
-	    error = data["error"]
+		data = json.loads(response.read().decode("utf8"))
+		error = data["error"]
 	except:
 		error = 502
-
 	if error == 1:
 		error_msg = 'error: Auth token'
 		print(error_msg)
@@ -100,21 +97,18 @@ def get_info_tviso(idm, auth_token):
 
 		save_lastid(idm)
 		send_mail(idm, error_msg)
-		break
 
 	elif error == 502:
 		error_msg = 'error: Response timeout or internet connection is not available'
 		print(idm+' - '+error_msg)
-
 		send_mail(idm, error_msg)
 
 	elif error == 803:
 		error_msg = 'error: Media limit reached'
 		print(idm+' - '+error_msg)
-		break
 
 	else:
-
+		print("ok")
 	return data, error
 
 # send_mail, send an email to addresses of toaddr

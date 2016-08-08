@@ -4,6 +4,7 @@ from base64 import b64encode
 import script_interface as interface
 import script_constants.script_constants as constants
 import script_tviso.script_tviso as tviso
+import script_filmaffinity as filmaffinity
 
 # Generación del token
 auth_token = interface.get_token()
@@ -29,6 +30,10 @@ for i in range(last_id_tviso, max_id_tviso):
 
 	data, error = interface.get_info_tviso(idm, auth_token)
 
-	if error == 0:
-		print(idm+' - Save succesfully')
-        tviso.insert_info_tviso(c, headers)
+	if error != 0:
+        break
+
+	print(idm+' - Save succesfully')
+    movie_id, movie_name = tviso.insert_info_tviso(c, headers, data)
+
+    filmaffinity.rating(c, headers, movie_id, movie_name)

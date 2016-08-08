@@ -48,7 +48,7 @@ $ virtualenv venv
 # Activate virtual environment
 $ source venv/bin/activate
 # Install the required Python packages
-$ virtualenv install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 Optional commands for virtualenv:
 ```sh
