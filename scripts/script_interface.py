@@ -30,7 +30,7 @@ countries=[
 
 def insert_data(c, api_url, js, headers):
 
-    c.request('POST', api_url, json.dumps(js), headers)
+    c.request('POST', api_url, js, headers)
     res = c.getresponse()
     print(res.status, res.reason)
     data = res.read()
