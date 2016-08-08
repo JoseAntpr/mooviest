@@ -1,5 +1,7 @@
 import psycopg2, urllib.request, urllib.parse, http.client, json
 from base64 import b64encode
+import script_tviso_parser.parser_movie_lang as movie_lang_tviso
+import script_interface as interface
 
 # get_info_tviso, return data format json, of the media with idm
 #   Params
@@ -216,7 +218,7 @@ print(auth_token)
 mediaType = "2"
 idm = "5411"
 data = get_info_tviso(idm,auth_token,mediaType)
-datamovie= parser_movie(data)
+datamovie= movie_lang_tviso.parser_movie_lang(data,2)
 print(datamovie)
 
 # Autenticación y generación de usuario para la llamada a la API
@@ -226,7 +228,7 @@ headers = { 'Authorization' : 'Basic %s' %  userAndPass,
             "Content-type": "application/json",
             "Accept": "application/json" }
 
-insert_data(c, "/api/movie/", datamovie, headers)
+interface.insert_data(c, "/api/movie_lang/", datamovie, headers)
 
 #print(data["error"])
 #print(data)
