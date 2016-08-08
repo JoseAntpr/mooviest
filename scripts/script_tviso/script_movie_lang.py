@@ -1,8 +1,11 @@
 import json
 import script_interface as interface
 
+# Contants
+api_url = '/api/movie_lang/'
+
 # MOVIE_LANG model
-def insert_movie_lang(data, movie_id):
+def insert_movie_lang(c, headers, data, movie_id):
 
     title = str(data["name"])
     synopsis=str(data["plot"])
@@ -23,5 +26,6 @@ def insert_movie_lang(data, movie_id):
         "title": title,
         "synopsis": synopsis
     }
+    params = json.dumps(movie_lang)
 
-    return json.dumps(movie_lang)
+    return interface.insert_data(c, api_url, params, headers)

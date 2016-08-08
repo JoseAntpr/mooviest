@@ -1,7 +1,11 @@
 import json
+import script_interface as interface
+
+# Contants
+api_url = '/api/movie/'
 
 # MOVIE model
-def insert_movie(data):
+def insert_movie(c, headers, data):
 
     genres_json={'action':   1,
 			'comedy':        2,
@@ -55,4 +59,6 @@ def insert_movie(data):
         "average": 0.0
     }
 
-    return json.dumps(movie)
+    params = json.dumps(movie)
+
+    return interface.insert_data(c, api_url, params, headers)
