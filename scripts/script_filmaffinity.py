@@ -1,11 +1,25 @@
-import urllib.request, json
+import psycopg2, urllib.request, urllib.parse, http.client, json
+from base64 import b64encode
 from bs4 import BeautifulSoup
+import script_interface as interface
 
-# film name of the film in spanish
-# return, the rating and the number ratings of the film
-def rating_filmaffinity(film):
-    search = film.replace(" ","+")
+# Contants
+api_url = '/api/rating/'
+
+# insert_countries(c, headers, movie_name, movie_id), insert rating, count and id movie
+#                  of FilmAffinitty, with name(in spanish) film
+#   Params
+#       - c, conection Api
+#       - headers, headears request
+#       - movie_name, name(in spanish) of the movie
+#       - movie_id, id of the movie in mooviest db
+
+def rating(c, headers, movie_id, movie_name):
+    #search = movie_name.replace(" ","+")
+    search = urllib.parse.quote_plus(movie_name)
+    print(search)
     url = "http://www.filmaffinity.com/es/search.php?stext="+search+"&stype=all"
+    print(url)
     response = urllib.request.urlopen(url)
     html = response.read().decode("utf8")
     soup = BeautifulSoup(html, 'html.parser')
@@ -30,17 +44,33 @@ def rating_filmaffinity(film):
         except AttributeError:
             rating_str = "0"
             count_str = "0"
-            print(film+" rating:_, count:_")
+            print(movie_name+" rating:_, count:_")
 
     rating = int(rating_str.replace(",", ""))
     count = int(count_str.replace(".", ""))
-    id_movie = int(id_str.replace("/es/film","").replace(".html",""))
-    return id_movie,rating,count
+    sourceid = int(id_str.replace("/es/film","").replace(".html",""))
+    source = interface.sources["FilmAffinity"]
 
-#example, call function rating_filmaffinity
-i,r,c = rating_filmaffinity("E.T., el extraterrestre")
-#i,r,c = rating_filmaffinity("Los juegos del hambre")
+    params = json.dumps(
+        {
+            "source": source,
+            "movie": movie_id,
+            "sourceid": sourceid,
+            "rating": rating,
+            "count": count
+        }
+    )
 
-print(i)
-print(r)
-print(c)
+    return interface.insert_data(c, api_url, params, headers)
+
+# Autenticación y generación de usuario para la llamada a la API
+c = http.client.HTTPConnection("127.0.0.1",8000)
+userAndPass = b64encode(b"admin:admin").decode("ascii")
+headers = { 'Authorization' : 'Basic %s' %  userAndPass,
+            "Content-type": "application/json",
+            "Accept": "application/json" }
+
+movie_name = "El Señor de los Anillos: Las dos torres"
+movie_id = 1
+
+print(rating(c, headers, movie_id, movie_name))
