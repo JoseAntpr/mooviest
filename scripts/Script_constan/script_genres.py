@@ -2,7 +2,7 @@ import  urllib.parse, http.client, json
 from base64 import b64encode
 #
 
-def insert_genres(c,userAndPass,headers):
+def insert_genres(c, headers):
 	genres=['action',
 			'comedy',
 			'family',
@@ -37,7 +37,7 @@ def insert_genres(c,userAndPass,headers):
 		# this gets the page text
 		data = res.read()
 
-def insert_genres_lang(c,userAndPass,headers):
+def insert_genres_lang(c, headers):
 	genres_lang=[['Action',
 			'Comedy',
 			'Family',

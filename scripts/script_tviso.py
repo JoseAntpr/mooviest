@@ -1,4 +1,5 @@
-import psycopg2, urllib.request, json
+import psycopg2, urllib.request, urllib.parse, http.client, json
+from base64 import b64encode
 
 # get_info_tviso, return data format json, of the media with idm
 #   Params
@@ -28,18 +29,59 @@ def get_info_tviso(idm,token,mediaType):
 
     return data
 
+# MOVIE model
 def parser_movie(data):
-    # MOVIE
+
+    genres_json={'action':   1,
+			'comedy':        2,
+			'family':        3,
+			'history':       4,
+			'mystery':       5,
+			'sci-fi':        6,
+			'war':           7,
+			'adventure':     8,
+			'crime':         9,
+			'fantasy':       10,
+			'horror':        11,
+			'news':          12,
+			'sport':         13,
+			'western':       14,
+			'animation':     15,
+			'documentary':   16,
+			'film-noir':     17,
+			'music':         18,
+			'drama':         19,
+			'musical':       20,
+			'romance':       21,
+			'thriller':      22,
+			'reallity':      23
+    }
+
     runtime = int(data["runtime"])
     released = int(data["year"])
     imdb = str(data["imdb"])
+    original_title=str(data["original_name"])
+
+    movie_producer_list = []
+    for produce in data["produce"]:
+        movie_producer_list.append(produce["name"])
+
+    movie_producer = ' | '.join(movie_producer_list)
+
+    genres = []
+    for i, genre in enumerate(data["genres"]):
+        genres.append(genres_json[str(genre.lower())])
+
     movie = {
+        "genres": genres,
+        "emotions": [],
+        "saga": None,
+        "original_title": original_title,
         "runtime": runtime,
         "released": released,
-        "movie_producer": "",
+        "movie_producer": movie_producer,
         "saga_order": 1,
-        "average": 0.0,
-        "image": ""
+        "average": 0.0
     }
 
     return movie
@@ -156,13 +198,35 @@ def movie_lang_parser_tviso(data):
 
     return title, plot, director_list
 
+def insert_data(c, api_url, js, headers):
+
+    c.request('POST', api_url, json.dumps(js), headers)
+    res = c.getresponse()
+    print(res.status, res.reason)
+    data = res.read()
+    print(data)
+
+
+
 id_api = '3504'
 secret = 'bhRNt7TaHhuVcKxExK3n'
-#auth_token = json.loads(urllib.request.urlopen('https://api.tviso.com/auth_token?id_api=' + id_api + '&secret=' + secret).read().decode('utf8'))["auth_token"]
-auth_token = "85fe8eceed84c250d254be5aed2ba525"
+auth_token = json.loads(urllib.request.urlopen('https://api.tviso.com/auth_token?id_api=' + id_api + '&secret=' + secret).read().decode('utf8'))["auth_token"]
+#auth_token = "85fe8eceed84c250d254be5aed2ba525"
 print(auth_token)
 mediaType = "2"
 idm = "5411"
 data = get_info_tviso(idm,auth_token,mediaType)
-print(data["error"])
-print(data)
+datamovie= parser_movie(data)
+print(datamovie)
+
+# Autenticación y generación de usuario para la llamada a la API
+c = http.client.HTTPConnection("127.0.0.1",8000)
+userAndPass = b64encode(b"jesus:root").decode("ascii")
+headers = { 'Authorization' : 'Basic %s' %  userAndPass,
+            "Content-type": "application/json",
+            "Accept": "application/json" }
+
+insert_data(c, "/api/movie/", datamovie, headers)
+
+#print(data["error"])
+#print(data)

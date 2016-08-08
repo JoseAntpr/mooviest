@@ -2,7 +2,7 @@ import  urllib.parse, http.client, json
 from base64 import b64encode
 #
 
-def insert_roles(c,userAndPass,headers):
+def insert_roles(c, headers):
     roles = ["actor","director","producer","writer","composer"]
     for role in roles:
         params = urllib.parse.urlencode({'code': role})
@@ -15,7 +15,7 @@ def insert_roles(c,userAndPass,headers):
         data = res.read()
         print(data)
 
-def insert_roles_lang(c,userAndPass,headers):
+def insert_roles_lang(c, headers):
     roles = [["Actor","Director","Producer","Writer","Composer"],
             ["Actor","Director","Productor","Escritor","Compositor"]]
 
