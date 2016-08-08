@@ -3,7 +3,7 @@ from base64 import b64encode
 
 import script_interface as interface
 import script_constants.script_constants as constants
-import script_tviso_parser.*
+import script_tviso.script_tviso as tviso
 
 # Generación del token
 auth_token = interface.get_token()
@@ -31,7 +31,4 @@ for i in range(last_id_tviso, max_id_tviso):
 
 	if error == 0:
 		print(idm+' - Save succesfully')
-
-        parser_movie.parser_movie(data)
-        parser_movie_lang.parser_movie_lang(data,2)
-        interface.insert_data(c, "/api/movie_lang/", datamovie, headers)
+        tviso.insert_info_tviso(c, headers)

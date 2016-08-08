@@ -28,7 +28,7 @@ sources = {
 	'Letterboxd':		8
 }
 
-countries=[
+countries = [
 	{
 		'ES': 1,
 		'DE': 2,

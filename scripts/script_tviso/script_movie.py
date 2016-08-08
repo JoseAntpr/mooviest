@@ -1,7 +1,7 @@
 import json
 
 # MOVIE model
-def parser_movie(data):
+def insert_movie(data):
 
     genres_json={'action':   1,
 			'comedy':        2,

@@ -1,6 +1,6 @@
 import json
 
-def parser_celebrity(data):
+def insert_celebrity(data):
     celebrity_list = []
     #Cast
     for celeb in data["cast"]:

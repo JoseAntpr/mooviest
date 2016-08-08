@@ -2,7 +2,7 @@ import json
 import script_interface as interface
 
 # MOVIE_LANG model
-def parser_movie_lang(data, movie_id):
+def insert_movie_lang(data, movie_id):
 
     title = str(data["name"])
     synopsis=str(data["plot"])

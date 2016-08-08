@@ -1,35 +1,11 @@
-import json
-#import ..scripts as interface
+import json, sys
+sys.path.append('/Users/Antonio/Documents/mooviest/scripts')
+import script_interface as interface
 
-# import psycopg2, urllib.request, urllib.parse, http.client, json
-# from base64 import b64encode
-#
-#
-# def get_info_tviso(idm,token,mediaType):
-#     url = "https://api.tviso.com/media/full_info?auth_token=" + auth_token + "&idm=" + idm  + "&mediaType=" + mediaType
-#     response = urllib.request.urlopen(url)
-#     data = json.loads(response.read().decode("utf8"))
-#
-#     error = data["error"]
-#
-#     if error == 1:
-#     	print('error: Auth token')
-#     elif(error == 9 or error == 50):
-#     	print(idm+' - error: Media type')
-#     elif error == 10:
-#     	print(idm+' - error: Idm')
-#     elif error == 20:
-#     	print(idm+' - error: Quota exceeded')
-#     elif error == 803:
-#         print("error: Media limit reached at number" + idm )
-#     else:
-#         print("All ok!")
-#
-#     return data
 
 roles = {"actor":1 ,"director":2 ,"producer":3 ,"writer":4 ,"composer":5}
 
-def parser_participation(data, celebrity_id, movie_id):
+def insert_participation(data, celebrity_id, movie_id):
     participation_list = []
     #Cast
     for celeb in data["cast"]:
@@ -101,13 +77,3 @@ def parser_participation(data, celebrity_id, movie_id):
         participation_list.append(json.dumps(participation))
 
     return participation_list
-
-#print(interface.langs["es"])
-
-
-# auth_token = "501504992d210df7c3034ef8a7089c67"
-# mediaType = "2"
-# idm = "5411"
-# data = get_info_tviso(idm,auth_token,mediaType)
-# datamovie = parser_participation(data, 1, 2)
-# print(datamovie)
