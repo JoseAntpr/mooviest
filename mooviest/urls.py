@@ -18,7 +18,7 @@ from django.contrib import admin
 from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet
 from api.viewsets_users import UserViewSet
 from rest_framework.routers import DefaultRouter
-
+from api.viewsets_custom import CelebrityCustomViewSet
 
 from django.views.generic import TemplateView
 
@@ -46,12 +46,12 @@ router.register(r'participation', ParticipationViewSet)
 router.register(r'user',UserViewSet)
 
 
-
 urlpatterns = [
     url(r'^$', 'home.views.index'),
     url(r'^users/','users.views.index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/',include(router.urls)),
+    url('^celebritys/(?P<name>.+)/$', CelebrityCustomViewSet.as_view()),
     url(r'api_auth/',include('rest_framework.urls',namespace='rest_framework')),
     url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'))
