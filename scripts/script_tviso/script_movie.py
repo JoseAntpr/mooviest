@@ -1,37 +1,11 @@
 import json
-import script_interface as interface
+from . import interface
 
 # Contants
 api_url = '/api/movie/'
 
 # MOVIE model
-def insert_movie(c, headers, data):
-
-    genres_json={'action':   1,
-			'comedy':        2,
-			'family':        3,
-			'history':       4,
-			'mystery':       5,
-			'sci-fi':        6,
-			'war':           7,
-			'adventure':     8,
-			'crime':         9,
-			'fantasy':       10,
-			'horror':        11,
-			'news':          12,
-			'sport':         13,
-			'western':       14,
-			'animation':     15,
-			'documentary':   16,
-			'film-noir':     17,
-			'music':         18,
-			'drama':         19,
-			'musical':       20,
-			'romance':       21,
-			'thriller':      22,
-			'reallity':      23
-    }
-
+def insert_movie(db, data):
     runtime = int(data["runtime"])
     released = int(data["year"])
     imdb = str(data["imdb"])
@@ -45,7 +19,7 @@ def insert_movie(c, headers, data):
 
     genres = []
     for i, genre in enumerate(data["genres"]):
-        genres.append(genres_json[str(genre.lower())])
+        genres.append(interface.GENRES_JSON[str(genre.lower())])
 
     movie = {
         "genres": genres,
@@ -61,4 +35,4 @@ def insert_movie(c, headers, data):
 
     params = json.dumps(movie)
 
-    return interface.insert_data(c, api_url, params, headers)
+    return db.insert_data(api_url, params)

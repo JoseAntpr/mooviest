@@ -1,7 +1,7 @@
 import psycopg2, urllib.request, urllib.parse, http.client, json
 from base64 import b64encode
 from bs4 import BeautifulSoup
-import script_interface as interface
+
 
 # Contants
 api_url = '/api/rating/'
@@ -14,7 +14,7 @@ api_url = '/api/rating/'
 #       - movie_name, name(in spanish) of the movie
 #       - movie_id, id of the movie in mooviest db
 
-def rating(c, headers, movie_id, movie_name):
+def insert_rating(db, movie_id, movie_name):
     #search = movie_name.replace(" ","+")
     search = urllib.parse.quote_plus(movie_name)
     print(search)
@@ -49,7 +49,7 @@ def rating(c, headers, movie_id, movie_name):
     rating = int(rating_str.replace(",", ""))
     count = int(count_str.replace(".", ""))
     sourceid = int(id_str.replace("/es/film","").replace(".html",""))
-    source = interface.sources["FilmAffinity"]
+    source = db.SOURCES["FilmAffinity"]
 
     params = json.dumps(
         {
@@ -61,16 +61,4 @@ def rating(c, headers, movie_id, movie_name):
         }
     )
 
-    return interface.insert_data(c, api_url, params, headers)
-
-# Autenticación y generación de usuario para la llamada a la API
-c = http.client.HTTPConnection("127.0.0.1",8000)
-userAndPass = b64encode(b"admin:admin").decode("ascii")
-headers = { 'Authorization' : 'Basic %s' %  userAndPass,
-            "Content-type": "application/json",
-            "Accept": "application/json" }
-
-movie_name = "El Señor de los Anillos: Las dos torres"
-movie_id = 1
-
-print(rating(c, headers, movie_id, movie_name))
+    return db.insert_data(api_url, params)

@@ -1,11 +1,11 @@
 import json
-import script_interface as interface
+from . import interface
 
 # Contants
 api_url = '/api/movie_lang/'
 
 # MOVIE_LANG model
-def insert_movie_lang(c, headers, data, movie_id):
+def insert_movie_lang(db, data, movie_id):
 
     title = str(data["name"])
     synopsis=str(data["plot"])
@@ -13,7 +13,7 @@ def insert_movie_lang(c, headers, data, movie_id):
 
     country = None
     try:
-        country =  interface.countries[interface.langs['es']-1][data["country"][0]]
+        country =  db.COUNTRIES[db.LANGS['es']-1][data["country"][0]]
     except TypeError:
         country = None
 
@@ -21,11 +21,12 @@ def insert_movie_lang(c, headers, data, movie_id):
     # "image": image,
     movie_lang = {
         "movie": movie_id,
-        "lang": interface.langs['es'],
+        "lang": db.LANGS['es'],
         "country": country,
         "title": title,
-        "synopsis": synopsis
+        "synopsis": synopsis,
+        "image": image
     }
     params = json.dumps(movie_lang)
 
-    return interface.insert_data(c, api_url, params, headers)
+    return db.insert_data(api_url, params)

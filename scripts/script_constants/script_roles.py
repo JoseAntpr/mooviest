@@ -1,6 +1,6 @@
 import  urllib.parse, http.client, json
 from base64 import b64encode
-import script_interface as interface
+import interface
 
 # Contants
 api_url_roles = '/api/role/'
@@ -11,11 +11,11 @@ api_url_roles_lang = '/api/role_lang/'
 #       - c, conection Api
 #       - headers, headears request
 
-def insert_roles(c, headers):
+def insert_roles(db):
     roles = ["actor","director","producer","writer","composer"]
     for role in roles:
         params = json.dumps({'code': role})
-        interface.insert_data(c, api_url_roles, params, headers)
+        db.insert_data(api_url_roles, params)
 
 
 # insert_roles_lang(c, headers), insert all roles_lang in to th DB
@@ -23,7 +23,7 @@ def insert_roles(c, headers):
 #       - c, conection Api
 #       - headers, headears request
 
-def insert_roles_lang(c, headers):
+def insert_roles_lang(db):
     roles = [["Actor","Director","Producer","Writer","Composer"],
             ["Actor","Director","Productor","Escritor","Compositor"]]
 
@@ -34,4 +34,4 @@ def insert_roles_lang(c, headers):
                 'lang': (i+1),
                 'name': roles[i][j]
             })
-            interface.insert_data(c, api_url_roles_lang, params, headers)
+            db.insert_data(api_url_roles_lang, params)

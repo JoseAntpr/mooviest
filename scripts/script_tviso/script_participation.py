@@ -1,10 +1,5 @@
 import json
-# , sys
-# sys.path.append('/Users/Antonio/Documents/mooviest/scripts')
-# import script_interface as interface
-
-
-roles = {"actor":1 ,"director":2 ,"producer":3 ,"writer":4 ,"composer":5}
+from . import interface
 
 def get_participations(data, movie_id):
     participation_list = []
@@ -20,7 +15,7 @@ def get_participations(data, movie_id):
         participation = {
                 "celebrity": 0,
                 "movie": movie_id,
-                "role": roles["actor"],
+                "role": interface.ROLES["actor"],
                 "character": character,
                 "award": ""
             }
@@ -37,7 +32,7 @@ def get_participations(data, movie_id):
         participation = {
                 "celebrity": 0,
                 "movie": movie_id,
-                "role": roles["composer"],
+                "role": interface.ROLES["composer"],
                 "character": "_",
                 "award": ""
             }
@@ -54,7 +49,7 @@ def get_participations(data, movie_id):
         participation = {
                 "celebrity": 0,
                 "movie": movie_id,
-                "role": roles["director"],
+                "role": interface.ROLES["director"],
                 "character": "_",
                 "award": ""
             }
@@ -71,7 +66,7 @@ def get_participations(data, movie_id):
         participation = {
                 "celebrity": 0,
                 "movie": movie_id,
-                "role": roles["writer"],
+                "role": interface.ROLES["writer"],
                 "character": "_",
                 "award": ""
             }

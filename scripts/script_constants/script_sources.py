@@ -1,6 +1,6 @@
 import  urllib.parse, http.client, json
 from base64 import b64encode
-import script_interface as interface
+import interface
 
 # Contants
 api_url = '/api/source/'
@@ -10,8 +10,8 @@ api_url = '/api/source/'
 #       - c, conection Api
 #       - headers, headears request
 
-def insert_sources(c, headers):
+def insert_sources(db):
     sources = ["FilmAffinity","Sensacine","Tviso","Track.tv","IMDb","Metacritic","RottenTomatoes","Letterboxd"]
     for source in sources:
         params = json.dumps({'name': source})
-        interface.insert_data(c, api_url, params, headers)
+        db.insert_data(api_url, params)

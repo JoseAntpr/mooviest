@@ -1,6 +1,6 @@
 import  urllib.parse, http.client, json
 from base64 import b64encode
-import script_interface as interface
+import interface
 
 # Contants
 api_url = '/api/country/'
@@ -10,7 +10,7 @@ api_url = '/api/country/'
 #       - c, conection Api
 #       - headers, headears request
 
-def insert_countries(c, headers):
+def insert_countries(db):
 	countries = [
         [
             ['Spain','ES'],
@@ -45,4 +45,4 @@ def insert_countries(c, headers):
                     "code": countries[i][j][1]
                 }
 			)
-			interface.insert_data(c, api_url, params, headers)
+			db.insert_data(api_url, params)

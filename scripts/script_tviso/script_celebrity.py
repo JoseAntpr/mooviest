@@ -15,7 +15,8 @@ def get_celebrities(data):
                 "name": name,
                 "born": "0001-01-01",
                 "image": image,
-                "twitter_account": ""
+                "twitter_account": "",
+                "address": ""
             }
         celebrity_list.append(celebrity)
     #Compose
@@ -31,7 +32,8 @@ def get_celebrities(data):
                 "name": name,
                 "born": "0001-01-01",
                 "image": image,
-                "twitter_account": ""
+                "twitter_account": "",
+                "address": ""
             }
         celebrity_list.append(celebrity)
     #Director
@@ -47,7 +49,8 @@ def get_celebrities(data):
                 "name": name,
                 "born": "0001-01-01",
                 "image": image,
-                "twitter_account": ""
+                "twitter_account": "",
+                "address": ""
             }
         celebrity_list.append(celebrity)
     #Write
@@ -63,7 +66,8 @@ def get_celebrities(data):
                 "name": name,
                 "born": "0001-01-01",
                 "image": image,
-                "twitter_account": ""
+                "twitter_account": "",
+                "address": ""
             }
         celebrity_list.append(celebrity)
 

@@ -1,13 +1,10 @@
-import urllib.request, urllib.parse, http.client, json
-from base64 import b64encode
+from . import interface
 
-def get_info_celebrity(person):
-
+def get_info_celebrity(name):
+    person = name.replace(" ","-").lower()
     url_person = "/people/" + person + "?extended=full"
 
-    interface_trakt_tv.c.request('GET', url_person, None, interface_trakt_tv.headers)
-    res = interface_trakt_tv.c.getresponse()
-    data = json.loads(res.read().decode("utf8"))
+    data = interface.get_info(url_person)
 
     born = data["birthday"]
     address = data["birthplace"]

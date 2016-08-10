@@ -1,11 +1,10 @@
 import json
-import script_interface as interface
 
 # Contants
 api_url = '/api/rating/'
 
-def insert_rating(c, headers, data, movie_id):
-    source = interface.sources['Tviso']
+def insert_rating(db, data, movie_id):
+    source = db.SOURCES['Tviso']
     sourceid = int(data["idm"])
     rating = int(data["rating"]*10)
     count = int(data["ratings_num"])
@@ -18,5 +17,4 @@ def insert_rating(c, headers, data, movie_id):
     }
 
     params = json.dumps(rating)
-
-    interface.insert_data(c, api_url, params, headers)
+    db.insert_data(api_url, params)

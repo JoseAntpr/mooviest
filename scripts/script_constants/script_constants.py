@@ -13,11 +13,11 @@ from . import script_sources as sources
 #       - c, conection Api
 #       - headers, headears request
 
-def insert_constants(c,headers):
-    langs.insert_langs(c,headers)
-    countries.insert_countries(c, headers)
-    genres.insert_genres(c, headers)
-    genres.insert_genres_lang(c, headers)
-    roles.insert_roles(c, headers)
-    roles.insert_roles_lang(c, headers)
-    sources.insert_sources(c, headers)
+def insert_constants(db):
+    langs.insert_langs(db)
+    countries.insert_countries(db)
+    genres.insert_genres(db)
+    genres.insert_genres_lang(db)
+    roles.insert_roles(db)
+    roles.insert_roles_lang(db)
+    sources.insert_sources(db)
