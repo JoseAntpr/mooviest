@@ -1,6 +1,6 @@
 import json
 
-def insert_celebrity(data):
+def get_celebrities(data):
     celebrity_list = []
     #Cast
     for celeb in data["cast"]:
@@ -13,11 +13,11 @@ def insert_celebrity(data):
         name = celeb["name"]
         celebrity = {
                 "name": name,
-                "born": None,
+                "born": "0001-01-01",
                 "image": image,
                 "twitter_account": ""
             }
-        celebrity_list.append(json.dumps(celebrity))
+        celebrity_list.append(celebrity)
     #Compose
     for celeb in data["compose"]:
         image = ""
@@ -29,11 +29,11 @@ def insert_celebrity(data):
         name = celeb["name"]
         celebrity = {
                 "name": name,
-                "born": None,
+                "born": "0001-01-01",
                 "image": image,
                 "twitter_account": ""
             }
-        celebrity_list.append(json.dumps(celebrity))
+        celebrity_list.append(celebrity)
     #Director
     for celeb in data["director"]:
         image = ""
@@ -45,11 +45,11 @@ def insert_celebrity(data):
         name = celeb["name"]
         celebrity = {
                 "name": name,
-                "born": None,
+                "born": "0001-01-01",
                 "image": image,
                 "twitter_account": ""
             }
-        celebrity_list.append(json.dumps(celebrity))
+        celebrity_list.append(celebrity)
     #Write
     for celeb in data["write"]:
         image = ""
@@ -61,10 +61,10 @@ def insert_celebrity(data):
         name = celeb["name"]
         celebrity = {
                 "name": name,
-                "born": None,
+                "born": "0001-01-01",
                 "image": image,
                 "twitter_account": ""
             }
-        celebrity_list.append(json.dumps(celebrity))
+        celebrity_list.append(celebrity)
 
     return celebrity_list

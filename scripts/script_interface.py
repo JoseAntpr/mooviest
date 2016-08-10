@@ -60,9 +60,11 @@ def insert_data(c, api_url, js, headers):
 	c.request('POST', api_url, js, headers)
 	res = c.getresponse()
 	print(res.status, res.reason)
-	data = res.read()
+	data = res.read().decode("utf8")
 
-	return data
+	return json.loads(data)
+
+
 
 # get_info_tviso, return data format json, of the media with idm
 #   Params

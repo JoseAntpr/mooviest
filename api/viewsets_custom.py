@@ -1,6 +1,7 @@
 from movie.models import Celebrity
 from .serializers import CelebritySerializer
 from rest_framework import generics
+import urllib.parse
 
 class CelebrityCustomViewSet(generics.ListAPIView):
     serializer_class = CelebritySerializer
@@ -11,6 +12,6 @@ class CelebrityCustomViewSet(generics.ListAPIView):
         by filtering against a `username` query parameter in the URL.
         """
         queryset = Celebrity.objects.all()
-        n = self.kwargs['name']
+        n = urllib.parse.unquote_plus(self.kwargs['name'])
         print(n)
         return Celebrity.objects.filter(name=n)

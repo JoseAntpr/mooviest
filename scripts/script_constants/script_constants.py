@@ -1,10 +1,12 @@
 import  urllib.parse, http.client, json
 from base64 import b64encode
-import script_countries as countries
-import script_genres as genres
-import script_langs as langs
-import script_roles as roles
-import script_sources as sources
+
+from . import script_langs as langs
+from . import script_countries as countries
+from . import script_genres as genres
+from . import script_roles as roles
+from . import script_sources as sources
+
 
 # insert_constants(c, headers), insert all constanst in to th DB
 #   Params

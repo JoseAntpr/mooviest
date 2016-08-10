@@ -1,11 +1,12 @@
-import json, sys
-sys.path.append('/Users/Antonio/Documents/mooviest/scripts')
-import script_interface as interface
+import json
+# , sys
+# sys.path.append('/Users/Antonio/Documents/mooviest/scripts')
+# import script_interface as interface
 
 
 roles = {"actor":1 ,"director":2 ,"producer":3 ,"writer":4 ,"composer":5}
 
-def insert_participation(data, celebrity_id, movie_id):
+def get_participations(data, movie_id):
     participation_list = []
     #Cast
     for celeb in data["cast"]:
@@ -17,7 +18,7 @@ def insert_participation(data, celebrity_id, movie_id):
 
         character = celeb["role"]
         participation = {
-                "celebrity": celebrity_id,
+                "celebrity": 0,
                 "movie": movie_id,
                 "role": roles["actor"],
                 "character": character,
@@ -34,10 +35,10 @@ def insert_participation(data, celebrity_id, movie_id):
 
         name = celeb["name"]
         participation = {
-                "celebrity": celebrity_id,
+                "celebrity": 0,
                 "movie": movie_id,
                 "role": roles["composer"],
-                "character": "",
+                "character": "_",
                 "award": ""
             }
         participation_list.append(json.dumps(participation))
@@ -51,10 +52,10 @@ def insert_participation(data, celebrity_id, movie_id):
 
         name = celeb["name"]
         participation = {
-                "celebrity": celebrity_id,
+                "celebrity": 0,
                 "movie": movie_id,
                 "role": roles["director"],
-                "character": "",
+                "character": "_",
                 "award": ""
             }
         participation_list.append(json.dumps(participation))
@@ -68,10 +69,10 @@ def insert_participation(data, celebrity_id, movie_id):
 
         name = celeb["name"]
         participation = {
-                "celebrity": celebrity_id,
+                "celebrity": 0,
                 "movie": movie_id,
                 "role": roles["writer"],
-                "character": "",
+                "character": "_",
                 "award": ""
             }
         participation_list.append(json.dumps(participation))

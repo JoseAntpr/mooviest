@@ -51,7 +51,7 @@ urlpatterns = [
     url(r'^users/','users.views.index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/',include(router.urls)),
-    url('^celebritys/(?P<name>.+)/$', CelebrityCustomViewSet.as_view()),
+    url('^api/celebrity_by_name/(?P<name>.+)/$', CelebrityCustomViewSet.as_view()),
     url(r'api_auth/',include('rest_framework.urls',namespace='rest_framework')),
     url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'))

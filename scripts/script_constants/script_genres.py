@@ -13,14 +13,16 @@ api_url_genres_lang = '/api/genre_lang/'
 #       - headers, headears request
 
 def insert_genres(c, headers):
-	genres=['action', 'comedy', 'family', 'history', 'mystery',
-			'sci-fi', 'war', 'adventure', 'crime', 'fantasy',
-			'horror', 'news', 'sport', 'western', 'animation',
-			'documentary', 'film-noir', 'music', 'drama',
-			'musical', 'romance', 'thriller', 'reallity']
+	genres = [
+				'action', 'comedy', 'family', 'history', 'mystery',
+				'sci-fi', 'war', 'adventure', 'crime', 'fantasy',
+				'horror', 'news', 'sport', 'western', 'animation',
+				'documentary', 'film-noir', 'music', 'drama',
+				'musical', 'romance', 'thriller', 'reallity'
+			]
 
-	for i in range(0,len(genres)):
-		params = json.dumps({'code': genres[i]})
+	for genre in genres:
+		params = json.dumps({'code': genre})
 		interface.insert_data(c, api_url_genres, params, headers)
 
 # insert_genres_lang(c, headers), insert all genres_lang in to th DB
@@ -55,6 +57,4 @@ def insert_genres_lang(c, headers):
 				    "name": genres_lang[i][j]
 				}
 			)
-
-			params = json.dumps({'code': genres[i]})
 			interface.insert_data(c, api_url_genres_lang, params, headers)
