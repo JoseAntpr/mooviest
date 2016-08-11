@@ -15,7 +15,7 @@ print(auth_token)
 
 db = interface_db.DB("admin","admin")
 
-#constants.insert_constants(db)
+constants.insert_constants(db)
 
 idm = str(5411)
 
@@ -24,8 +24,10 @@ data = interface_tviso.get_info_tviso(idm, auth_token)
 if data["error"] == 0:
     print(idm+' - Save succesfully')
     #info_movie
-    info_movie.insert_info(data, db)
+    movie_id, movie_name = info_movie.insert_info(data, db)
     #insert rating
+    rating_tviso.insert_rating(db, data, movie_id)
+    rating_filmaffinity.insert_rating(db, movie_id, movie_name)
 
 # Insert constants en la BD (Solo la primera vez)
 # if (last_id == 0){ ...insert constatns}

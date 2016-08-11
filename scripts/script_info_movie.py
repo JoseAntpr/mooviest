@@ -23,32 +23,42 @@ def insert_celebrities_and_participations(celebrity_list, participation_list,db)
 
 		data = db.get_by_param(api_url_celebrity_by_name)
 		results = data["results"]
-
+		print(results)
+		ok = True
 		if len(results) == 0:
 			print("result 0")
-			born, address, biography = celebrity_trakt.get_info_celebrity(name)
-			params = json.loads(celebrity_list[i])
-			params["born"] = born
-			params["address"] = address
-			#Insert celebrity
-			results = db.insert_data(api_url_celebrity, json.dumps(params))
-			#Insert celebrity_lang
-			params = json.dumps(
-						{
-							"celebrity": results["id"],
-							"lang": interface.langs["en"],
-							"biography": biography
-						}
-					)
-			results = db.insert_data(api_url_celebrity_lang, params)
+			try:
+				born, address, biography = celebrity_trakt.get_info_celebrity(urllib.parse.unquote_plus(name))
+				print(celebrity_list[i])
+				params = celebrity_list[i]
+				params["born"] = born
+				params["address"] = address
+				print(params)
+				#Insert celebrity
+				results = db.insert_data(api_url_celebrity, json.dumps(params))
+				#Insert celebrity_lang
+				params = json.dumps(
+							{
+								"celebrity": results["id"],
+								"lang": db.LANGS["en"],
+								"biography": biography
+							}
+						)
+				results = db.insert_data(api_url_celebrity_lang, params)
+			except:
+				print("No se ha insertado la celebrity "+name)
+				ok = False
+
 		else:
 			results = results[0]
 
-		print(results["id"])
-		celebrity_id = results["id"]
-		participation = json.loads(participation_list[i])
-		participation['celebrity'] = celebrity_id
-		data = db.insert_data(api_url_participation, json.dumps(participation))
+		if ok:
+			print(results)
+			print(results["id"])
+			celebrity_id = results["id"]
+			participation = json.loads(participation_list[i])
+			participation['celebrity'] = celebrity_id
+			data = db.insert_data(api_url_participation, json.dumps(participation))
 
 
 # insert_info_tviso(c, headers), insert all info Tviso at DB
@@ -62,16 +72,16 @@ def insert_info(data, db):
 
     film_lang = movie_lang.insert_movie_lang(db, data, movie_id)
     movie_name = film_lang["title"]
-    print(movie_lang_trakt.insert_movie_lang("tt0167261"))
+
+    movie_lang_trakt.insert_movie_lang(db, movie_id, data["imdb"],data["country"][0])
 
 
-    # # Getters celebrities and participations
-    # movie_id = 3
-    # celebrity_list = celebrity.get_celebrities(data)
-    # participation_list = participation.get_participations(data, movie_id)
-	#
-	#
-    # # INSERTS celebrities and participations
-    # insert_celebrities_and_participations(celebrity_list, participation_list, db)
-	#
-    # return movie_id, movie_name
+    # Getters celebrities and participations
+    celebrity_list = celebrity.get_celebrities(data)
+    participation_list = participation.get_participations(data, movie_id)
+
+
+    # INSERTS celebrities and participations
+    insert_celebrities_and_participations(celebrity_list, participation_list, db)
+
+    return movie_id, movie_name

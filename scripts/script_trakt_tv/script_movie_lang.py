@@ -15,7 +15,6 @@ def insert_movie_lang(db, movie_id, source_id, country):
     data = interface.get_info(url_image)
     image = data["images"]["poster"]["medium"]
 
-    country = None
     try:
         country =  db.COUNTRIES[db.LANGS["en"]-1][str(country)]
     except TypeError:

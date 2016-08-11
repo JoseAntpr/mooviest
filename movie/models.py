@@ -19,18 +19,17 @@ class Country(models.Model):
 class Celebrity(models.Model):
     langs = models.ManyToManyField(Lang, through = 'Celebrity_lang')
     name = models.CharField(max_length=50)
-    born = models.DateField('Born')
+    born = models.DateField('Born',null=True,blank=True)
     image = models.CharField(max_length=255,null=True,blank=True)
     twitter_account = models.CharField(max_length=30,blank=True,null=True)
+    address = models.CharField(max_length=100,blank=True,null=True)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
 class Celebrity_lang(models.Model):
     celebrity = models.ForeignKey(Celebrity, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
-    biography = models.TextField(max_length=600)
-    address = models.CharField(max_length=100,blank=True,null=True)
-    nationality = models.CharField(max_length=30,blank=True,null=True)
+    biography = models.TextField(max_length=10000,blank=True,null=True)
     #def __str__(self):              # __unicode__ on Python 2
     #    return self.celebrity + " " + self.lang
 
@@ -57,7 +56,7 @@ class Saga_lang(models.Model):
     saga = models.ForeignKey(Saga, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
-    synopsis = models.CharField(max_length=800)
+    synopsis = models.CharField(max_length=800,blank=True,null=True)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
@@ -84,13 +83,13 @@ class Emotion_lang(models.Model):
     emotion = models.ForeignKey(Emotion, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
-    description = models.CharField(max_length=50)
+    description = models.CharField(max_length=50,blank=True,null=True)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
 class Streaming(models.Model):
     name = models.CharField(max_length=30)
-    url = models.CharField(max_length=255)
+    url = models.CharField(max_length=255,blank=True,null=True)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
@@ -111,7 +110,6 @@ class Movie(models.Model):
     original_title = models.CharField(max_length = 100)
     runtime = models.PositiveSmallIntegerField(null = True)
     released = models.PositiveSmallIntegerField(null = True)
-    image = models.CharField(max_length = 255,null = True,blank = True)
     movie_producer = models.CharField(max_length = 255)
     saga_order = models.IntegerField(default = 1,blank = True)
     average = models.DecimalField(default = 0, max_digits = 4, decimal_places = 2, null = True, blank = True)
@@ -124,6 +122,8 @@ class Movie_lang(models.Model):
     country = models.ForeignKey(Country, null= True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=100)
     synopsis = models.TextField(max_length=800)
+    image = models.CharField(max_length = 255,null = True,blank = True)
+    trailer = models.CharField(max_length = 255,null = True,blank = True)
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
@@ -156,7 +156,7 @@ class Participation(models.Model):
     celebrity = models.ForeignKey(Celebrity, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     role = models.ForeignKey(Role, null=True, on_delete = models.SET_NULL)
-    character = models.CharField(max_length=100, default="")
+    character = models.CharField(max_length=100, blank=True,null=True)
     award = models.CharField(max_length=200,blank=True,null=True)
     def __str__(self):              # __unicode__ on Python 2
         return self.character

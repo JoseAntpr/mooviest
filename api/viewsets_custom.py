@@ -11,7 +11,6 @@ class CelebrityCustomViewSet(generics.ListAPIView):
         Optionally restricts the returned purchases to a given user,
         by filtering against a `username` query parameter in the URL.
         """
-        queryset = Celebrity.objects.all()
         n = urllib.parse.unquote_plus(self.kwargs['name'])
         print(n)
         return Celebrity.objects.filter(name=n)
