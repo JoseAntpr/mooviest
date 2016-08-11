@@ -1,8 +1,5 @@
 import json
 
-# Contants
-api_url = '/api/rating/'
-
 def insert_rating(db, data, movie_id):
     source = db.SOURCES['Tviso']
     sourceid = int(data["idm"])
@@ -17,4 +14,4 @@ def insert_rating(db, data, movie_id):
     }
 
     params = json.dumps(rating)
-    db.insert_data(api_url, params)
+    db.insert_data(db.API_URLS["rating"], params)

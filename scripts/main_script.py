@@ -5,8 +5,8 @@ import interface
 import interface_db
 import script_info_movie as info_movie
 from script_constants import script_constants as constants
-from script_tviso import script_rating as rating_tviso
 from script_tviso import interface as interface_tviso
+from script_tviso import script_rating as rating_tviso
 from scrappers import script_filmaffinity as rating_filmaffinity
 
 # Generación del token
