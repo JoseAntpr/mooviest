@@ -2,11 +2,6 @@ import  urllib.parse, http.client, json
 from base64 import b64encode
 import interface
 
-# Contants
-api_url_genres = '/api/genre/'
-api_url_genres_lang = '/api/genre_lang/'
-
-
 # insert_genres(c, headers), insert all genres in to th DB
 #   Params
 #       - c, conection Api
@@ -23,7 +18,7 @@ def insert_genres(db):
 
 	for genre in genres:
 		params = json.dumps({'code': genre})
-		db.insert_data(api_url_genres, params)
+		db.insert_data(db.API_URLS["genre"], params)
 
 # insert_genres_lang(c, headers), insert all genres_lang in to th DB
 #   Params
@@ -57,4 +52,4 @@ def insert_genres_lang(db):
 				    "name": genres_lang[i][j]
 				}
 			)
-			db.insert_data(api_url_genres_lang, params)
+			db.insert_data(db.API_URLS["genre_lang"], params)

@@ -2,10 +2,6 @@ import  urllib.parse, http.client, json
 from base64 import b64encode
 import interface
 
-# Contants
-api_url_roles = '/api/role/'
-api_url_roles_lang = '/api/role_lang/'
-
 # insert_roles(c, headers), insert all roles in to th DB
 #   Params
 #       - c, conection Api

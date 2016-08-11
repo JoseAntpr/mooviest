@@ -1,9 +1,6 @@
 import json
 from . import interface
 
-# Contants
-api_url = '/api/movie/'
-
 # MOVIE model
 def insert_movie(db, data):
     runtime = int(data["runtime"])
@@ -34,5 +31,4 @@ def insert_movie(db, data):
     }
 
     params = json.dumps(movie)
-
-    return db.insert_data(api_url, params)
+    return db.insert_data(db.API_URLS["movie"], params)

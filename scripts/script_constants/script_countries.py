@@ -2,8 +2,6 @@ import  urllib.parse, http.client, json
 from base64 import b64encode
 import interface
 
-# Contants
-api_url = '/api/country/'
 
 # insert_countries(c, headers), insert all countries in to th DB
 #   Params
@@ -45,4 +43,4 @@ def insert_countries(db):
                     "code": countries[i][j][1]
                 }
 			)
-			db.insert_data(api_url, params)
+			db.insert_data(db.API_URLS["country"], params)

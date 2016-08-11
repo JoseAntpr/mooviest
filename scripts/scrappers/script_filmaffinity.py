@@ -2,10 +2,6 @@ import psycopg2, urllib.request, urllib.parse, http.client, json
 from base64 import b64encode
 from bs4 import BeautifulSoup
 
-
-# Contants
-api_url = '/api/rating/'
-
 # insert_countries(c, headers, movie_name, movie_id), insert rating, count and id movie
 #                  of FilmAffinitty, with name(in spanish) film
 #   Params
@@ -61,4 +57,4 @@ def insert_rating(db, movie_id, movie_name):
         }
     )
 
-    return db.insert_data(api_url, params)
+    return db.insert_data(db.API_URLS["rating"], params)
