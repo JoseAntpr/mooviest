@@ -12,10 +12,8 @@ GENDER_CHOICES = (
 
 RELATIONSHIP_FOLLOWING = 1
 RELATIONSHIP_BLOCKED = 2
-RELATIONSHIP_STATUSES = (
-   (RELATIONSHIP_FOLLOWING, 'Following'),
-   (RELATIONSHIP_BLOCKED, 'Blocked'),
-)
+
+RELATIONSHIP_STATUSES = ((RELATIONSHIP_FOLLOWING, 'Following'), (RELATIONSHIP_BLOCKED, 'Blocked'))
 
 class TypeMovie (models.Model):
     name = models.CharField(max_length = 15)
@@ -39,7 +37,7 @@ class Relationship (models.Model):
     status = models.IntegerField(choices=RELATIONSHIP_STATUSES)
 
 class Collection (models.Model):
-    user = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     typeMovie = models.ForeignKey(TypeMovie, on_delete = models.CASCADE)
     pub_date = models.DateTimeField(auto_now = True, null= True)
