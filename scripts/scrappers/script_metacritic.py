@@ -24,13 +24,14 @@ def rating_metracritic(film):
         lista = lista[0].find_all("span",{"class":"count"})
         count_str = lista[0].find("a").get_text().lower()
         count_str = count_str.replace("ratings","").strip()
+        rating = int(rating_str.replace(".", "").replace(",", ""))
+        count = int(count_str.replace(".", "").replace(",", ""))
     else:
         rating_str = "0"
         count_str = "0"
         print(film+" rating:_, count:_")
 
-    rating = int(rating_str.replace(".", "").replace(",", ""))
-    count = int(count_str.replace(".", "").replace(",", ""))
+
 
     return search.lower(),rating,count
 
