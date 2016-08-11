@@ -54,7 +54,6 @@ class DB:
     	res = self.connection.getresponse()
     	print(res.status, res.reason)
     	data = res.read().decode("utf8")
-
     	return json.loads(data)
 
     def get_by_param(self,api_url):

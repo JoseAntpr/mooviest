@@ -20,7 +20,7 @@ class CelebritySerializer(serializers.ModelSerializer):
 class Celebrity_langSerializer(serializers.ModelSerializer):
     class Meta:
         model = Celebrity_lang
-        fields = ('id', 'celebrity', 'lang', 'biography', 'address', 'nationality')
+        fields = ('id', 'celebrity', 'lang', 'biography')
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,7 +75,7 @@ class SourceSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ('id', 'genres', 'participations', 'langs', 'emotions', 'saga', 'catalogues', 'ratings', 'original_title', 'runtime', 'released', 'image', 'movie_producer', 'saga_order', 'average')
+        fields = ('id', 'genres', 'participations', 'langs', 'emotions', 'saga', 'catalogues', 'ratings', 'original_title', 'runtime', 'released', 'movie_producer', 'saga_order', 'average')
 
 class Movie_langSerializer(serializers.ModelSerializer):
     class Meta:

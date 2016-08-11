@@ -29,7 +29,7 @@ class Celebrity(models.Model):
 class Celebrity_lang(models.Model):
     celebrity = models.ForeignKey(Celebrity, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
-    biography = models.TextField(max_length=600,blank=True,null=True)
+    biography = models.TextField(max_length=10000,blank=True,null=True)
     #def __str__(self):              # __unicode__ on Python 2
     #    return self.celebrity + " " + self.lang
 

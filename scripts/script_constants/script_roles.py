@@ -11,7 +11,7 @@ def insert_roles(db):
     roles = ["actor","director","producer","writer","composer"]
     for role in roles:
         params = json.dumps({'code': role})
-        db.insert_data(api_url_roles, params)
+        db.insert_data(db.API_URLS["role"], params)
 
 
 # insert_roles_lang(c, headers), insert all roles_lang in to th DB
@@ -30,4 +30,4 @@ def insert_roles_lang(db):
                 'lang': (i+1),
                 'name': roles[i][j]
             })
-            db.insert_data(api_url_roles_lang, params)
+            db.insert_data(db.API_URLS["role_lang"], params)
