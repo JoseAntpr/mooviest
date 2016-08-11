@@ -1,6 +1,6 @@
-from movie.models import Celebrity
-from .serializers import CelebritySerializer
-from rest_framework import generics
+from movie.models import Celebrity, Movie
+from .serializers import CelebritySerializer, MovieSerializer
+from rest_framework import generics, filters, viewsets
 import urllib.parse
 
 class CelebrityCustomViewSet(generics.ListAPIView):
@@ -15,3 +15,9 @@ class CelebrityCustomViewSet(generics.ListAPIView):
         n = urllib.parse.unquote_plus(self.kwargs['name'])
         print(n)
         return Celebrity.objects.filter(name=n)
+
+class MovieByReleasedViewSet(viewsets.ModelViewSet):
+    serializer_class = MovieSerializer
+    queryset = Movie.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('=released',)

@@ -18,7 +18,7 @@ from django.contrib import admin
 from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet
 from api.viewsets_users import UserViewSet
 from rest_framework.routers import DefaultRouter
-from api.viewsets_custom import CelebrityCustomViewSet
+from api.viewsets_custom import CelebrityCustomViewSet, MovieByReleasedViewSet
 
 from django.views.generic import TemplateView
 
@@ -38,6 +38,7 @@ router.register(r'emotion_lang', Emotion_langViewSet)
 router.register(r'streaming', StreamingViewSet)
 router.register(r'source', SourceViewSet)
 router.register(r'movie', MovieViewSet)
+router.register(r'movie_released', MovieByReleasedViewSet)
 router.register(r'movie_lang', Movie_langViewSet)
 router.register(r'rating', RatingViewSet)
 router.register(r'catalogue', CatalogueViewSet)
