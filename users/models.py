@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from movie.models import Lang, Country, Movie, Emotion
+from movie.models import Lang, Country, Movie, Emotion, Celebrity
 
 FEMALE = "FE"
 MALE = "MA"
@@ -30,6 +30,7 @@ class Profile(models.Model):
     collections = models.ManyToManyField(Movie, through = 'Collection')
     feelings = models.ManyToManyField(Emotion, through = 'Feeling')
     relationships = models.ManyToManyField("self", through = 'Relationship', symmetrical = False, related_name='related_to')
+    followers = models.ManyToManyField(Celebrity, through = 'Follower')
 
 class Relationship (models.Model):
     from_person = models.ForeignKey(Profile, related_name='from_people')
@@ -48,4 +49,9 @@ class Feeling (models.Model):
     profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
     emotion = models.ForeignKey(Emotion, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
+    pub_date = models.DateTimeField(auto_now_add = True, null= True)
+
+class Follower (models.Model):
+    profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
+    celebrity = models.ForeignKey(Celebrity, on_delete = models.CASCADE)
     pub_date = models.DateTimeField(auto_now_add = True, null= True)

@@ -85,7 +85,7 @@ class Movie_langSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ('id', 'source', 'movie', 'sourceid', 'rating', 'count', 'date_update')
+        fields = ('id', 'source', 'movie', 'sourceid', 'name', 'rating', 'count', 'date_update')
 
 class CatalogueSerializer(serializers.ModelSerializer):
     class Meta:

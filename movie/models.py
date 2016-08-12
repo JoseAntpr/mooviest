@@ -130,7 +130,8 @@ class Movie_lang(models.Model):
 class Rating(models.Model):
     source = models.ForeignKey(Source, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
-    sourceid = models.CharField(max_length = 30)
+    sourceid = models.CharField(max_length = 200)
+    name = models.CharField(max_length = 30,null= True)
     rating = models.PositiveSmallIntegerField(default = 0,null = True)
     count = models.IntegerField(null = True,default = 0)
     date_update = models.DateField(auto_now = True, null= True)

@@ -21,7 +21,7 @@ def insert_celebrities_and_participations(celebrity_list, participation_list,db)
 		api_url_celebrity_lang = "/api/celebrity_lang/"
 		api_url_participation = "/api/participation/"
 
-		data = db.get_by_param(api_url_celebrity_by_name)
+		data = db.search(db.API_URLS["celebrity"])
 		results = data["results"]
 		print(results)
 		ok = True

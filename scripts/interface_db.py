@@ -56,7 +56,7 @@ class DB:
     	data = res.read().decode("utf8")
     	return json.loads(data)
 
-    def get_by_param(self,api_url):
+    def search(self,api_url):
     	self.connection.request('GET', api_url, None, self.headers)
     	res = self.connection.getresponse()
     	print(res.status, res.reason)

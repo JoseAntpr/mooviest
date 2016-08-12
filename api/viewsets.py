@@ -14,6 +14,9 @@ class CountryViewSet(viewsets.ModelViewSet):
 class CelebrityViewSet(viewsets.ModelViewSet):
     serializer_class = CelebritySerializer
     queryset = Celebrity.objects.all()
+    # Search for celebrity
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name',)
 
 class Celebrity_langViewSet(viewsets.ModelViewSet):
     serializer_class = Celebrity_langSerializer

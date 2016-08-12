@@ -8,6 +8,7 @@ from script_constants import script_constants as constants
 from script_tviso import interface as interface_tviso
 from script_tviso import script_rating as rating_tviso
 from scrappers import script_filmaffinity as rating_filmaffinity
+from scrappers import script_metacritic as rating_metacritic
 
 # Generación del token
 auth_token = interface_tviso.get_token()
@@ -15,19 +16,23 @@ print(auth_token)
 
 db = interface_db.DB("admin","admin")
 
-constants.insert_constants(db)
-
-idm = str(5411)
-
-data = interface_tviso.get_info_tviso(idm, auth_token)
-
-if data["error"] == 0:
-    print(idm+' - Save succesfully')
-    #info_movie
-    movie_id, movie_name = info_movie.insert_info(data, db)
-    #insert rating
-    rating_tviso.insert_rating(db, data, movie_id)
-    rating_filmaffinity.insert_rating(db, movie_id, movie_name)
+imdb = "tt0167261"
+url = rating_metacritic.get_url_metacritic_by_imdb(imdb)
+print (rating_metacritic.insert_rating(db, 1, url))
+#
+# constants.insert_constants(db)
+#
+# idm = str(5411)
+#
+# data = interface_tviso.get_info_tviso(idm, auth_token)
+#
+# if data["error"] == 0:
+#     print(idm+' - Save succesfully')
+#     #info_movie
+#     movie_id, movie_name = info_movie.insert_info(data, db)
+#     #insert rating
+#     rating_tviso.insert_rating(db, data, movie_id)
+#     rating_filmaffinity.insert_rating(db, movie_id, movie_name)
 
 # Insert constants en la BD (Solo la primera vez)
 # if (last_id == 0){ ...insert constatns}
