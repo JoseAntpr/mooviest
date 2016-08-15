@@ -42,14 +42,11 @@ def get_soup(url):
     return error_code, error_message, soup
 
 
-# get_expert_rating(soup, movie_id, sourceid, db), get expert rating
+# get_expert_rating(soup), get expert rating
 #                                          of Rotten Tomatoes,
 #   Params
 #       - soup, page from BeautifulSoup
-#       - movie_id, id of the movie in mooviest db
-#       - sourceid, sourceid from mooviest db
-#       - db, interface db
-def get_expert_rating(soup, movie_id, sourceid, db):
+def get_expert_rating(soup):
 
     # TOMATOMETER - RottenTomatoesExpert
     # Div with RottenTomatoesExpert
@@ -59,29 +56,13 @@ def get_expert_rating(soup, movie_id, sourceid, db):
     # Count
     count = lista.find(id="scoreStats").find_all("div","superPageFontColor")[1].find_all("span")[1].get_text()
 
-    source = db.SOURCES["RottenTomatoes"]
+    return rating, count
 
-    params = json.dumps(
-        {
-            "source": source,
-            "movie": movie_id,
-            "sourceid": sourceid,
-            "name": "RottenTomatoesExpert",
-            "rating": rating,
-            "count": count
-        }
-    )
-
-    return params
-
-# get_audience_rating(soup, movie_id, sourceid, db), get audience rating
+# get_audience_rating(soup), get audience rating
 #                                          of Rotten Tomatoes,
 #   Params
 #       - soup, page from BeautifulSoup
-#       - movie_id, id of the movie in mooviest db
-#       - sourceid, sourceid from mooviest db
-#       - db, interface db
-def get_audience_rating(soup, movie_id, sourceid, db):
+def get_audience_rating(soup):
 
     # AUDIENCE SCORE - RottenTomatoesAudience
     # Div with RottenTomatoesAudience
@@ -93,22 +74,9 @@ def get_audience_rating(soup, movie_id, sourceid, db):
     count = lista.find("div","audience-info").find_all("div")[1].get_text()
     count = int(count.replace("User Ratings:", "").strip().replace(",",""))
 
-    source = db.SOURCES["RottenTomatoes"]
+    return rating, count
 
-    params = json.dumps(
-        {
-            "source": source,
-            "movie": movie_id,
-            "sourceid": sourceid,
-            "name": "RottenTomatoesAudience",
-            "rating": rating,
-            "count": count
-        }
-    )
-
-    return params
-
-# insert_expert(soup, movie_id, sourceid, db), insert expert rating
+# insert_expert(soup, movie_id, sourceid, db, error_code), insert expert rating
 #                                          of Rotten Tomatoes,
 #   Params
 #       - soup, page from BeautifulSoup
@@ -122,7 +90,17 @@ def insert_expert(soup, movie_id, sourceid, db, error_code):
     error_message = ""
 
     try:
-        params = get_expert_rating(soup, movie_id, sourceid, db)
+        rating, count = get_expert_rating(soup)
+        params = json.dumps(
+            {
+                "source": db.SOURCES["RottenTomatoes"],
+                "movie": movie_id,
+                "sourceid": sourceid,
+                "name": "RottenTomatoesExpert",
+                "rating": rating,
+                "count": count
+            }
+        )
         res_expert = db.insert_data(db.API_URLS["rating"], params)
         error_message = "Insert expert rating successfully\n"
 
@@ -133,7 +111,7 @@ def insert_expert(soup, movie_id, sourceid, db, error_code):
     return error_code, error_message, res_expert
 
 
-# insert_audience(soup, movie_id, sourceid, db), insert audience rating
+# insert_audience(soup, movie_id, sourceid, db, error_code), insert audience rating
 #                                          of Rotten Tomatoes,
 #   Params
 #       - soup, page from BeautifulSoup
@@ -147,7 +125,17 @@ def insert_audience(soup, movie_id, sourceid, db, error_code):
     error_message = ""
 
     try:
-        params = get_audience_rating(soup, movie_id, sourceid, db)
+        rating, count = get_audience_rating(soup)
+        params = json.dumps(
+            {
+                "source": db.SOURCES["RottenTomatoes"],
+                "movie": movie_id,
+                "sourceid": sourceid,
+                "name": "RottenTomatoesAudience",
+                "rating": rating,
+                "count": count
+            }
+        )
         res_audience = db.insert_data(db.API_URLS["rating"], params)
         error_message = "Insert audience rating successfully\n"
 
@@ -157,22 +145,29 @@ def insert_audience(soup, movie_id, sourceid, db, error_code):
 
     return error_code, error_message, res_audience
 
-# update_expert(soup, movie_id, sourceid, db), update expert rating
+# update_expert(soup, movie_id, sourceid, rating_id, db, error_code), update expert rating
 #                                          of Rotten Tomatoes,
 #   Params
 #       - soup, page from BeautifulSoup
 #       - movie_id, id of the movie in mooviest db
 #       - sourceid, sourceid from mooviest db
+#       - rating_id, rating id to update
 #       - db, interface db
 #       - error_code, error propagated
-def update_expert(soup, movie_id, sourceid, db, error_code):
+def update_expert(soup, movie_id, sourceid, rating_id, db, error_code):
 
     res_expert = {}
     error_message = ""
 
     try:
-        params = get_expert_rating(soup, movie_id, sourceid, db)
-        res_expert = db.update_data(db.API_URLS["rating"], params)
+        rating, count = get_expert_rating(soup)
+        params = json.dumps(
+            {
+                "rating": rating,
+                "count": count
+            }
+        )
+        res_expert = db.update_data(db.API_URLS["rating"] + rating_id + "/", params)
         error_message = "Update expert rating successfully\n"
 
     except:
@@ -181,22 +176,29 @@ def update_expert(soup, movie_id, sourceid, db, error_code):
 
     return error_code, error_message, res_expert
 
-# update_audience(soup, movie_id, sourceid, db), update audience rating
+# update_audience(soup, movie_id, sourceid, rating_id, db, error_code), update audience rating
 #                                          of Rotten Tomatoes,
 #   Params
 #       - soup, page from BeautifulSoup
 #       - movie_id, id of the movie in mooviest db
 #       - sourceid, sourceid from mooviest db
+#       - rating_id, rating id to update
 #       - db, interface db
 #       - error_code, error propagated
-def update_audience(soup, movie_id, sourceid, db, error_code):
+def update_audience(soup, movie_id, sourceid, rating_id, db, error_code):
 
     res_audience = {}
     error_message = ""
 
     try:
-        params = get_audience_rating(soup, movie_id, sourceid, db)
-        res_audience = db.update_data(db.API_URLS["rating"], params)
+        rating, count = get_audience_rating(soup)
+        params = json.dumps(
+            {
+                "rating": rating,
+                "count": count
+            }
+        )
+        res_audience = db.update_data(db.API_URLS["rating"] + rating_id + "/", params)
         error_message = "Update audience rating successfully\n"
 
     except:
@@ -236,13 +238,14 @@ def insert_rating(db, movie_id, sourceid):
 
     return error_code, error_message, res_expert, res_audience
 
-# update_rating(db, movie_id, sourceid), update expert and audience rating
+# update_rating(db, movie_id, sourceid, rating_id), update expert and audience rating
 #                                          of Rotten Tomatoes,
 #   Params
 #       - db, interface db
 #       - movie_id, id of the movie in mooviest db
 #       - sourceid, sourceid for make the url of Rotten Tomatoes
-def update_rating(db, movie_id, sourceid):
+#       - rating_id, rating id to update
+def update_rating(db, movie_id, sourceid, rating_id):
 
     url = "https://www.rottentomatoes.com/m/" + sourceid + "/"
     error_message = "Movie id: " + str(movie_id) + " - Script UPDATE rating Rotten Tomatoes\n URL:" + url + "\n"
@@ -254,11 +257,11 @@ def update_rating(db, movie_id, sourceid):
 
     if not error_code:
         # Update expert rating
-        error_code, msg, res_expert = update_expert(soup, movie_id, sourceid, db, error_code)
+        error_code, msg, res_expert = update_expert(soup, movie_id, sourceid, rating_id, db, error_code)
         error_message += msg
 
         # Update audience rating
-        error_code, msg, res_audience = update_audience(soup, movie_id, sourceid, db, error_code)
+        error_code, msg, res_audience = update_audience(soup, movie_id, sourceid, rating_id, db, error_code)
         error_message += msg
 
     else:
