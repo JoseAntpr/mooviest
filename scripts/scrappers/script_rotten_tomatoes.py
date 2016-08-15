@@ -1,5 +1,6 @@
 import urllib.request, json
 from bs4 import BeautifulSoup
+from . import interface
 
 # get_url_rottentomatoes_by_omdb(id_imdb), return rottentomatoes url by omdb
 #   Params
@@ -23,24 +24,6 @@ def get_url_rottentomatoes_by_omdb(id_imdb):
         error_message = "Error to get url of rottentomatoes, OMDB API"
 
     return error_code, error_message, url_rotten
-
-
-# get_soup(url), return soup from url (BeautifulSoup)
-#   Params
-#       - url, movie id of imdb
-def get_soup(url):
-    error_code = False
-    error_message = ""
-    soup = ""
-    try:
-        response = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        html = urllib.request.urlopen(response).read().decode("utf8")
-        soup = BeautifulSoup(html, 'html.parser')
-    except:
-        error_code = True
-        error_message = "Error call\n"
-        soup = ""
-    return error_code, error_message, soup
 
 
 # get_expert_rating(soup), get expert rating of Rotten Tomatoes,
@@ -217,7 +200,7 @@ def insert_rating(db, movie_id, sourceid):
     res_audience = {}
 
     # Get soup from url
-    error_code, msg, soup = get_soup(url)
+    error_code, msg, soup = interface.get_soup(url)
 
     if not error_code:
         # Insert expert rating
@@ -247,7 +230,7 @@ def update_rating(db, rating_id, sourceid):
     res_audience = {}
 
     # Get soup from url
-    error_code, msg, soup = get_soup(url)
+    error_code, msg, soup = interface.get_soup(url)
 
     if not error_code:
         # Update expert rating
