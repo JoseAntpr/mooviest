@@ -1,22 +1,6 @@
 import urllib.request, json
 from bs4 import BeautifulSoup
-
-# get_soup(url), return soup from url (BeautifulSoup)
-#   Params
-#       - url, movie id of imdb
-def get_soup(url):
-    error_code = False
-    error_message = ""
-    soup = ""
-    try:
-        response = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        html = urllib.request.urlopen(response).read().decode("utf8")
-        soup = BeautifulSoup(html, 'html.parser')
-    except:
-        error_code = True
-        error_message = "Error call\n"
-        soup = ""
-    return error_code, error_message, soup
+from . import interface
 
 # get_rating(soup), get rating of IMDb,
 #   Params
@@ -43,7 +27,7 @@ def insert_rating(db, movie_id, imdb_id):
     res = {}
 
     # Get soup from url
-    error_code, msg, soup = get_soup(url)
+    error_code, msg, soup = interface.get_soup(url)
 
     if not error_code:
 
@@ -83,7 +67,7 @@ def update_rating(db, rating_id, imdb_id):
     res = {}
 
     # Get soup from url
-    error_code, msg, soup = get_soup(url)
+    error_code, msg, soup = interface.get_soup(url)
 
     if not error_code:
 
