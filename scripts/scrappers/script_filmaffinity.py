@@ -2,6 +2,12 @@ import psycopg2, urllib.request, urllib.parse, http.client, json
 from base64 import b64encode
 from bs4 import BeautifulSoup
 
+
+# get_soup(url), return soup
+#
+#   Params
+#       - url, url that will scrapper
+#
 def get_soup(url):
     error_code = False
     error_message = ""
@@ -16,6 +22,13 @@ def get_soup(url):
         soup = ""
     return error_code, error_message, soup
 
+# format_params(sourceid, rating, count), sourceid returns, rating and count formatted
+#
+#   Params
+#       - sourceid, id of FilmAffinity
+#       - rating, rating of FilmAffinity
+#       - count, count of FilmAffinity
+#
 def format_params(sourceid, rating, count):
     error_code = False
     error_message = ""
@@ -32,6 +45,11 @@ def format_params(sourceid, rating, count):
 
     return error_code, error_message, sourceid, rating, count
 
+# get_rating_movie_page(soup): sourceid returns, rating and count unformatted
+#
+#   Params
+#       - soup, soup FilmAffinity movie page
+#
 def get_rating_movie_page(soup):
     error_code = False
     error_message = ""
@@ -50,7 +68,13 @@ def get_rating_movie_page(soup):
         error_message = "Error get audience, movie page \n"
     return error_code, error_message, sourceid, rating, count
 
-def get_rating_search_page(soup,lista):
+# get_rating_search_page(soup, lista): sourceid returns, rating and count unformatted
+#
+#   Params
+#       - soup, soup FilmAffinity movie page
+#       - lista, list of movie found
+#
+def get_rating_search_page(soup, lista):
     error_code = False
     error_message = ""
     rating = ""
@@ -123,11 +147,12 @@ def insert_rating(db, movie_id, movie_name):
 #
 #   Params
 #       - db, Object DB
-#       - rating, record to update
+#       - rating_id, id of rating
+#       - sourceid, id of FilmAffinity
 
-def update_rating(db, rating):
-    error_message = "Movie id: " + str(rating["movie"]) + " - Script rating Rotten Tomatoes\n"
-    url = "https://www.filmaffinity.com/es/film"+rating["sourceid"]+".html"
+def update_rating(db, rating_id, sourceid):
+    error_message = "Rating id: " + str(rating_id) + " - Script rating FilmAffinity\n"
+    url = "https://www.filmaffinity.com/es/film"+str(sourceid)+".html"
 
     error_code, msg, soup = get_soup(url)
     if error_code:
@@ -143,8 +168,12 @@ def update_rating(db, rating):
     error_message += msg
     res = {}
     if not error_code:
-        rating["rating"] = rating
-        rating["count"] = count
-        res = db.update(db.API_URLS["rating"], count)
+        params = json.dumps(
+            {
+                "rating": rating,
+                "count": count
+            }
+        )
+        res = db.update_data(db.API_URLS["rating"]+str(rating_id)+"/", params)
 
     return error_code, error_message, res
