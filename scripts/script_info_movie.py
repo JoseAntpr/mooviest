@@ -21,7 +21,7 @@ def insert_celebrities_and_participations(celebrity_list, participation_list,db)
 		api_url_celebrity_lang = "/api/celebrity_lang/"
 		api_url_participation = "/api/participation/"
 
-		data = db.search(db.API_URLS["celebrity"])
+		data = db.search(api_url_celebrity+"?search="+name+"/")
 		results = data["results"]
 		print(results)
 		ok = True
@@ -73,7 +73,8 @@ def insert_info(data, db):
     film_lang = movie_lang.insert_movie_lang(db, data, movie_id)
     movie_name = film_lang["title"]
 
-    movie_lang_trakt.insert_movie_lang(db, movie_id, data["imdb"],data["country"][0])
+    imdb_id = data["imdb"]
+    movie_lang_trakt.insert_movie_lang(db, movie_id, imdb_id, data["country"][0])
 
 
     # Getters celebrities and participations
@@ -84,4 +85,4 @@ def insert_info(data, db):
     # INSERTS celebrities and participations
     insert_celebrities_and_participations(celebrity_list, participation_list, db)
 
-    return movie_id, movie_name
+    return movie_id, movie_name, imdb_id
