@@ -1,42 +1,93 @@
-import urllib.request, urllib.parse, http.client, json
-from base64 import b64encode
+import urllib.request, json
 from bs4 import BeautifulSoup
+from . import interface
 
-def insert_rating(db, movie_id, id_imdb):
+# get_rating(soup), get rating of IMDb,
+#   Params
+#       - soup, page from BeautifulSoup
+def get_rating(soup):
 
-    url = "http://www.imdb.com/title/" + id_imdb + "/"
-    print(url)
-    response = urllib.request.urlopen(url)
-    html = response.read().decode("utf8")
-    soup = BeautifulSoup(html, 'html.parser')
+    rating = soup.find(itemprop="ratingValue").get_text().strip()
+    count = soup.find(itemprop="ratingCount").get_text().strip()
 
-    rating = ""
-    count = ""
-    lista = soup.find_all("div",{"class":"ratingValue"})
+    rating = int(rating.replace(".", ""))
+    count = int(count.replace(",", ""))
 
-    print(lista)
-    print(len(lista))
-    if len(lista) > 0:
+    return rating, count
+
+# insert_rating(db, movie_id, imdb_id), insert rating of IMDb,
+#   Params
+#       - db, interface db
+#       - movie_id, id of the movie in mooviest db
+#       - imdb_id, id of IMDb
+def insert_rating(db, movie_id, imdb_id):
+
+    url = "http://www.imdb.com/title/" + imdb_id + "/"
+    error_message = "Movie id: " + str(movie_id) + " - Script INSERT rating IMDb\n URL:" + url + "\n"
+    res = {}
+
+    # Get soup from url
+    error_code, msg, soup = interface.get_soup(url)
+
+    if not error_code:
+
         try:
-            rating = soup.find(itemprop="ratingValue").get_text().strip()
-            count = soup.find(itemprop="ratingCount").get_text().strip()
+            # Get IMDb rating
+            rating, count = get_rating(soup)
+            params = json.dumps(
+                {
+                    "source": db.SOURCES["IMDb"],
+                    "movie": movie_id,
+                    "sourceid": imdb_id,
+                    "rating": rating,
+                    "count": count
+                }
+            )
 
-            rating = int(rating.replace(".", ""))
-            count = int(count.replace(",", ""))
-        except AttributeError:
-            rating = 0
-            count = 0
+            res = db.insert_data(db.API_URLS["rating"], params)
 
-    source = db.SOURCES["IMDb"]
+        except:
+            error_message += "Error insert rating\n"
+            error_code = True
 
-    params = json.dumps(
-        {
-            "source": source,
-            "movie": movie_id,
-            "sourceid": id_imdb,
-            "rating": rating,
-            "count": count
-        }
-    )
+    else:
+        error_message += msg
 
-    return db.insert_data(db.API_URLS["rating"], params)
+    return error_code, error_message, res
+
+# update_rating(db, rating_id, imdb_id), update rating of IMDb,
+#   Params
+#       - db, interface db
+#       - rating_id, rating id to update
+#       - imdb_id, id of IMDb
+def update_rating(db, rating_id, imdb_id):
+
+    url = "http://www.imdb.com/title/" + imdb_id + "/"
+    error_message = "Rating id: " + str(rating_id) + " - Script UPDATE rating IMDb\n URL:" + url + "\n"
+    res = {}
+
+    # Get soup from url
+    error_code, msg, soup = interface.get_soup(url)
+
+    if not error_code:
+
+        try:
+            # Get IMDb rating
+            rating, count = get_rating(soup)
+            params = json.dumps(
+                {
+                    "rating": rating,
+                    "count": count
+                }
+            )
+
+            res = db.update_data(db.API_URLS["rating"] + rating_id + "/", params)
+
+        except:
+            error_message += "Error update rating\n"
+            error_code = True
+
+    else:
+        error_message += msg
+
+    return error_code, error_message, res
