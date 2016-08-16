@@ -147,7 +147,7 @@ def update_expert(soup, rating_id, db, error_code):
                 "count": count
             }
         )
-        res_expert = db.update_data(db.API_URLS["rating"] + rating_id + "/", params)
+        res_expert = db.update_data(db.API_URLS["rating"] + str(rating_id) + "/", params)
         error_message = "Update expert rating successfully\n"
 
     except:
@@ -176,7 +176,7 @@ def update_audience(soup, rating_id, db, error_code):
                 "count": count
             }
         )
-        res_audience = db.update_data(db.API_URLS["rating"] + rating_id + "/", params)
+        res_audience = db.update_data(db.API_URLS["rating"] + str(rating_id) + "/", params)
         error_message = "Update audience rating successfully\n"
 
     except:
@@ -226,7 +226,7 @@ def insert_rating(db, movie_id, sourceid):
 def update_rating(db, rating_audience_id, rating_expert_id, sourceid):
 
     url = "https://www.rottentomatoes.com/m/" + sourceid + "/"
-    error_message = "Rating id: " + str(rating_id) + " - Script UPDATE rating Rotten Tomatoes\n URL:" + url + "\n"
+    error_message = "Rating audience id: " + str(rating_audience_id) + " Rating expert id: " + str(rating_expert_id) + " - Script UPDATE rating Rotten Tomatoes\n URL:" + url + "\n"
     res_expert = {}
     res_audience = {}
 
