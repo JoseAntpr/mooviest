@@ -65,7 +65,7 @@ class DB:
 
     def update_data(self, api_url, js):
         self.connection.request('PATCH', api_url, js, self.headers)
-    	res = self.connection.getresponse()
-    	print(res.status, res.reason)
-    	data = res.read().decode("utf8")
-    	return json.loads(data)
+        res = self.connection.getresponse()
+        print(res.status, res.reason)
+        data = res.read().decode("utf8")
+        return json.loads(data)
