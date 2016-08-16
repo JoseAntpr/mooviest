@@ -1,26 +1,7 @@
 import psycopg2, urllib.request, urllib.parse, http.client, json
 from base64 import b64encode
 from bs4 import BeautifulSoup
-
-
-# get_soup(url), return soup
-#
-#   Params
-#       - url, url that will scrapper
-#
-def get_soup(url):
-    error_code = False
-    error_message = ""
-    soup = ""
-    try:
-        response = urllib.request.urlopen(url)
-        html = response.read().decode("utf8")
-        soup = BeautifulSoup(html, 'html.parser')
-    except AttributeError:
-        error_code = True
-        error_message = "Error call \n"
-        soup = ""
-    return error_code, error_message, soup
+from . import interface
 
 # format_params(sourceid, rating, count), sourceid returns, rating and count formatted
 #
@@ -114,7 +95,7 @@ def insert_rating(db, movie_id, movie_name):
     url = "http://www.filmaffinity.com/es/search.php?stext="+search+"&stype=all"
     error_message = "Movie id: " + str(movie_id) + " - Script rating FilmAffinity\n url:"+url+"\n"
 
-    error_code, msg, soup = get_soup(url)
+    error_code, msg, soup = interface.get_soup(url)
     if error_code:
         error_message += msg
         return error_code, error_message
@@ -154,7 +135,7 @@ def update_rating(db, rating_id, sourceid):
     error_message = "Rating id: " + str(rating_id) + " - Script rating FilmAffinity\n"
     url = "https://www.filmaffinity.com/es/film"+str(sourceid)+".html"
 
-    error_code, msg, soup = get_soup(url)
+    error_code, msg, soup = interface.get_soup(url)
     if error_code:
         error_message += msg
         return error_code, error_message
