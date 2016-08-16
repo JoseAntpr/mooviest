@@ -39,7 +39,7 @@ class DB:
         "movie": "/api/movie/",
         "movie_lang": "/api/movie_lang/",
         "celebrity": "/api/celebrity/",
-        "celebrity_lang": "/api/celebrity_lang/"
+        "celebrity_lang": "/api/celebrity_lang/",
         "participation": "/api/participation/"
     }
 
