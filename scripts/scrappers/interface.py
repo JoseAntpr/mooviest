@@ -14,7 +14,7 @@ def get_soup(url):
         response = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         html =  urllib.request.urlopen(response).read().decode("utf8")
         soup = BeautifulSoup(html, 'html.parser')
-    except AttributeError:
+    except:
         error_code = True
         error_message = "Error call \n"
         soup = ""
