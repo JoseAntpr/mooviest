@@ -39,6 +39,7 @@ def insert_rating(db, movie_id, imdb_id):
                     "source": db.SOURCES["IMDb"],
                     "movie": movie_id,
                     "sourceid": imdb_id,
+                    "name": "IMDb",
                     "rating": rating,
                     "count": count
                 }
@@ -81,7 +82,7 @@ def update_rating(db, rating_id, imdb_id):
                 }
             )
 
-            res = db.update_data(db.API_URLS["rating"] + rating_id + "/", params)
+            res = db.update_data(db.API_URLS["rating"] + str(rating_id) + "/", params)
 
         except:
             error_message += "Error update rating\n"
