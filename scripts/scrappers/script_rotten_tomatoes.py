@@ -216,13 +216,14 @@ def insert_rating(db, movie_id, sourceid):
 
     return error_code, error_message, res_expert, res_audience
 
-# update_rating(db, rating_id, sourceid), update expert and audience rating
-#                                          of Rotten Tomatoes,
+# update_rating(db, rating_expert_id, rating_audience_id, sourceid),
+#             update expert and audience rating of Rotten Tomatoes,
 #   Params
 #       - db, interface db
-#       - rating_id, rating id to update
+#       - rating_audience_id, rating audience id
+#       - rating_expert_id, rating expert id
 #       - sourceid, sourceid for make the url of Rotten Tomatoes
-def update_rating(db, rating_id, sourceid):
+def update_rating(db, rating_audience_id, rating_expert_id, sourceid):
 
     url = "https://www.rottentomatoes.com/m/" + sourceid + "/"
     error_message = "Rating id: " + str(rating_id) + " - Script UPDATE rating Rotten Tomatoes\n URL:" + url + "\n"
@@ -234,11 +235,11 @@ def update_rating(db, rating_id, sourceid):
 
     if not error_code:
         # Update expert rating
-        error_code, msg, res_expert = update_expert(soup, rating_id, db, error_code)
+        error_code, msg, res_expert = update_expert(soup, rating_expert_id, db, error_code)
         error_message += msg
 
         # Update audience rating
-        error_code, msg, res_audience = update_audience(soup, rating_id, db, error_code)
+        error_code, msg, res_audience = update_audience(soup, rating_audience_id, db, error_code)
         error_message += msg
 
     else:
