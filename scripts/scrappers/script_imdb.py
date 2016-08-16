@@ -39,7 +39,7 @@ def insert_rating(db, movie_id, imdb_id):
                     "source": db.SOURCES["IMDb"],
                     "movie": movie_id,
                     "sourceid": imdb_id,
-                    "name": "IMDbExpert",
+                    "name": "IMDb",
                     "rating": rating,
                     "count": count
                 }
