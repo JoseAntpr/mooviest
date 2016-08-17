@@ -71,5 +71,5 @@ for i in range(lastline, len(ids)):
             error_message += msg
             interface.save_log(interface.log_txt, error_message)
 
-interface.save_lastline(lastline_txt, actualline+1)
+interface.save_lastline(interface.lastline_txt, actualline+1)
 interface.send_mail()
