@@ -29,8 +29,21 @@ def send_mail(id_tviso, error):
 
 	print("Email sent!")
 
-def save_lastid(idm):
-	f = open('lastid.txt','w')
-	lastid = str(idm)
-	f.write(lastid)
+def save_lastline(filename,idm):
+	f = open(filename,'w')
+	lastline = str(idm)
+	f.write(lastline)
 	f.close()
+
+def get_lastline(filename):
+	f = open(filename,'r')
+	lastline = f.readline()
+	f.close()
+	return int(lastline)-1
+
+def get_ids(filename):
+	ids = []
+	with open(filename) as f:
+	    ids = f.readlines()
+	    f.close()
+	return ids

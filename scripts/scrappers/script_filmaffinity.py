@@ -22,7 +22,7 @@ def format_params(sourceid, rating, count):
         count = 0
         sourceid = 0
         error_code = True
-        error_message = "Error format params \n"
+        error_message = "Error format params, rating FilmAffinity\n"
 
     return error_code, error_message, sourceid, rating, count
 
@@ -46,7 +46,7 @@ def get_rating_movie_page(soup):
         count = 0
         sourceid = 0
         error_code = True
-        error_message = "Error get audience, movie page \n"
+        error_message = "Error get audience, movie page, rating FilmAffinity\n"
     return error_code, error_message, sourceid, rating, count
 
 # get_rating_search_page(soup, lista): sourceid returns, rating and count unformatted
@@ -72,7 +72,7 @@ def get_rating_search_page(soup, lista):
         count = 0
         sourceid = 0
         error_code = True
-        error_message = "Error get audience, search page \n"
+        error_message = "Error get audience, search page, rating FilmAffinity\n"
     return error_code, error_message, sourceid, rating, count
 
 def get_rating(soup):
@@ -89,11 +89,10 @@ def get_rating(soup):
 #       - db, Object DB
 #       - movie_name, name(in spanish) of the movie
 #       - movie_id, id of the movie in mooviest db
-
 def insert_rating(db, movie_id, movie_name):
     search = urllib.parse.quote_plus(movie_name)
     url = "http://www.filmaffinity.com/es/search.php?stext="+search+"&stype=all"
-    error_message = "Movie id: " + str(movie_id) + " - Script rating FilmAffinity\n url:"+url+"\n"
+    error_message = ""
 
     error_code, msg, soup = interface.get_soup(url)
     if error_code:
@@ -119,8 +118,12 @@ def insert_rating(db, movie_id, movie_name):
                 "count": count
             }
         )
+        try:
+            res = db.insert_data(db.API_URLS["rating"], params)
+        except:
+            error_message += "Error insert rating FilmAffinity\n"
+            error_code = True
 
-        res = db.insert_data(db.API_URLS["rating"], params)
 
     return error_code, error_message, res
 
@@ -155,6 +158,10 @@ def update_rating(db, rating_id, sourceid):
                 "count": count
             }
         )
-        res = db.update_data(db.API_URLS["rating"]+str(rating_id)+"/", params)
+        try:
+            res = db.update_data(db.API_URLS["rating"]+str(rating_id)+"/", params)
+        except:
+            error_message += "Error update rating\n"
+            error_code = True
 
     return error_code, error_message, res

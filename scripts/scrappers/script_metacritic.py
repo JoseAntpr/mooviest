@@ -9,7 +9,7 @@ from . import interface
 #       - imdb, movie id of imdb
 #
 def get_url_metacritic_by_imdb(imdb):
-    error_message = "IMDb id: " + str(imdb) + " - Script rating Metacritic\n"
+    error_message = ""
     url = "http://www.imdb.com/title/"+imdb+"/criticreviews?ref_=tt_ov_rt"
     error_code = False
 
@@ -51,11 +51,9 @@ def format_params(rating, count):
         rating = 0
         count = 0
         error_code = True
-        error_message = "Error format params \n"
+        error_message = "Error format params, rating Metacritic\n"
 
     return error_code, error_message, rating, count
-
-
 
 # get_rating(soup): sourceid returns, rating and count formatted
 #
@@ -78,7 +76,7 @@ def get_rating(soup):
         rating = ""
         count = ""
         error_code = True
-        error_message = "Error get audience\n"
+        error_message = "Error get audience, rating Metacritic\n"
     if error_code:
         error_message += msg
         return error_code, error_message
@@ -104,7 +102,7 @@ def get_rating_expert(soup):
         rating = ""
         count = ""
         error_code = True
-        error_message = "Error get expert\n"
+        error_message = "Error get expert, rating Metacritic\n"
     if error_code:
         error_message += msg
         return error_code, error_message
@@ -145,7 +143,14 @@ def insert(db, movie_id, url, soup, expert):
             "count": count
         }
     )
-    return error_code, error_message, db.insert_data(db.API_URLS["rating"], params)
+    res = {}
+    try:
+        res = db.insert_data(db.API_URLS["rating"], params)
+    except:
+        error_code = True
+        error_message += "Error insert, rating Metacritic"
+
+    return error_code, error_message, res
 
 # update(db, rating_id, soup, expert), update rating in mooviest db
 #
@@ -175,7 +180,14 @@ def update(db, rating_id, soup, expert):
             "count": count
         }
     )
-    return error_code, error_message, db.update_data(db.API_URLS["rating"]+str(rating_id)+"/", params)
+    res = {}
+    try:
+        db.update_data(db.API_URLS["rating"]+str(rating_id)+"/", params)
+    except:
+        error_message +"Error update, rating Metacritic"
+        error_code = True
+
+    return error_code, error_message, res
 
 # insert_rating(db, movie_name, movie_id), insert rating, count and id movie
 #                  of Metacritic
@@ -198,12 +210,10 @@ def insert_rating(db, movie_id, imdb):
         return error_code, error_message
 
     error_code, msg, res = insert(db, movie_id, url, soup, False)
-    if error_code:
-        error_message += msg
+    error_message += msg
 
     error_code_expert, msg, res_expert = insert(db, movie_id, url, soup, True)
-    if error_code_expert:
-        error_message += msg
+    error_message += msg
 
     return (error_code or error_code_expert), error_message, res, res_expert
 
@@ -223,11 +233,9 @@ def update_rating(db, rating_id, rating_expert_id, sourceid):
         return error_code, error_message
 
     error_code, msg, res = update(db, rating_id, soup, False)
-    if error_code:
-        error_message += msg
+    error_message += msg
 
     error_code_expert, msg, res_expert = update(db, rating_expert_id, soup, True)
-    if error_code_expert:
-        error_message += msg
+    error_message += msg
 
     return (error_code or error_code_expert), error_message, res, res_expert
