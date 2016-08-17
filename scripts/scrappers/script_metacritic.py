@@ -12,13 +12,13 @@ def get_url_metacritic_by_imdb(imdb):
     error_message = ""
     url = "http://www.imdb.com/title/"+imdb+"/criticreviews?ref_=tt_ov_rt"
     error_code = False
+    url_metacritic = ""
 
     error_code, msg, soup = interface.get_soup(url)
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, url_metacritic
 
-    url_metacritic = ""
     try:
         lista = soup.find_all("div",{"class":"see-more"})
         if len(lista) > 0:
@@ -30,7 +30,7 @@ def get_url_metacritic_by_imdb(imdb):
 
     if error_code:
         error_message += "Error get url of metacritic, imdb page\n"
-        return error_code, error_message
+        return error_code, error_message, url_metacritic
 
     return error_code, error_message, url_metacritic
 
@@ -79,7 +79,7 @@ def get_rating(soup):
         error_message = "Error get audience, rating Metacritic\n"
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, rating, count
     return format_params(rating, count)
 
 # get_rating_expert(soup): sourceid returns, rating and count formatted
@@ -104,7 +104,7 @@ def get_rating_expert(soup):
         error_message = "Error get expert, rating Metacritic\n"
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, rating, count
     return format_params(rating, count)
 
 # insert(db, movie_id, url, soup, expert), insert rating in mooviest db
@@ -119,6 +119,7 @@ def get_rating_expert(soup):
 def insert(db, movie_id, url, soup, expert):
     error_code = False
     error_message = ""
+    res = {}
     rating = 0
     count = 0
     name = "Metacritic"
@@ -130,7 +131,7 @@ def insert(db, movie_id, url, soup, expert):
 
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, res
 
     params = json.dumps(
         {
@@ -142,7 +143,7 @@ def insert(db, movie_id, url, soup, expert):
             "count": count
         }
     )
-    res = {}
+
     try:
         res = db.insert_data(db.API_URLS["rating"], params)
     except:
@@ -163,6 +164,7 @@ def update(db, rating_id, soup, expert):
     error_message = ""
     rating = 0
     count = 0
+    res = {}
 
     if expert:
         error_code, error_message, rating, count = get_rating_expert(soup)
@@ -171,7 +173,7 @@ def update(db, rating_id, soup, expert):
 
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, res
 
     params = json.dumps(
         {
@@ -179,7 +181,7 @@ def update(db, rating_id, soup, expert):
             "count": count
         }
     )
-    res = {}
+
     try:
         db.update_data(db.API_URLS["rating"]+str(rating_id)+"/", params)
     except:
@@ -195,18 +197,19 @@ def update(db, rating_id, soup, expert):
 #       - movie_id, id of the movie in mooviest db
 #       - imdb, id movie of imdb
 def insert_rating(db, movie_id, imdb):
-    error_message = "Movie id: " + str(movie_id) + " - Script rating Metacritic\n"
+    error_message = ""
+    res = {}
 
     error_code, msg, url = get_url_metacritic_by_imdb(imdb)
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, res, res
 
 
     error_code, msg, soup = interface.get_soup(url)
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, res, res
 
     error_code, msg, res = insert(db, movie_id, url, soup, False)
     error_message += msg
@@ -225,11 +228,12 @@ def insert_rating(db, movie_id, imdb):
 #       - sourceid, url of Metacritic
 def update_rating(db, rating_id, rating_expert_id, sourceid):
     error_message = "Rating id: " + str(rating_id) +", rating_expert id: " + str(rating_expert_id) +" - Script rating Metacritic\n"
+    res = {}
 
     error_code, msg, soup = interface.get_soup(sourceid)
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, res, res
 
     error_code, msg, res = update(db, rating_id, soup, False)
     error_message += msg

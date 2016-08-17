@@ -17,7 +17,7 @@ def get_info_celebrity(name):
         born = None
         address = ""
         biography = ""
-        error_message = "Error info celebrity trakt.tv"
+        error_message = "Error info celebrity trakt.tv "+ name + "\n"
         error_code = True
 
     return error_code, error_message, born, address, biography

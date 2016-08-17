@@ -3,8 +3,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 # Constants txts
-lastline_txt = "/Users/jesus/Documents/mooviest/scripts/lastline.txt"
-datos_sin_numero_txt = "/Users/jesus/Documents/mooviest/scripts/datos_sin_numero.txt"
+lastline_txt = "/Users/jesus/Documents/lastline.txt"
+datos_sin_numero_txt = "/Users/jesus/Documents/datos_sin_numero.txt"
 log_txt = "/Users/jesus/Documents/log.txt"
 
 # Constants send email

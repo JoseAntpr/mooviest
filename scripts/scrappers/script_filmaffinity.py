@@ -93,20 +93,21 @@ def insert_rating(db, movie_id, movie_name):
     search = urllib.parse.quote_plus(movie_name)
     url = "http://www.filmaffinity.com/es/search.php?stext="+search+"&stype=all"
     error_message = ""
+    res = {}
 
     error_code, msg, soup = interface.get_soup(url)
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, res
 
     error_code, msg, sourceid, rating, count = get_rating(soup)
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, res
 
     error_code, msg, sourceid, rating, count = format_params(sourceid, rating, count)
     error_message += msg
-    res = {}
+
     if  not error_code:
         params = json.dumps(
             {
@@ -137,20 +138,21 @@ def insert_rating(db, movie_id, movie_name):
 def update_rating(db, rating_id, sourceid):
     error_message = "Rating id: " + str(rating_id) + " - Script rating FilmAffinity\n"
     url = "https://www.filmaffinity.com/es/film"+str(sourceid)+".html"
+    res = {}
 
     error_code, msg, soup = interface.get_soup(url)
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, res
 
     error_code, msg, sourceid, rating, count = get_rating_movie_page(soup)
     if error_code:
         error_message += msg
-        return error_code, error_message
+        return error_code, error_message, res
 
     error_code, msg, sourceid, rating, count = format_params(sourceid, rating, count)
     error_message += msg
-    res = {}
+
     if not error_code:
         params = json.dumps(
             {

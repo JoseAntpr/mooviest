@@ -11,6 +11,7 @@ from scrappers import script_filmaffinity as rating_filmaffinity
 from scrappers import script_metacritic as rating_metacritic
 from scrappers import script_imdb as rating_imdb
 from scrappers import script_rotten_tomatoes as rating_rotten_tomatoes
+from script_trakt_tv import script_rating as rating_trakt
 
 # Get txts
 lastline = interface.get_lastline(interface.lastline_txt)
@@ -49,6 +50,9 @@ for i in range(lastline, len(ids)):
             error_code, msg, res = rating_tviso.insert_rating(db, data, movie_id)
             error_message += msg
 
+            error_code, msg, res = rating_trakt.insert_rating(db, movie_id, imdb_id)
+            error_message += msg
+
             error_code, msg, res = rating_filmaffinity.insert_rating(db, movie_id, movie_name)
             error_message += msg
 
@@ -63,9 +67,9 @@ for i in range(lastline, len(ids)):
 
         if len(error_message) > 0:
             if not error_code_movie:
-                error_message += "Movie id: " + movie_id + "\n"
+                error_message += "Movie id: " + str(movie_id) + "\n"
             error_message += msg
             interface.save_log(interface.log_txt, error_message)
 
-interface.save_lastline("/Users/jesus/Documents/mooviest/scripts/lastline.txt", actualline+1)
+interface.save_lastline(lastline_txt, actualline+1)
 interface.send_mail()
