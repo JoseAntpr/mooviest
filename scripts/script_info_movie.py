@@ -18,6 +18,8 @@ from script_trakt_tv import script_movie_lang as movie_lang_trakt
 #		- lang, language info_movie
 #		- biography, biography of celebrity
 def insert_celebrity_lang(db, celebrity_id, lang, biography):
+	error_code = False
+	error_message = ""
 	params = json.dumps(
 		{
 			"celebrity": celebrity_id,
@@ -25,7 +27,52 @@ def insert_celebrity_lang(db, celebrity_id, lang, biography):
 			"biography": biography
 		}
 	)
-	return db.insert_data(db.API_URLS["celebrity_lang"], params)
+	res = {}
+	try:
+		res = db.insert_data(db.API_URLS["celebrity_lang"], params)
+	except:
+		error_message += "Error insert participation Tviso, celebrity_id:"+celebrity_id+"\n"
+		error_code = True
+
+	return error_code, error_message, res
+
+# insert_celebrity_lang(db, celebrity_id, lang, biography), insert celebrity_lang
+#			insert all celebrities and participations
+#   Params
+#       - db, Object DB
+#		- celebrity_id, id celebrity
+#		- lang, language info_movie
+#		- biography, biography of celebrity
+def insert_celebrity(db, celebrity):
+	error_code = False
+	error_message = ""
+	res = {}
+	try:
+		res = db.insert_data(db.API_URLS["celebrity"], json.dumps(celebrity))
+	except:
+		error_message += "Error insert celebrity Tviso, name:"+celebrity["name"]+"\n"
+		error_code = True
+
+	return error_code, error_message, res
+
+# insert_celebrity_lang(db, celebrity_id, lang, biography), insert celebrity_lang
+#			insert all celebrities and participations
+#   Params
+#       - db, Object DB
+#		- celebrity_id, id celebrity
+#		- lang, language info_movie
+#		- biography, biography of celebrity
+def insert_participation(db, participation):
+	error_code = False
+	error_message = ""
+	res = {}
+	try:
+		res = db.insert_data(db.API_URLS["participation"], json.dumps(participation))
+	except:
+		error_message += "Error insert participation Tviso, celebrity_id:"+participation["celebrity"]+"\n"
+		error_code = True
+
+	return error_code, error_message, res
 
 # insert_celebrities_and_participations(db, celebrity_list, participation_list),
 #			insert all celebrities and participations
@@ -34,34 +81,50 @@ def insert_celebrity_lang(db, celebrity_id, lang, biography):
 #		- celebrity_list, list celebrities of the current movie
 #		- participation_list, associated participations
 def insert_celebrities_and_participations(db, data, movie_id):
+	error_message = ""
     celebrity_list, participation_list = celebrity_tviso.get_celebrities_and_participations(data, movie_id)
     print(celebrity_list, participation_list)
     for i in range(0,len(celebrity_list)):
 	    name = urllib.parse.quote_plus(celebrity_list[i]["name"])
 	    data = db.search(db.API_URLS["celebrity"]+"?search="+name+"/")
 	    results = data["results"]
-	    ok = True
 	    if len(results) == 0:
-		    try:
-			    born, address, biography = celebrity_trakt.get_info_celebrity(urllib.parse.unquote_plus(name))
-			    celebrity = celebrity_list[i]
+		    celebrity = celebrity_list[i]
+		    error_code_trakt, msg, born, address, biography = celebrity_trakt.get_info_celebrity(urllib.parse.unquote_plus(name))
+			error_message += msg
+			if not error_code_trakt:
 			    celebrity["born"] = born
 			    celebrity["address"] = address
-				#Insert celebrity
-			    results = db.insert_data(db.API_URLS["celebrity"], json.dumps(celebrity))
-				#Insert celebrity_lang(English)
-			    results = insert_celebrity_lang(db, results["id"], db.LANGS["en"], biography)
-		    except:
-			    print("No se ha insertado la celebrity "+name)
-			    ok = False
+			#Insert celebrity
+		    error_code, msg, res_celebrity = insert_celebrity(db, celebrity)
+			error_message += msg
+		    results = res
+			#Insert celebrity_lang(English)
+		    if not error_code_trakt:
+		    	error_code, msg, res_celebrity_lang = insert_celebrity_lang(db, results["id"], db.LANGS["en"], biography)
+				error_message += msg
 	    else:
 		    results = results[0]
 
-	    if ok:
-		    participation = participation_list[i]
-		    participation['celebrity'] = results["id"]
-		    db.insert_data(db.API_URLS["participation"], json.dumps(participation))
+	    participation = participation_list[i]
+	    participation['celebrity'] = results["id"]
+	    error_code, msg, res_participation = insert_participation(db, participation)
+		error_message += msg
 
+	return error_message
+
+# get_country(db, data, lang), return country id with lang
+#   Params
+#       - db, Object DB
+#		- data, json info tviso
+#		- lang, language info_movie
+def get_country(db, data, lang):
+    try:
+        country = db.COUNTRIES[db.LANGS[lang]-1][str(data["country"][0])]
+    except:
+        country = None
+
+    return country
 
 # insert_info_tviso(c, headers), insert all info Tviso at DB
 #   Params
@@ -71,11 +134,13 @@ def insert_info(db, data):
     film = movie.insert_movie(db, data)
     movie_id = film["id"]
 	#Insert movie_lang(Spanish)
-    film_lang = movie_lang.insert_movie_lang(db, data, movie_id)
+    # country = get_country(db, data, "es")
+    film_lang = movie_lang.insert_movie_lang(db, data, movie_id)#, country)
     movie_name = film_lang["title"]
 	#Insert movie_lang(English)
     imdb_id = data["imdb"]
-    movie_lang_trakt.insert_movie_lang(db, movie_id, imdb_id, data["country"][0])
+    country = get_country(db, data, "en")
+    movie_lang_trakt.insert_movie_lang(db, movie_id, imdb_id, country)
 	# Inserts celebrities and participations
     insert_celebrities_and_participations(db, data, movie_id)
 
