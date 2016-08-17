@@ -26,6 +26,7 @@ class DB:
     	}
     ]
 
+
     API_URLS = {
         "rating": "/api/rating/",
         "country": "/api/country/",
@@ -36,7 +37,10 @@ class DB:
         "role_lang": "/api/role_lang/",
         "source": "/api/source/",
         "movie": "/api/movie/",
-        "movie_lang": "/api/movie_lang/"
+        "movie_lang": "/api/movie_lang/",
+        "celebrity": "/api/celebrity/",
+        "celebrity_lang": "/api/celebrity_lang/",
+        "participation": "/api/participation/"
     }
 
     connection = ""
