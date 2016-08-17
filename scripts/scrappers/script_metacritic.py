@@ -97,7 +97,6 @@ def get_rating_expert(soup):
     try:
         lista = soup.find_all("div",{"class":"metascore_wrap highlight_metascore"})
         if len(lista) > 0:
-            # print(lista)
             rating = lista[0].find_all("span",{"itemprop":"ratingValue"})[0].get_text().strip()
             count = lista[0].find_all("span",{"itemprop":"reviewCount"})[0].get_text().strip()
     except:

@@ -10,7 +10,7 @@ def insert_movie(db, data):
     error_message = ""
     res = {}
 
-    try
+    try:
         runtime = int(data["runtime"])
         released = int(data["year"])
         imdb = str(data["imdb"])
@@ -46,7 +46,7 @@ def insert_movie(db, data):
         }
         params = json.dumps(movie)
 
-        try
+        try:
             res = db.insert_data(db.API_URLS["movie"], params)
         except:
             error_code = True
