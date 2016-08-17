@@ -191,25 +191,30 @@ def update_audience(soup, rating_id, db, error_code):
 #   Params
 #       - db, interface db
 #       - movie_id, id of the movie in mooviest db
-#       - sourceid, sourceid for make the url of Rotten Tomatoes
-def insert_rating(db, movie_id, sourceid):
+#       - imdb_id, id of IMDb
+def insert_rating(db, movie_id, imdb_id):
 
-    url = "https://www.rottentomatoes.com/m/" + sourceid + "/"
-    error_message = "Movie id: " + str(movie_id) + " - Script INSERT rating Rotten Tomatoes\n URL:" + url + "\n"
     res_expert = {}
     res_audience = {}
 
-    # Get soup from url
-    error_code, msg, soup = interface.get_soup(url)
+    error_code, msg, sourceid = get_url_rottentomatoes_by_omdb(imdb_id)
+    url = "https://www.rottentomatoes.com/m/" + sourceid + "/"
+    error_message = "Movie id: " + str(movie_id) + " - Script INSERT rating Rotten Tomatoes\n URL:" + url + "\n"
 
     if not error_code:
-        # Insert expert rating
-        error_code, msg, res_expert = insert_expert(soup, movie_id, sourceid, db, error_code)
-        error_message += msg
+        # Get soup from url
+        error_code, msg, soup = interface.get_soup(url)
 
-        # Insert audience rating
-        error_code, msg, res_audience = insert_audience(soup, movie_id, sourceid, db, error_code)
-        error_message += msg
+        if not error_code:
+            # Insert expert rating
+            error_code, msg, res_expert = insert_expert(soup, movie_id, sourceid, db, error_code)
+            error_message += msg
+
+            # Insert audience rating
+            error_code, msg, res_audience = insert_audience(soup, movie_id, sourceid, db, error_code)
+            error_message += msg
+        else:
+            error_message += msg
 
     else:
         error_message += msg
