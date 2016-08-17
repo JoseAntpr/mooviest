@@ -11,7 +11,7 @@ def get_celebrity(celeb):
     name = celeb["name"]
     celebrity = {
             "name": name,
-            "born": "0001-01-01",
+            "born": None,
             "image": image,
             "twitter_account": "",
             "address": ""
