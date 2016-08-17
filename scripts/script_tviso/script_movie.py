@@ -15,19 +15,26 @@ def insert_movie(db, data):
         released = int(data["year"])
         imdb = str(data["imdb"])
         original_title=str(data["original_name"])
+        produces = data["produce"]
+        genres = data["genres"]
+    except:
+        error_code = True
+        error_message = "Error GET data movie\n"
+
+    if not error_code:
 
         movie_producer_list = []
-        for produce in data["produce"]:
+        for produce in produces:
             movie_producer_list.append(produce["name"])
 
         movie_producer = ' | '.join(movie_producer_list)
 
-        genres = []
-        for i, genre in enumerate(data["genres"]):
-            genres.append(interface.GENRES_JSON[str(genre.lower())])
+        genres_list = []
+        for genre in genres:
+            genres_list.append(interface.GENRES_JSON[str(genre.lower())])
 
         movie = {
-            "genres": genres,
+            "genres": genres_list,
             "emotions": [],
             "saga": None,
             "original_title": original_title,
@@ -37,11 +44,12 @@ def insert_movie(db, data):
             "saga_order": 1,
             "average": 0.0
         }
-
         params = json.dumps(movie)
-        res = db.insert_data(db.API_URLS["movie"], params)
-    except:
-        error_code = True
-        error_message = "Error INSERT movie"
+
+        try
+            res = db.insert_data(db.API_URLS["movie"], params)
+        except:
+            error_code = True
+            error_message += "Error INSERT movie\n"
 
     return error_code, error_message, res

@@ -16,7 +16,11 @@ def insert_movie_lang(db, data, movie_id, country):
         title = str(data["name"])
         synopsis = str(data["plot"])
         image = str(data["images"]["poster"])
+    except:
+        error_code = True
+        error_message = "Error GET data movie_lang lang=ES\n"
 
+    if not error_code:
         movie_lang = {
             "movie": movie_id,
             "lang": db.LANGS["es"],
@@ -26,9 +30,10 @@ def insert_movie_lang(db, data, movie_id, country):
             "image": image
         }
         params = json.dumps(movie_lang)
-        res = db.insert_data(db.API_URLS["movie_lang"], params)
-    except:
-        error_code = True
-        error_message = "Error INSERT movie_lang lang=ES"
+        try:
+            res = db.insert_data(db.API_URLS["movie_lang"], params)
+        except:
+            error_code = True
+            error_message += "Error INSERT movie_lang lang=ES\n"
 
     return error_code, error_message, res
