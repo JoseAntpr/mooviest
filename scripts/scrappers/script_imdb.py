@@ -23,7 +23,7 @@ def get_rating(soup):
 def insert_rating(db, movie_id, imdb_id):
 
     url = "http://www.imdb.com/title/" + imdb_id + "/"
-    error_message = "Movie id: " + str(movie_id) + " - Script INSERT rating IMDb\n URL:" + url + "\n"
+    error_message = ""
     res = {}
 
     # Get soup from url
@@ -48,7 +48,7 @@ def insert_rating(db, movie_id, imdb_id):
             res = db.insert_data(db.API_URLS["rating"], params)
 
         except:
-            error_message += "Error insert rating\n"
+            error_message += "Error INSERT rating IMDb\n"
             error_code = True
 
     else:
@@ -85,7 +85,7 @@ def update_rating(db, rating_id, imdb_id):
             res = db.update_data(db.API_URLS["rating"] + str(rating_id) + "/", params)
 
         except:
-            error_message += "Error update rating\n"
+            error_message += "Error UPDATE rating\n"
             error_code = True
 
     else:

@@ -11,51 +11,61 @@ from scrappers import script_filmaffinity as rating_filmaffinity
 from scrappers import script_metacritic as rating_metacritic
 from scrappers import script_imdb as rating_imdb
 from scrappers import script_rotten_tomatoes as rating_rotten_tomatoes
-# Generación del token
-# auth_token = interface_tviso.get_token()
-# print(auth_token)
-#
-# db = interface_db.DB("admin","admin")
-#
-# constants.insert_constants(db)
-#
-# idm = str(5411)
-#
-# data = interface_tviso.get_info_tviso(idm, auth_token)
-#
-# if data["error"] == 0:
-#     print(idm+' - Save succesfully')
-#     #info_movie
-#     movie_id, movie_name, imdb_id = info_movie.insert_info(db, data)
-#     #insert rating
-#     rating_tviso.insert_rating(db, data, movie_id)
-#     rating_filmaffinity.insert_rating(db, movie_id, movie_name)
-#     rating_metacritic.insert_rating(db, movie_id, imdb_id)
-#     rating_imdb.insert_rating(db, movie_id, imdb_id)
-#     error_code, error_message, url_rotten = rating_rotten_tomatoes.get_url_rottentomatoes_by_omdb(imdb_id)
-#     rating_rotten_tomatoes.insert_rating(db, movie_id, url_rotten)
 
-interface.save_lastline("lastline.txt",7)
-l = interface.get_lastline("lastline.txt")
-print(l)
-ids = interface.get_ids("datos_sin_numero.txt")
-print(ids[l])
-# Insert constants en la BD (Solo la primera vez)
-# if (last_id == 0){ ...insert constatns}
-# constants.insert_constants(c, headers)
+# Get txts
+lastline = interface.get_lastline(interface.lastline_txt)
+actualline = lastline
+ids = interface.get_ids(interface.datos_sin_numero_txt)
+error_message = ""
 
+# Generate token
+auth_token = interface_tviso.get_token()
+
+# Init DB
+db = interface_db.DB("jesus","root")
+
+# Insert constants
+if (lastline == 0):
+    constants.insert_constants(db)
 
 # Bucle insert movies
-# for i in range(last_id_tviso, max_id_tviso):
-# 	idm = str(i)
-#
-# 	data = interface.get_info_tviso(idm, auth_token)
-#
-# 	if (data["error"] == 20 || data["error"] == 803):
-#         break
-#     elif data["error"] == 0:
-#         #Insert info movie id = i
-#         movie_id, movie_name = info_movie.insert_info(c, headers, data)
-#         #Insert ratings
-#         rating_tviso.insert_rating(db, data, movie_id)
-#         rating_filmaffinity.insert_rating(db, movie_id, movie_name)
+for i in range(lastline, len(ids)):
+
+    actualline = i
+    error_code, msg, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
+    error_message = "Movie idm: " + str(data["idm"]) + " - Script info_movie\n"
+    error_message += msg
+
+    if error_code != 0:
+        if (error_code == 20 or error_code == 803):
+            break
+        interface.save_log(interface.log_txt, error_message)
+    else:
+        # Info movie
+        error_code_movie, error_message, movie_id, movie_name, imdb_id = info_movie.insert_info(db, data)
+
+        if not error_code_movie:
+            # Insert ratings
+            error_code, msg, res = rating_tviso.insert_rating(db, data, movie_id)
+            error_message += msg
+
+            error_code, msg, res = rating_filmaffinity.insert_rating(db, movie_id, movie_name)
+            error_message += msg
+
+            error_code, msg, res_a, res_ex = rating_metacritic.insert_rating(db, movie_id, imdb_id)
+            error_message += msg
+
+            error_code, msg, res = rating_imdb.insert_rating(db, movie_id, imdb_id)
+            error_message += msg
+
+            error_code, msg, res_a, res_ex = rating_rotten_tomatoes.insert_rating(db, movie_id, imdb_id)
+            error_message += msg
+
+        if len(error_message) > 0:
+            if not error_code_movie:
+                error_message += "Movie id: " + movie_id + "\n"
+            error_message += msg
+            interface.save_log(interface.log_txt, error_message)
+
+interface.save_lastline("/Users/jesus/Documents/mooviest/scripts/lastline.txt", actualline+1)
+interface.send_mail()
