@@ -23,6 +23,7 @@ def insert_rating(db, movie_id, source_id):
             "source": source,
             "movie": movie_id,
             "sourceid": sourceid,
+            "name": "Trakt.tv",
             "rating": rating,
             "count": count
         }
