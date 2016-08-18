@@ -14,9 +14,9 @@ def format_params(sourceid, rating, count):
     error_code = False
     error_message = ""
     try:
-        sourceid = int(sourceid.replace("/es/film","").replace(".html",""))
-        rating = int(rating.replace(",", ""))
-        count = int(count.replace(".", ""))
+        sourceid = int(sourceid.replace("/en/film","").replace(".html",""))
+        rating = int(rating.replace(".", "").replace(",", ""))
+        count = int(count.replace(",", "").replace(".", ""))
     except:
         rating = 0
         count = 0
@@ -37,16 +37,18 @@ def get_rating_movie_page(soup):
     rating = ""
     count = ""
     sourceid = ""
+
     try:
         rating = soup.find(id="movie-rat-avg").get_text().strip()
+        error_message = rating
         count = soup.find(itemprop="ratingCount").get_text().strip()
         sourceid = soup.find_all("li",{"class":"active"})[0].find('a').get('href')
-    except AttributeError:
+    except:
         rating = 0
         count = 0
         sourceid = 0
         error_code = True
-        error_message = "Error get audience, movie page, rating FilmAffinity\n"
+        error_message += "Error get audience, movie page, rating FilmAffinity soup:"+str(soup)+"\n"
     return error_code, error_message, sourceid, rating, count
 
 # get_rating_search_page(soup, lista): sourceid returns, rating and count unformatted
@@ -91,10 +93,10 @@ def get_rating(soup):
 #       - movie_id, id of the movie in mooviest db
 def insert_rating(db, movie_id, movie_name):
     search = urllib.parse.quote_plus(movie_name)
-    url = "http://www.filmaffinity.com/es/search.php?stext="+search+"&stype=all"
+    url = "http://www.filmaffinity.com/en/search.php?stext="+search+"&stype=all"
     error_message = ""
     res = {}
-
+    print("url filmaffinity: "+url)
     error_code, msg, soup = interface.get_soup(url)
     if error_code:
         error_message += msg

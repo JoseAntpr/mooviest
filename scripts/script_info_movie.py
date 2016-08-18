@@ -2,7 +2,6 @@
 from base64 import b64encode
 import psycopg2, urllib.request, urllib.parse, http.client, json
 
-import interface
 from script_tviso import script_celebrity as celebrity_tviso
 from script_tviso import script_movie as movie
 from script_tviso import script_movie_lang as movie_lang
@@ -136,12 +135,11 @@ def insert_info(db, data):
 	error_code_insert, msg, film = movie.insert_movie(db, data)
 	if not error_code_insert:
 	    movie_id = film["id"]
-
+	    movie_name = film["original_title"]
 		# Insert movie_lang(Spanish)
 	    country = get_country(db, data, "es")
 	    error_code, msg, film_lang_es = movie_lang.insert_movie_lang(db, data, movie_id, country)
 	    error_message += msg
-	    movie_name = film_lang_es["title"]
 
 		#Insert movie_lang(English)
 	    imdb_id = data["imdb"]
