@@ -1,6 +1,5 @@
 import  urllib.parse, http.client, json
 from base64 import b64encode
-import interface
 
 # insert_genres(c, headers), insert all genres in to th DB
 #   Params
