@@ -63,4 +63,4 @@ def get_info_tviso(idm, auth_token):
 	elif error == 803:
 		error_message = "error: Media limit reached\n"
 
-	return error, error_message, data
+	return error, error_message, auth_token, data

@@ -23,7 +23,7 @@ error_message = ""
 auth_token = interface_tviso.get_token()
 
 # Init DB
-db = interface_db.DB("jesus","root")
+db = interface_db.DB("pi","pi")
 
 # Clear log
 interface.clear_log()
@@ -36,7 +36,7 @@ if (lastline == 0):
 for i in range(lastline, len(ids)):
 
     actualline = i
-    error_code, error_message, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
+    error_code, error_message, auth_token, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
     error_head = "Movie idm: " + str(data["idm"]) + " - Script info_movie\n"
 
     if error_code != 0:
