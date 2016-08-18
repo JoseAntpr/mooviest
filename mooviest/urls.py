@@ -58,5 +58,6 @@ urlpatterns = [
     #Users URLS
     url(r'^login$', 'users.views.login', name = 'users_login'),
     url(r'^logout$', 'users.views.logout', name = 'users_logout'),
-    url(r'^register$','users.views.register',name='users_register')
+    url(r'^register$','users.views.register',name='users_register'),
+    url(r'^setting$','users.views.settings',name='users_settings')
 ]

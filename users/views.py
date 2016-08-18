@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import logout as django_logout,authenticate, login as django_login
 from django.contrib.auth.models import User
 from .models import Profile
-from users.forms import LoginForm,RegisterForm
+from users.forms import LoginForm,RegisterForm,SettingForm
 
 # Create your views here.
 def login(request):
@@ -65,3 +65,10 @@ def register(request):
         'register_form': form
     }
     return render(request,'users/register.html',context)
+
+def settings(request):
+    form = SettingForm()
+    context = {
+        'setting_form': form
+    }
+    return render(request,'users/setting.html',context)

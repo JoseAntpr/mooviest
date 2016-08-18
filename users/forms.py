@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from .models import GENDER_CHOICES
 from django.contrib.auth.models import User
 
 class LoginForm(forms.Form):
@@ -35,3 +36,8 @@ class RegisterForm(forms.Form):
         if password != password2:
             raise forms.ValidationError('Las contraseñas no coinciden.')
         return password2
+
+class SettingForm(forms.Form):
+
+    gender = forms.ChoiceField(choices=GENDER_CHOICES,widget=forms.RadioSelect())
+    username = forms.CharField(min_length=4)
