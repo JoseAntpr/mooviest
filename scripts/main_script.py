@@ -23,7 +23,7 @@ error_message = ""
 auth_token = interface_tviso.get_token()
 
 # Init DB
-db = interface_db.DB("jesus","root")
+db = interface_db.DB("admin","admin")
 
 # Insert constants
 if (lastline == 0):
@@ -33,18 +33,18 @@ if (lastline == 0):
 for i in range(lastline, len(ids)):
 
     actualline = i
-    error_code, msg, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
-    error_message = "Movie idm: " + str(data["idm"]) + " - Script info_movie\n"
-    error_message += msg
+    error_code, error_message, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
+    error_head = "Movie idm: " + str(data["idm"]) + " - Script info_movie\n"
 
     if error_code != 0:
         if (error_code == 20 or error_code == 803):
             break
+        error_message = error_head + error_message
         interface.save_log(interface.log_txt, error_message)
     else:
         # Info movie
-        error_code_movie, error_message, movie_id, movie_name, imdb_id = info_movie.insert_info(db, data)
-
+        error_code_movie, msg, movie_id, movie_name, imdb_id = info_movie.insert_info(db, data)
+        error_message += msg
         if not error_code_movie:
             # Insert ratings
             error_code, msg, res = rating_tviso.insert_rating(db, data, movie_id)
@@ -67,9 +67,8 @@ for i in range(lastline, len(ids)):
 
         if len(error_message) > 0:
             if not error_code_movie:
-                error_message += "Movie id: " + str(movie_id) + "\n"
-            error_message += msg
-            interface.save_log(interface.log_txt, error_message)
+                error_message = error_head + "Mooviest id: " + str(movie_id)+" imdb_id: "+imdb_id+ "\n" + error_message
+            interface.save_log(interface.log_txt, error_message+"\n")
 
 interface.save_lastline(interface.lastline_txt, actualline+1)
-interface.send_mail()
+# interface.send_mail()
