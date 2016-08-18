@@ -48,12 +48,15 @@ router.register(r'user',UserViewSet)
 
 
 urlpatterns = [
-    url(r'^$', 'home.views.index'),
-    url(r'^users/','users.views.index'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'home.views.index',name = 'home'),
     url(r'^api/',include(router.urls)),
-    url('^api/celebrity_by_name/(?P<name>.+)/$', CelebrityCustomViewSet.as_view()),
     url(r'api_auth/',include('rest_framework.urls',namespace='rest_framework')),
     url(r'^nested_admin/', include('nested_admin.urls')),
-    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'))
+    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
+
+    #Users URLS
+    url(r'^login$', 'users.views.login', name = 'users_login'),
+    url(r'^logout$', 'users.views.logout', name = 'users_logout'),
+    url(r'^register$','users.views.register',name='users_register')
 ]
