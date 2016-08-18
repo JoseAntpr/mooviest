@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %} Registro de usuario {% endblock %}
+{% block content %}
+<div class="content">
+
+  {% for error in errors %}
+    <p>{{error}}</p>
+  {% endfor %}
+  <form method="post">
+    {% csrf_token %}
+      {{register_form.as_p }}
+    <div>
+      <button type="submit" class="btn btn-primary">Entrar</button>
+    </div>
+  </form>
+</div>
+{% endblock content %}
