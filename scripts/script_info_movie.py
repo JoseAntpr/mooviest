@@ -88,7 +88,6 @@ def insert_celebrities_and_participations(db, data, movie_id):
 	    data = db.search(db.API_URLS["celebrity"]+"?search="+name)
 	    results = data["results"]
 	    if len(results) == 0:
-		    print(name)
 		    celebrity = celebrity_list[i]
 		    error_code_trakt, msg, born, address, biography = celebrity_trakt.get_info_celebrity(urllib.parse.unquote_plus(name))
 		    error_message += msg

@@ -23,7 +23,7 @@ error_message = ""
 auth_token = interface_tviso.get_token()
 
 # Init DB
-db = interface_db.DB("admin","admin")
+db = interface_db.DB("jesus","root")
 
 # Insert constants
 if (lastline == 0):
