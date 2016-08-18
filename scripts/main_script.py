@@ -25,6 +25,9 @@ auth_token = interface_tviso.get_token()
 # Init DB
 db = interface_db.DB("jesus","root")
 
+# Clear log
+interface.clear_log()
+
 # Insert constants
 if (lastline == 0):
     constants.insert_constants(db)

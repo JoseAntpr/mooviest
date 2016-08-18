@@ -72,3 +72,8 @@ def save_log(filename, msg):
 	f = open(filename, 'a')
 	f.write(msg)
 	f.close()
+
+def clear_log():
+	f = open(log_txt, 'w')
+	f.write("")
+	f.close()
