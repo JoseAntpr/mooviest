@@ -1,4 +1,6 @@
 import smtplib, email, time
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -22,11 +24,23 @@ def send_mail():
 	msg = MIMEMultipart()
 	msg["From"] = fromaddr
 	msg["To"] = ", ".join(toaddr)
-	msg["Subject"] = "Error in script ids Tviso to txt"
+	msg["Subject"] = "Error in main_script"
 
-	body = msg_email
-	msg.attach(MIMEText(body, "plain"))
+	msg.attach(MIMEText("Log adjunto", "plain"))
 
+	#adjuntamos fichero de texto pero puede ser cualquer tipo de archivo
+	##cargamos el archivo a adjuntar
+	flog = open(log_txt,'rb')
+	adjunto = MIMEBase('multipart', 'encrypted')
+	#lo insertamos en una variable
+	adjunto.set_payload(flog.read())
+	flog.close()
+	#lo encriptamos en base64 para enviarlo
+	encoders.encode_base64(adjunto)
+	#agregamos una cabecera y le damos un nombre al archivo que adjuntamos puede ser el mismo u otro
+	adjunto.add_header('Content-Disposition', 'attachment', filename='log.txt')
+	#adjuntamos al mensaje
+	msg.attach(adjunto)
 
 	server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
 	server.ehlo()

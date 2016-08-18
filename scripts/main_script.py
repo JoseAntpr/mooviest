@@ -71,4 +71,4 @@ for i in range(lastline, len(ids)):
             interface.save_log(interface.log_txt, error_message+"\n")
 
         interface.save_lastline(interface.lastline_txt, actualline+1)
-# interface.send_mail()
+interface.send_mail()
