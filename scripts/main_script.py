@@ -70,5 +70,5 @@ for i in range(lastline, len(ids)):
                 error_message = error_head + "Mooviest id: " + str(movie_id)+" imdb_id: "+imdb_id+ "\n" + error_message
             interface.save_log(interface.log_txt, error_message+"\n")
 
-interface.save_lastline(interface.lastline_txt, actualline+1)
+        interface.save_lastline(interface.lastline_txt, actualline+1)
 # interface.send_mail()

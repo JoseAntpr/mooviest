@@ -16,7 +16,6 @@ def get_info(url):
         print(res.status, res.reason)
         res = json.loads(res.read().decode("utf8"))
     except:
-        print("que coño url:"+url)
         res = {}
     return res
 

@@ -96,7 +96,6 @@ def insert_rating(db, movie_id, movie_name):
     url = "http://www.filmaffinity.com/en/search.php?stext="+search+"&stype=all"
     error_message = ""
     res = {}
-    print("url filmaffinity: "+url)
     error_code, msg, soup = interface.get_soup(url)
     if error_code:
         error_message += msg

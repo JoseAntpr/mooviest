@@ -1,14 +1,13 @@
 import json
 from . import interface
 
-def insert_rating(db, movie_id, source_id):
+def insert_rating(db, movie_id, imdb_id):
     error_code = False
     error_message = ""
-    res = {}
-    
+    url_movie = "/movies/" + imdb_id + "?extended=full"
+
+    data = interface.get_info(url_movie)
     try:
-        url_movie = "/movies/" + source_id + "?extended=full"
-        data = interface.get_info(url_movie)
         sourceid = int(data["ids"]["trakt"])
         rating = int(data["rating"] * 10)
         count = int(data["votes"])
@@ -16,6 +15,7 @@ def insert_rating(db, movie_id, source_id):
         error_message = "Error get rating trakt.tv\n"
         error_code = True
 
+    res = {}
     if not error_code:
         rating = json.dumps(
             {
@@ -29,9 +29,9 @@ def insert_rating(db, movie_id, source_id):
         )
 
         try:
-            res = db.insert_data(db.API_URLS["rating"], params)
+            res = db.insert_data(db.API_URLS["rating"], rating)
         except:
-            error_message += "Error insert rating trakt.tv\n"
+            error_message += "Error insert rating trakt.tv "+source_id+"\n"
             error_code = True
 
     return error_code, error_message, res

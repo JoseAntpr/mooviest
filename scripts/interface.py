@@ -3,9 +3,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 # Constants txts
-lastline_txt = "/Users/jesus/Documents/lastline.txt"
-datos_sin_numero_txt = "/Users/jesus/Documents/datos_sin_numero.txt"
-log_txt = "/Users/jesus/Documents/log.txt"
+lastline_txt = "lastline.txt"
+datos_sin_numero_txt = "datos_sin_numero.txt"
+log_txt = "log.txt"
 
 # Constants send email
 gmail_password = "jscj1618"
@@ -37,7 +37,7 @@ def send_mail():
 
 def save_lastline(filename,idm):
 	f = open(filename,'w')
-	lastline = str(idm)
+	lastline = str(idm+1)
 	f.write(lastline)
 	f.close()
 
