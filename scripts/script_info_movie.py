@@ -84,9 +84,11 @@ def insert_celebrities_and_participations(db, data, movie_id):
 	celebrity_list, participation_list = celebrity_tviso.get_celebrities_and_participations(data, movie_id)
 	for i in range(0,len(celebrity_list)):
 	    name = urllib.parse.quote_plus(celebrity_list[i]["name"])
-	    data = db.search(db.API_URLS["celebrity"]+"?search="+name+"/")
+
+	    data = db.search(db.API_URLS["celebrity"]+"?search="+name)
 	    results = data["results"]
 	    if len(results) == 0:
+		    print(name)
 		    celebrity = celebrity_list[i]
 		    error_code_trakt, msg, born, address, biography = celebrity_trakt.get_info_celebrity(urllib.parse.unquote_plus(name))
 		    error_message += msg
@@ -98,7 +100,7 @@ def insert_celebrities_and_participations(db, data, movie_id):
 		    error_message += msg
 		    results = res_celebrity
 			#Insert celebrity_lang(English)
-		    if not error_code_trakt:
+		    if not (error_code_trakt or error_code):
 		        error_code, msg, res_celebrity_lang = insert_celebrity_lang(db, results["id"], db.LANGS["en"], biography)
 		        error_message += msg
 	    else:

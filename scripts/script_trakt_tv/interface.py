@@ -13,7 +13,6 @@ def get_info(url):
     try:
         c.request('GET', url, None, headers)
         res = c.getresponse()
-        print(res.status, res.reason)
         res = json.loads(res.read().decode("utf8"))
     except:
         res = {}

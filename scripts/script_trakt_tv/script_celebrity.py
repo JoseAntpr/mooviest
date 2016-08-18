@@ -6,7 +6,6 @@ def get_info_celebrity(name):
     person = person.replace(".","-").replace(" ","-").replace("--","-").replace("'","-").lower()
     if person[len(person)-1] == "-":
         person = person[:-1]
-        print(person)
     url_person = "/people/" + person + "?extended=full"
     error_code = False
     error_message = ""

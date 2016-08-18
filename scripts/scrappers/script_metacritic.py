@@ -14,22 +14,23 @@ def get_url_metacritic_by_imdb(imdb):
     error_code = False
     url_metacritic = ""
 
-    error_code, msg, soup = interface.get_soup(url)
+    error_code, error_message, soup = interface.get_soup(url)
     if error_code:
-        error_message += msg
         return error_code, error_message, url_metacritic
 
     try:
         lista = soup.find_all("div",{"class":"see-more"})
         if len(lista) > 0:
             url_metacritic = lista[0].find_all("a")[0].get('href')
+            if url_metacritic.find("/lists/") != -1:
+                error_code = True
         else:
             error_code = True
     except:
         error_code = True
 
     if error_code:
-        error_message += "Error get url of metacritic, imdb page\n"
+        error_message += "Error get url of metacritic, imdb page url: "+url+"\n"
         return error_code, error_message, url_metacritic
 
     return error_code, error_message, url_metacritic
