@@ -2,8 +2,8 @@ venv
 
 mooviest/settings.py
 
-movie/migrations/
-users/migrations/
+*/migrations/
+!*/migrations/__init__.py
 
 .*
 
