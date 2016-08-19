@@ -12,7 +12,7 @@ log_txt = "/home/pi/Documents/log.txt"
 # Constants send email
 gmail_password = "jscj1618"
 fromaddr = "mooviest@gmail.com"
-toaddr = ["jasus77@gmail.com","guezo983@gmail.com",""]
+toaddr = ["jasus77@gmail.com","guezo983@gmail.com","admin@mooviest.com",""]
 
 
 # send_mail, send an email to addresses of toaddr

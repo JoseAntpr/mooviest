@@ -130,28 +130,33 @@ def get_country(db, data, lang):
 #       - db, Object DB
 #		- data, json info tviso
 def insert_info(db, data):
-	error_message = ""
+	movie_id = 0
+	movie_name = ""
+	error_code = False
+	try:
+		imdb_id = data["imdb"]
+	except:
+		imdb_id = ""
+		error_code =  True
 
-	# Insert movie
-	error_code_insert, msg, film = movie.insert_movie(db, data)
-	if not error_code_insert:
-	    movie_id = film["id"]
-	    movie_name = film["original_title"]
-		# Insert movie_lang(Spanish)
-	    country = get_country(db, data, "es")
-	    error_code, msg, film_lang_es = movie_lang.insert_movie_lang(db, data, movie_id, country)
-	    error_message += msg
+	if not error_code:
+		# Insert movie
+		error_code_insert, error_message, film = movie.insert_movie(db, data)
+		if not error_code_insert:
+		    movie_id = film["id"]
+		    movie_name = film["original_title"]
+			# Insert movie_lang(Spanish)
+		    country = get_country(db, data, "es")
+		    error_code, msg, film_lang_es = movie_lang.insert_movie_lang(db, data, movie_id, country)
+		    error_message += msg
 
-		#Insert movie_lang(English)
-	    imdb_id = data["imdb"]
-	    country = get_country(db, data, "en")
-	    error_code, msg, film_lang_en = movie_lang_trakt.insert_movie_lang(db, movie_id, imdb_id, country)
-	    error_message += msg
+			#Insert movie_lang(English)
+		    country = get_country(db, data, "en")
+		    error_code, msg, film_lang_en = movie_lang_trakt.insert_movie_lang(db, movie_id, imdb_id, country)
+		    error_message += msg
 
-		# Inserts celebrities and participations
-	    msg = insert_celebrities_and_participations(db, data, movie_id)
-	    error_message += msg
-	else:
-	    error_message += msg
+			# Inserts celebrities and participations
+		    msg = insert_celebrities_and_participations(db, data, movie_id)
+		    error_message += msg
 
 	return error_code_insert, error_message, movie_id, movie_name, imdb_id

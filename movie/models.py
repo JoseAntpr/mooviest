@@ -99,7 +99,7 @@ class Source(models.Model):
         return self.name
 
 class Movie(models.Model):
-    genres = models.ManyToManyField(Genre)
+    genres = models.ManyToManyField(Genre,blank = True)
     participations = models.ManyToManyField(Celebrity, through =
     'Participation')
     langs = models.ManyToManyField(Lang, through = 'Movie_lang')
@@ -110,7 +110,7 @@ class Movie(models.Model):
     original_title = models.CharField(max_length = 100)
     runtime = models.PositiveSmallIntegerField(null = True)
     released = models.PositiveSmallIntegerField(null = True)
-    movie_producer = models.CharField(max_length = 255)
+    movie_producer = models.CharField(max_length = 255,blank = True)
     saga_order = models.IntegerField(default = 1,blank = True)
     average = models.DecimalField(default = 0, max_digits = 4, decimal_places = 2, null = True, blank = True)
     def __str__(self):              # __unicode__ on Python 2

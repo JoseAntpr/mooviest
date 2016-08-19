@@ -48,7 +48,7 @@ def get_rating_movie_page(soup):
         count = 0
         sourceid = 0
         error_code = True
-        error_message += "Error get audience, movie page, rating FilmAffinity soup:"+str(soup)+"\n"
+        error_message += "Error get audience, movie page, rating FilmAffinity soup\n"
     return error_code, error_message, sourceid, rating, count
 
 # get_rating_search_page(soup, lista): sourceid returns, rating and count unformatted
