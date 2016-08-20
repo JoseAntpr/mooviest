@@ -12,7 +12,7 @@ def insert_genres(db):
 				'sci-fi', 'war', 'adventure', 'crime', 'fantasy',
 				'horror', 'news', 'sport', 'western', 'animation',
 				'documentary', 'film-noir', 'music', 'drama',
-				'musical', 'romance', 'thriller', 'reallity'
+				'musical', 'romance', 'thriller', 'reallity', 'biography'
 			]
 
 	for genre in genres:
@@ -31,14 +31,14 @@ def insert_genres_lang(db):
 			'Sci-fi', 'War', 'Adventure', 'Crime', 'Fantasy', 'Horror',
 			'News', 'Sport', 'Western', 'Animation', 'Documentary',
 			'Film-noir', 'Music', 'Drama', 'Musical', 'Romance',
-			'Thriller', 'Reallity'
+			'Thriller', 'Reallity', 'Biography'
 		],
 		[
 			'Acción', 'Comedia', 'Familiar', 'Histórico', 'Misterio',
 			'Ciencia ficción', 'Bélico', 'Aventura', 'Crimen', 'Fantasía',
 			'Horror', 'Actualidad', 'Deportes', 'Western', 'Animación',
 			'Documental', 'Cine negro', 'Musical', 'Drama', 'Musical',
-			'Romance', 'Thriller', 'Reallity show'
+			'Romance', 'Thriller', 'Reallity show', 'Biografía'
 		]
 	]
 

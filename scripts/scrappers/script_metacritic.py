@@ -79,7 +79,6 @@ def get_rating(soup):
         error_code = True
         error_message = "Error get audience, rating Metacritic\n"
     if error_code:
-        error_message += msg
         return error_code, error_message, rating, count
     return format_params(rating, count)
 
@@ -104,7 +103,6 @@ def get_rating_expert(soup):
         error_code = True
         error_message = "Error get expert, rating Metacritic\n"
     if error_code:
-        error_message += msg
         return error_code, error_message, rating, count
     return format_params(rating, count)
 
@@ -125,10 +123,10 @@ def insert(db, movie_id, url, soup, expert):
     count = 0
     name = "Metacritic"
     if expert:
-        error_code, error_message, rating, count = get_rating_expert(soup)
+        error_code, msg, rating, count = get_rating_expert(soup)
         name = "Metacritic Expert"
     else:
-        error_code, error_message, rating, count = get_rating(soup)
+        error_code, msg, rating, count = get_rating(soup)
 
     if error_code:
         error_message += msg
@@ -168,9 +166,9 @@ def update(db, rating_id, soup, expert):
     res = {}
 
     if expert:
-        error_code, error_message, rating, count = get_rating_expert(soup)
+        error_code, msg, rating, count = get_rating_expert(soup)
     else:
-        error_code, error_message, rating, count = get_rating(soup)
+        error_code, msg, rating, count = get_rating(soup)
 
     if error_code:
         error_message += msg

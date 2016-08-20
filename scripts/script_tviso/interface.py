@@ -13,7 +13,7 @@ GENRES_JSON = {
 				'sport':       13, 'western':   14, 'animation': 15,
 				'documentary': 16, 'film-noir': 17, 'music':     18,
 				'drama':       19, 'musical':   20,	'romance':   21,
-				'thriller':    22, 'reallity':  23
+				'thriller':    22, 'reallity':  23, 'biography': 24
 			}
 ROLES = {
 			"actor": 1, "director": 2, "producer": 3,

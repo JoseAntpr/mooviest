@@ -16,7 +16,7 @@ toaddr = ["jasus77@gmail.com","guezo983@gmail.com","admin@mooviest.com",""]
 
 
 # send_mail, send an email to addresses of toaddr
-def send_mail():
+def send_mail(message):
 
 	f = open(log_txt)
 	msg_email = "".join(f.readlines())
@@ -24,7 +24,7 @@ def send_mail():
 	msg = MIMEMultipart()
 	msg["From"] = fromaddr
 	msg["To"] = ", ".join(toaddr)
-	msg["Subject"] = "Error in main_script"
+	msg["Subject"] = message
 
 	msg.attach(MIMEText("Log adjunto", "plain"))
 

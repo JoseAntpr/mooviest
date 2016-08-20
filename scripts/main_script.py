@@ -25,6 +25,9 @@ auth_token = interface_tviso.get_token()
 # Init DB
 db = interface_db.DB("pi","pi")
 
+# Send first mail before clear log
+interface.send_mail("First mail. Previous log attached.")
+
 # Clear log
 interface.clear_log()
 
@@ -37,7 +40,10 @@ for i in range(lastline, len(ids)):
 
     actualline = i
     error_code, error_message, auth_token, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
-    error_head = "Movie idm: " + str(data["idm"]) + " - Script info_movie\n"
+    try:
+        error_head = "Movie idm: " + str(data["idm"]) + " - Script info_movie\n"
+    except:
+        error_head = "Error call Tviso. Response of Tviso not received."
 
     if error_code != 0:
         if (error_code == 20 or error_code == 803):
@@ -76,4 +82,4 @@ for i in range(lastline, len(ids)):
             interface.save_log(interface.log_txt, error_head + error_message + "\n")
 
         interface.save_lastline(interface.lastline_txt, actualline+1)
-interface.send_mail()
+interface.send_mail("Error in main_script.")
