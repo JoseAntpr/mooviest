@@ -73,21 +73,20 @@ def get_rating_search_page(soup, lista, released):
     rating = 0
     count = 0
     sourceid = 0
+
+
     try:
         found, soup = get_search_released(soup, released)
-        print(found)
         if found:
             rating = soup.find("div",{"class":"avgrat-box"}).get_text()
             count = soup.find("div",{"class":"ratcount-box"}).get_text()
             sourceid = soup.find("div",{"class":"mc-title"}).find("a").get('href')
         else:
-            print("Entra")
             error_code = True
             error_message = "Error get audience, search page, rating FilmAffinity by released\n"
     except:
         error_code = True
         error_message = "Error get audience, search page, rating FilmAffinity\n"
-    print(error_message)
     return error_code, error_message, sourceid, rating, count
 
 def get_rating(soup, released):
@@ -105,10 +104,15 @@ def get_rating(soup, released):
 #       - movie_name, name(in spanish) of the movie
 #       - movie_id, id of the movie in mooviest db
 def insert_rating(db, movie_id, movie_name, released):
-    search = urllib.parse.quote_plus(movie_name)
-    url = "http://www.filmaffinity.com/en/search.php?stext="+search+"&stype=all"
     error_message = ""
     res = {}
+    if released == 0:
+        error_message = "Error rating FilmAffinitty released TViso not found"
+        return error_code, error_message, res
+
+    search = urllib.parse.quote_plus(movie_name)
+    url = "http://www.filmaffinity.com/en/search.php?stext="+search+"&stype=title"
+
     error_code, msg, soup = interface.get_soup(url)
     if error_code:
         error_message += msg
