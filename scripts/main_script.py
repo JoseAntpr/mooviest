@@ -52,7 +52,7 @@ for i in range(lastline, len(ids)):
         interface.save_log(interface.log_txt, error_message)
     else:
         # Info movie
-        error_code_movie, msg, movie_id, movie_name, imdb_id = info_movie.insert_info(db, data)
+        error_code_movie, msg, movie_id, movie_name, imdb_id, released = info_movie.insert_info(db, data)
         error_message += msg
         if not error_code_movie:
             # Insert ratings
@@ -62,7 +62,7 @@ for i in range(lastline, len(ids)):
             error_code, msg, res = rating_trakt.insert_rating(db, movie_id, imdb_id)
             error_message += msg
 
-            error_code, msg, res = rating_filmaffinity.insert_rating(db, movie_id, movie_name)
+            error_code, msg, res = rating_filmaffinity.insert_rating(db, movie_id, movie_name, released)
             error_message += msg
 
             error_code, msg, res_a, res_ex = rating_metacritic.insert_rating(db, movie_id, imdb_id)

@@ -34,53 +34,66 @@ def format_params(sourceid, rating, count):
 def get_rating_movie_page(soup):
     error_code = False
     error_message = ""
-    rating = ""
-    count = ""
-    sourceid = ""
-
+    rating = 0
+    count = 0
+    sourceid = 0
     try:
         rating = soup.find(id="movie-rat-avg").get_text().strip()
         error_message = rating
         count = soup.find(itemprop="ratingCount").get_text().strip()
         sourceid = soup.find_all("li",{"class":"active"})[0].find('a').get('href')
     except:
-        rating = 0
-        count = 0
-        sourceid = 0
         error_code = True
         error_message += "Error get audience, movie page, rating FilmAffinity soup\n"
     return error_code, error_message, sourceid, rating, count
 
+def get_search_released(soup, released):
+    lista = soup.find_all("div", {"class":"se-it"})
+    year = 0
+    found = False
+    i = 0
+    while i < len(lista) and not found:
+        year_str = lista[i].find("div",{"class":"ye-w"}).get_text()
+        if year_str != "":
+            year = int(year_str)
+        if year == released:
+            soup = lista[i]
+            found = True
+        i += 1
+    return found, soup
 # get_rating_search_page(soup, lista): sourceid returns, rating and count unformatted
 #
 #   Params
 #       - soup, soup FilmAffinity movie page
 #       - lista, list of movie found
 #
-def get_rating_search_page(soup, lista):
+def get_rating_search_page(soup, lista, released):
     error_code = False
     error_message = ""
-    rating = ""
-    count = ""
-    sourceid = ""
+    rating = 0
+    count = 0
+    sourceid = 0
     try:
-        rating = lista[0].get_text().strip()
-        lista = soup.find_all("div",{"class":"ratcount-box"})
-        count = lista[0].get_text().strip()
-        sourceid = soup.find_all("div",{"class":"mc-title"})[0]
-        sourceid = sourceid.find_all("a")[0].get('href')
-    except AttributeError:
-        rating = 0
-        count = 0
-        sourceid = 0
+        found, soup = get_search_released(soup, released)
+        print(found)
+        if found:
+            rating = soup.find("div",{"class":"avgrat-box"}).get_text()
+            count = soup.find("div",{"class":"ratcount-box"}).get_text()
+            sourceid = soup.find("div",{"class":"mc-title"}).find("a").get('href')
+        else:
+            print("Entra")
+            error_code = True
+            error_message = "Error get audience, search page, rating FilmAffinity by released\n"
+    except:
         error_code = True
         error_message = "Error get audience, search page, rating FilmAffinity\n"
+    print(error_message)
     return error_code, error_message, sourceid, rating, count
 
-def get_rating(soup):
+def get_rating(soup, released):
     lista = soup.find_all("div",{"class":"avgrat-box"})
     if len(lista) > 0:
-        return get_rating_search_page(soup, lista)
+        return get_rating_search_page(soup, lista, released)
     else:
         return get_rating_movie_page(soup)
 
@@ -91,7 +104,7 @@ def get_rating(soup):
 #       - db, Object DB
 #       - movie_name, name(in spanish) of the movie
 #       - movie_id, id of the movie in mooviest db
-def insert_rating(db, movie_id, movie_name):
+def insert_rating(db, movie_id, movie_name, released):
     search = urllib.parse.quote_plus(movie_name)
     url = "http://www.filmaffinity.com/en/search.php?stext="+search+"&stype=all"
     error_message = ""
@@ -101,7 +114,8 @@ def insert_rating(db, movie_id, movie_name):
         error_message += msg
         return error_code, error_message, res
 
-    error_code, msg, sourceid, rating, count = get_rating(soup)
+    error_code, msg, sourceid, rating, count = get_rating(soup, released)
+
     if error_code:
         error_message += msg
         return error_code, error_message, res
