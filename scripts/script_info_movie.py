@@ -144,7 +144,7 @@ def insert_info(db, data):
 	if not error_code:
 		# Insert movie
 		error_code, error_message, film = movie.insert_movie(db, data)
-		if not error_code_insert:
+		if not error_code:
 		    movie_id = film["id"]
 		    movie_name = film["original_title"]
 		    released = film["released"]
