@@ -88,20 +88,20 @@ def insert_celebrities_and_participations(db, data, movie_id):
 	    data = db.search(db.API_URLS["celebrity"]+"?search="+name)
 	    results = data["results"]
 	    if len(results) == 0:
-		    celebrity = celebrity_list[i]
-		    error_code_trakt, msg, born, address, biography = celebrity_trakt.get_info_celebrity(urllib.parse.unquote_plus(name))
-		    error_message += msg
-		    if not error_code_trakt:
-			    celebrity["born"] = born
-			    celebrity["address"] = address
+		    # celebrity = celebrity_list[i]
+		    # error_code_trakt, msg, born, address, biography = celebrity_trakt.get_info_celebrity(urllib.parse.unquote_plus(name))
+		    # error_message += msg
+		    # if not error_code_trakt:
+			#     celebrity["born"] = born
+			#     celebrity["address"] = address
 			#Insert celebrity
 		    error_code, msg, res_celebrity = insert_celebrity(db, celebrity)
 		    error_message += msg
 		    results = res_celebrity
 			#Insert celebrity_lang(English)
-		    if not (error_code_trakt or error_code):
-		        error_code, msg, res_celebrity_lang = insert_celebrity_lang(db, results["id"], db.LANGS["en"], biography)
-		        error_message += msg
+		    # if not (error_code_trakt or error_code):
+		    #     error_code, msg, res_celebrity_lang = insert_celebrity_lang(db, results["id"], db.LANGS["en"], biography)
+		    #     error_message += msg
 	    else:
 		    results = results[0]
 

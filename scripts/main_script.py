@@ -1,4 +1,4 @@
-import psycopg2, urllib.request, urllib.parse, http.client, json
+import psycopg2, urllib.request, urllib.parse, http.client, json, time
 from base64 import b64encode
 
 import interface
@@ -26,7 +26,7 @@ auth_token = interface_tviso.get_token()
 db = interface_db.DB("pi","pi")
 
 # Send first mail before clear log
-interface.send_mail("First mail. Previous log attached.")
+# interface.send_mail("First mail. Previous log attached.")
 
 # Clear log
 interface.clear_log()
@@ -37,7 +37,7 @@ if (lastline == 0):
 
 # Bucle insert movies
 for i in range(lastline, len(ids)):
-
+    print(time.strftime("%H:%M:%S"))
     actualline = i
     error_code, error_message, auth_token, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
     try:
@@ -58,21 +58,21 @@ for i in range(lastline, len(ids)):
             # Insert ratings
             error_code, msg, res = rating_tviso.insert_rating(db, data, movie_id)
             error_message += msg
-
-            error_code, msg, res = rating_trakt.insert_rating(db, movie_id, imdb_id)
-            error_message += msg
-
-            error_code, msg, res = rating_filmaffinity.insert_rating(db, movie_id, movie_name, released)
-            error_message += msg
-
-            error_code, msg, res_a, res_ex = rating_metacritic.insert_rating(db, movie_id, imdb_id)
-            error_message += msg
+            #
+            # error_code, msg, res = rating_trakt.insert_rating(db, movie_id, imdb_id)
+            # error_message += msg
+            #
+            # error_code, msg, res = rating_filmaffinity.insert_rating(db, movie_id, movie_name, released)
+            # error_message += msg
+            #
+            # error_code, msg, res_a, res_ex = rating_metacritic.insert_rating(db, movie_id, imdb_id)
+            # error_message += msg
 
             error_code, msg, res = rating_imdb.insert_rating(db, movie_id, imdb_id)
             error_message += msg
-
-            error_code, msg, res_a, res_ex = rating_rotten_tomatoes.insert_rating(db, movie_id, imdb_id)
-            error_message += msg
+            #
+            # error_code, msg, res_a, res_ex = rating_rotten_tomatoes.insert_rating(db, movie_id, imdb_id)
+            # error_message += msg
 
         if len(error_message) > 0:
             if not error_code_movie:
@@ -82,4 +82,5 @@ for i in range(lastline, len(ids)):
             interface.save_log(interface.log_txt, error_head + error_message + "\n")
 
         interface.save_lastline(interface.lastline_txt, actualline+1)
-interface.send_mail("Error in main_script.")
+    print(time.strftime("%H:%M:%S"))
+# interface.send_mail("Error in main_script.")
