@@ -134,6 +134,7 @@ def insert_info(db, data):
 	movie_name = ""
 	error_code = False
 	error_message = ""
+	released = 0
 	try:
 		imdb_id = data["imdb"]
 	except:
