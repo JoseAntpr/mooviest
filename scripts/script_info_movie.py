@@ -68,7 +68,7 @@ def insert_participation(db, participation):
 	try:
 		res["id"]
 	except:
-		error_message += "Error insert participation Tviso, participation:"+str(participation)+"\n"
+		error_message += "Error insert participation Tviso, res: "+str(res)+" \nparticipation:"+str(json.dumps(participation))+"\n"
 		error_code = True
 
 	return error_code, error_message, res
@@ -105,8 +105,8 @@ def insert_celebrities_and_participations(db, data, movie_id):
 		    #     error_message += msg
 	    else:
 		    results = results[0]
-			
-		if not error_code:
+
+	    if not error_code:
 		    participation = participation_list[i]
 		    participation['celebrity'] = results["id"]
 		    error_code, msg, res_participation = insert_participation(db, participation)

@@ -4,7 +4,7 @@ from . import interface
 # insert_movie(genre), insert new genre and genre_lang (en)
 #   Params
 #       - genre, genre.lower()
-def insert_new_genre(genre_name):
+def insert_new_genre(db, genre_name):
     error_code =  False
     error_message = "Try to insert genre " + genre_name+"\n"
     error_message += "Remember to update script_tviso/interface.py/GENRES_JSON and script_constants/script_genres.py/genres and genres_lang\n"
@@ -95,7 +95,7 @@ def insert_movie(db, data):
             try:
                 interface.GENRES_JSON[str(genre.lower())]
             except:
-                error_c, msg = insert_new_genre(genre.lower())
+                error_c, msg = insert_new_genre(db, genre.lower())
                 error_message += msg
             if not error_c:
                 genres_list.append(interface.GENRES_JSON[str(genre.lower())])

@@ -48,7 +48,7 @@ def insert_movie_lang(db, movie_id, source_id, country):
             try:
                 res["id"]
             except:
-                error_message += "Error insert movie_lang lang=EN trakt.tv" + str(params) + "\n"
+                error_message += "Error insert movie_lang lang=EN trakt.tv res: "+str(res)+"\n" + str(params) + "\n"
                 error_code = True
 
     return error_code, error_message, res
