@@ -16,6 +16,6 @@ def get_soup(url):
         soup = BeautifulSoup(html, 'html.parser')
     except:
         error_code = True
-        error_message = "Error call \n"
-        soup = ""
+        error_message = "Error call url: "+url+"\n"
+
     return error_code, error_message, soup

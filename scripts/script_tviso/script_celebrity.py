@@ -39,25 +39,41 @@ def get_celebrities_and_participations(data, movie_id):
     celebrity_list = []
     participation_list = []
     #Cast
-    for celeb in data["cast"]:
+    try:
+        casts = data["cast"]
+    except:
+        casts = []
+    for celeb in casts:
         celebrity = get_celebrity(celeb)
         celebrity_list.append(celebrity)
         participation = get_participation(movie_id, celeb, interface.ROLES["actor"])
         participation_list.append(participation)
     #Compose
-    for celeb in data["compose"]:
+    try:
+        casts = data["compose"]
+    except:
+        casts = []
+    for celeb in casts:
         celebrity = get_celebrity(celeb)
         celebrity_list.append(celebrity)
         participation = get_participation(movie_id, celeb, interface.ROLES["composer"])
         participation_list.append(participation)
     #Director
-    for celeb in data["director"]:
+    try:
+        casts = data["director"]
+    except:
+        casts = []
+    for celeb in casts:
         celebrity = celebrity = get_celebrity(celeb)
         celebrity_list.append(celebrity)
         participation = get_participation(movie_id, celeb, interface.ROLES["director"])
         participation_list.append(participation)
     #Write
-    for celeb in data["write"]:
+    try:
+        casts = data["write"]
+    except:
+        casts = []
+    for celeb in casts:
         celebrity = get_celebrity(celeb)
         celebrity_list.append(celebrity)
         participation = get_participation(movie_id, celeb, interface.ROLES["writer"])

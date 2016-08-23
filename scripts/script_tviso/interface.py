@@ -13,7 +13,8 @@ GENRES_JSON = {
 				'sport':       13, 'western':   14, 'animation': 15,
 				'documentary': 16, 'film-noir': 17, 'music':     18,
 				'drama':       19, 'musical':   20,	'romance':   21,
-				'thriller':    22, 'reallity':  23
+				'thriller':    22, 'reallity':  23, 'biography': 24,
+				'short':	   25
 			}
 ROLES = {
 			"actor": 1, "director": 2, "producer": 3,
@@ -63,4 +64,4 @@ def get_info_tviso(idm, auth_token):
 	elif error == 803:
 		error_message = "error: Media limit reached\n"
 
-	return error, error_message, data
+	return error, error_message, auth_token, data

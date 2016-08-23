@@ -1,6 +1,5 @@
 import  urllib.parse, http.client, json
 from base64 import b64encode
-import interface
 
 # insert_langs(c, headers), insert all langs in to th DB
 #   Params
