@@ -157,7 +157,7 @@ class Participation(models.Model):
     celebrity = models.ForeignKey(Celebrity, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     role = models.ForeignKey(Role, null=True, on_delete = models.SET_NULL)
-    character = models.CharField(max_length=200, blank=True,null=True)
+    character = models.TextField(blank=True,null=True)
     award = models.CharField(max_length=200,blank=True,null=True)
     def __str__(self):              # __unicode__ on Python 2
         return self.character
