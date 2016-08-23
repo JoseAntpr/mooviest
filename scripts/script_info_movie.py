@@ -26,11 +26,11 @@ def insert_celebrity_lang(db, celebrity_id, lang, biography):
 			"biography": biography
 		}
 	)
-	res = {}
+	res = db.insert_data(db.API_URLS["celebrity_lang"], params)
 	try:
-		res = db.insert_data(db.API_URLS["celebrity_lang"], params)
+		res["id"]
 	except:
-		error_message += "Error insert participation Tviso, celebrity_id:"+celebrity_id+"\n"
+		error_message += "Error insert celebrity_lang Tviso, celebrity_lang:"+str(params)+"\n"
 		error_code = True
 
 	return error_code, error_message, res
@@ -45,11 +45,11 @@ def insert_celebrity_lang(db, celebrity_id, lang, biography):
 def insert_celebrity(db, celebrity):
 	error_code = False
 	error_message = ""
-	res = {}
+	res = db.insert_data(db.API_URLS["celebrity"], json.dumps(celebrity))
 	try:
-		res = db.insert_data(db.API_URLS["celebrity"], json.dumps(celebrity))
+		res["id"]
 	except:
-		error_message += "Error insert celebrity Tviso, name:"+celebrity["name"]+"\n"
+		error_message += "Error insert celebrity Tviso, celebrity:"+str(celebrity)+"\n"
 		error_code = True
 
 	return error_code, error_message, res
@@ -64,11 +64,11 @@ def insert_celebrity(db, celebrity):
 def insert_participation(db, participation):
 	error_code = False
 	error_message = ""
-	res = {}
+	res = db.insert_data(db.API_URLS["participation"], json.dumps(participation))
 	try:
-		res = db.insert_data(db.API_URLS["participation"], json.dumps(participation))
+		res["id"]
 	except:
-		error_message += "Error insert participation Tviso, celebrity_id:"+participation["celebrity"]+"\n"
+		error_message += "Error insert participation Tviso, participation:"+str(participation)+"\n"
 		error_code = True
 
 	return error_code, error_message, res
@@ -81,6 +81,7 @@ def insert_participation(db, participation):
 #		- participation_list, associated participations
 def insert_celebrities_and_participations(db, data, movie_id):
 	error_message = ""
+	error_code = False
 	celebrity_list, participation_list = celebrity_tviso.get_celebrities_and_participations(data, movie_id)
 	for i in range(0,len(celebrity_list)):
 	    name = urllib.parse.quote_plus(celebrity_list[i]["name"])
@@ -104,11 +105,12 @@ def insert_celebrities_and_participations(db, data, movie_id):
 		    #     error_message += msg
 	    else:
 		    results = results[0]
-
-	    participation = participation_list[i]
-	    participation['celebrity'] = results["id"]
-	    error_code, msg, res_participation = insert_participation(db, participation)
-	    error_message += msg
+			
+		if not error_code:
+		    participation = participation_list[i]
+		    participation['celebrity'] = results["id"]
+		    error_code, msg, res_participation = insert_participation(db, participation)
+		    error_message += msg
 
 	return error_message
 
