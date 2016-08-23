@@ -23,10 +23,10 @@ error_message = ""
 auth_token = interface_tviso.get_token()
 
 # Init DB
-db = interface_db.DB("pi","pi")
+db = interface_db.DB("admin","admin")
 
 # Send first mail before clear log
-# interface.send_mail("First mail. Previous log attached.")
+interface.send_mail("First mail. Previous log attached - lastline: "+str(actualline)+" - "+str(time.strftime("%H:%M:%S")))
 
 # Clear log
 interface.clear_log()
@@ -37,7 +37,6 @@ if (lastline == 0):
 
 # Bucle insert movies
 for i in range(lastline, len(ids)):
-    print(time.strftime("%H:%M:%S"))
     actualline = i
     error_code, error_message, auth_token, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
     try:
@@ -82,5 +81,4 @@ for i in range(lastline, len(ids)):
             interface.save_log(interface.log_txt, error_head + error_message + "\n")
 
         interface.save_lastline(interface.lastline_txt, actualline+1)
-    print(time.strftime("%H:%M:%S"))
-# interface.send_mail("Error in main_script.")
+interface.send_mail("Error in main_script - lastline: "+str(actualline+1)+" - "+str(time.strftime("%H:%M:%S")))

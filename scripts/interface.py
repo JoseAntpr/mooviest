@@ -5,9 +5,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 # Constants txts
-lastline_txt = "/home/pi/Documents/lastline.txt"
-datos_sin_numero_txt = "/home/pi/Documents/datos_sin_numero.txt"
-log_txt = "/home/pi/Documents/log.txt"
+lastline_txt = "lastline.txt"
+datos_sin_numero_txt = "datos_sin_numero.txt"
+log_txt = "log.txt"
 
 # Constants send email
 gmail_password = "jscj1618"
