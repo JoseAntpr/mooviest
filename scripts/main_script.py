@@ -39,6 +39,9 @@ if (lastline == 0):
 for i in range(lastline, len(ids)):
     actualline = i
     error_code, error_message, auth_token, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
+    while error_code == 1:
+        error_code, error_message, auth_token, data = interface_tviso.get_info_tviso(str(ids[i]).replace("\n",""), auth_token)
+
     try:
         error_head = "Movie idm: " + str(data["idm"]) + " - Script info_movie\n"
     except:
