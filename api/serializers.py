@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from movie.models import Lang, Country, Celebrity, Celebrity_lang, Role, Role_lang, Saga, Saga_lang, Genre, Genre_lang, Emotion, Emotion_lang, Streaming, Source, Movie, Movie_lang, Rating, Catalogue, Catalogue_lang, Participation
+from movie.models import *
 
 
 class LangSerializer(serializers.ModelSerializer):
