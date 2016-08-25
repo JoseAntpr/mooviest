@@ -22,6 +22,13 @@ class MovieByReleasedViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('=released',)
 
-class MoviesAppByLangViewSet(viewsets.ModelViewSet):
+class MoviesAppByLangViewSet(generics.ListAPIView):
     serializer_class = MovieAppSerializer
-    queryset = Movie.objects.all()[:10]
+
+    def get_queryset(self):
+        queryset = Movie.objects.all()[:10]
+        l = self.request.query_params.get('lang_id', None)
+        a = self.request.query_params.get('another_param', None)
+        print(l)
+        print(a)
+        return queryset

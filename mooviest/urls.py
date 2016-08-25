@@ -39,7 +39,6 @@ router.register(r'streaming', StreamingViewSet)
 router.register(r'source', SourceViewSet)
 router.register(r'movie', MovieViewSet)
 router.register(r'movie_released', MovieByReleasedViewSet)
-router.register(r'movie_app_bylang', MoviesAppByLangViewSet)
 router.register(r'movie_lang', Movie_langViewSet)
 router.register(r'rating', RatingViewSet)
 router.register(r'catalogue', CatalogueViewSet)
@@ -51,7 +50,12 @@ router.register(r'user',UserViewSet)
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'home.views.index',name = 'home'),
+    
+    # API
     url(r'^api/',include(router.urls)),
+    # App calls
+    url('^api/movie_app_bylang', MoviesAppByLangViewSet.as_view()),
+
     url(r'api_auth/',include('rest_framework.urls',namespace='rest_framework')),
     url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
