@@ -9,9 +9,13 @@ def get_rating(soup):
 
     rating = soup.find(itemprop="ratingValue").get_text().strip()
     count = soup.find(itemprop="ratingCount").get_text().strip()
+    try:
+        rating = int(rating.replace(".", ""))
+        count = int(count.replace(",", ""))
+    except:
+        rating = 0
+        count = 0
 
-    rating = int(rating.replace(".", ""))
-    count = int(count.replace(",", ""))
 
     return rating, count
 
@@ -46,7 +50,7 @@ def insert_rating(db, movie_id, imdb_id):
             )
 
             res = db.insert_data(db.API_URLS["rating"], params)
-
+            res["id"]
         except:
             error_message += "Error INSERT rating IMDb\n"
             error_code = True
