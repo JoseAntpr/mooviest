@@ -18,8 +18,14 @@ class Movie_LangAppSerializer(serializers.ModelSerializer):
         fields = ('id', 'movie', 'lang', 'country', 'title', 'synopsis','image','trailer')
 
 class MovieAppSerializer(serializers.ModelSerializer):
-    langs = Movie_LangAppSerializer(source='movie_lang_set', many=True)
     ratings = RatingAppSerializer(source='rating_set', many=True)
+    langs = serializers.SerializerMethodField('get')
+
+    def get(self, obj):
+        lang = self.context['lang']
+        langs = Movie_lang.objects.filter(lang = lang, movie = obj)
+        langSerializer = Movie_LangAppSerializer(source='movie_lang_set', many=True, instance = langs)
+        return langSerializer.data
     class Meta:
         model = Movie
         fields = ('id', 'genres', 'participations', 'langs', 'emotions', 'ratings', 'original_title', 'runtime', 'released', 'movie_producer', 'saga_order', 'average')

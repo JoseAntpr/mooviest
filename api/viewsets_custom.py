@@ -24,11 +24,15 @@ class MovieByReleasedViewSet(viewsets.ModelViewSet):
 
 class MoviesAppByLangViewSet(generics.ListAPIView):
     serializer_class = MovieAppSerializer
-
+    lang = 1
     def get_queryset(self):
-        queryset = Movie.objects.all()[:10]
         l = self.request.query_params.get('lang_id', None)
-        a = self.request.query_params.get('another_param', None)
+        limit = self.request.query_params.get('limit', None)
+        queryset = Movie.objects.all()[:int(limit)]
+        self.lang = l
         print(l)
-        print(a)
+        print(limit)
         return queryset
+
+    def get_serializer_context(self):
+        return {'lang': self.lang}
