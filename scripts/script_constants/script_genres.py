@@ -13,7 +13,7 @@ def insert_genres(db):
 				'horror', 'news', 'sport', 'western', 'animation',
 				'documentary', 'film-noir', 'music', 'drama',
 				'musical', 'romance', 'thriller', 'reallity', 'biography',
-				'short'
+				'short', 'adult', 'talk-show', 'reality-tv', 'game-show'
 			]
 
 	for genre in genres:
@@ -32,14 +32,16 @@ def insert_genres_lang(db):
 			'Sci-fi', 'War', 'Adventure', 'Crime', 'Fantasy', 'Horror',
 			'News', 'Sport', 'Western', 'Animation', 'Documentary',
 			'Film-noir', 'Music', 'Drama', 'Musical', 'Romance',
-			'Thriller', 'Reallity', 'Biography', 'Short'
+			'Thriller', 'Reallity', 'Biography', 'Short', 'Adult',
+			'Talk show', 'Reality tv', 'Game show'
 		],
 		[
 			'Acción', 'Comedia', 'Familiar', 'Histórico', 'Misterio',
 			'Ciencia ficción', 'Bélico', 'Aventura', 'Crimen', 'Fantasía',
 			'Horror', 'Actualidad', 'Deportes', 'Western', 'Animación',
 			'Documental', 'Cine negro', 'Musical', 'Drama', 'Musical',
-			'Romance', 'Thriller', 'Reallity show', 'Biografía', 'Corto'
+			'Romance', 'Thriller', 'Reallity show', 'Biografía', 'Corto',
+			'Adulto', 'Programa de entrevistas', 'Reality tv', 'Programa de juegos'
 		]
 	]
 

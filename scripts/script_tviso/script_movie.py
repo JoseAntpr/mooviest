@@ -9,9 +9,6 @@ def insert_new_genre(db, genre_name):
     error_message = "Try to insert genre " + genre_name+"\n"
     error_message += "Remember to update script_tviso/interface.py/GENRES_JSON and script_constants/script_genres.py/genres and genres_lang\n"
 
-    # Update interface.GENRES_JSON
-    interface.GENRES_JSON.update({genre_name : len(interface.GENRES_JSON)+1})
-
     # Insert genre in DB
     params = json.dumps({'code': genre_name})
     data = db.insert_data(db.API_URLS["genre"], params)
@@ -19,6 +16,8 @@ def insert_new_genre(db, genre_name):
     try:
         genre_id = data["id"]
         error_message += "Genre: " + genre_name + " added to DB successfully\n"
+        # Update interface.GENRES_JSON
+        interface.GENRES_JSON.update({genre_name : len(interface.GENRES_JSON)+1})
     except:
         error_code = True
         error_message += "Error to insert genre: " + genre_name + " in DB\n"
@@ -40,6 +39,7 @@ def insert_new_genre(db, genre_name):
             error_message += "Genre_lang: " + genre_lang + " added to DB successfully\n"
         except:
             error_message += "Error to insert genre_lang: " + genre_lang + " in DB\n"
+
 
     return error_code, error_message
 

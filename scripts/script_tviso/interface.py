@@ -14,7 +14,8 @@ GENRES_JSON = {
 				'documentary': 16, 'film-noir': 17, 'music':     18,
 				'drama':       19, 'musical':   20,	'romance':   21,
 				'thriller':    22, 'reallity':  23, 'biography': 24,
-				'short':	   25
+				'short':	   25, 'adult':     26, 'talk-show': 27,
+				'reality-tv':  28, 'game-show': 29
 			}
 ROLES = {
 			"actor": 1, "director": 2, "producer": 3,
