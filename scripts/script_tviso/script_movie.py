@@ -92,13 +92,14 @@ def insert_movie(db, data):
         genres_list = []
         for genre in genres:
             error_c = False
-            try:
-                interface.GENRES_JSON[str(genre.lower())]
-            except:
-                error_c, msg = insert_new_genre(db, genre.lower())
-                error_message += msg
-            if not error_c:
-                genres_list.append(interface.GENRES_JSON[str(genre.lower())])
+            if str(genre.lower()) != "":
+                try:
+                    interface.GENRES_JSON[str(genre.lower())]
+                except:
+                    error_c, msg = insert_new_genre(db, genre.lower())
+                    error_message += msg
+                if not error_c:
+                    genres_list.append(interface.GENRES_JSON[str(genre.lower())])
 
         movie = {
             "genres": genres_list,
