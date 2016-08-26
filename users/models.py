@@ -21,17 +21,17 @@ class TypeMovie (models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User,primary_key = True ,on_delete=models.CASCADE)
     born = models.DateField(null = True, blank = True)
-    gender = models.CharField(max_length=6 ,choices = GENDER_CHOICES)
-    photo_profile = models.ImageField (upload_to = "user/profile",default = "user/profile/no-image.png",null = True, blank = True)
+    gender = models.CharField(max_length=6 ,choices = GENDER_CHOICES,blank = True,null = True)
+    photo_profile = models.ImageField (upload_to = "user/profile/",default = "user/profile/no-image.png",null = True, blank = True)
     cover_page = models.ImageField (upload_to = "user/cover",default = "user/cover/no-image.png",null = True, blank = True)
-    city = models.CharField(max_length = 35)
+    city = models.CharField(max_length = 35, blank = True, null = True)
     postalCode = models.CharField(max_length = 35, null = True, blank = True)
     country = models.ForeignKey(Country,null = True, blank = True)
     lang = models.ForeignKey(Lang,null = True, blank= True)
     collections = models.ManyToManyField(Movie, through = 'Collection', blank = True)
     feelings = models.ManyToManyField(Emotion, through = 'Feeling', blank = True)
     relationships = models.ManyToManyField("self", through = 'Relationship', symmetrical = False, related_name='related_to', blank = True)
-    followers = models.ManyToManyField(Celebrity, through = 'Follower', blank = True)
+    likeCelebrities = models.ManyToManyField(Celebrity, through = 'LikeCelebrity', blank = True)
 
 class Relationship (models.Model):
     from_person = models.ForeignKey(Profile, related_name='from_people')
@@ -52,7 +52,7 @@ class Feeling (models.Model):
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     pub_date = models.DateTimeField(auto_now_add = True, null= True)
 
-class Follower (models.Model):
+class LikeCelebrity (models.Model):
     profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
     celebrity = models.ForeignKey(Celebrity, on_delete = models.CASCADE)
     pub_date = models.DateTimeField(auto_now_add = True, null= True)
