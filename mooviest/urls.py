@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet
 from api.viewsets_users import UserViewSet
 from rest_framework.routers import DefaultRouter
@@ -59,5 +61,8 @@ urlpatterns = [
     url(r'^login$', 'users.views.login', name = 'users_login'),
     url(r'^logout$', 'users.views.logout', name = 'users_logout'),
     url(r'^register$','users.views.register',name='users_register'),
-    url(r'^setting$','users.views.settings',name='users_settings')
-]
+    url(r'^setting$','users.views.settingInfo',name='users_settings'),
+    url(r'^settings/password$','users.views.settingPassword',name='users_password')
+    #url(r'^setting/info$','users.views.settingInfo',name='users_info')
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

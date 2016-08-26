@@ -14,72 +14,72 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Catalogue',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
             ],
         ),
         migrations.CreateModel(
             name='Catalogue_lang',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('url', models.CharField(max_length=255)),
-                ('price', models.DecimalField(max_digits=4, blank=True, null=True, decimal_places=2, default=0)),
+                ('price', models.DecimalField(max_digits=4, null=True, blank=True, decimal_places=2, default=0)),
                 ('catalogue', models.ForeignKey(to='movie.Catalogue')),
             ],
         ),
         migrations.CreateModel(
             name='Celebrity',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('name', models.CharField(max_length=50)),
-                ('born', models.DateField(blank=True, null=True, verbose_name='Born')),
-                ('image', models.CharField(blank=True, max_length=255, null=True)),
-                ('twitter_account', models.CharField(blank=True, max_length=30, null=True)),
-                ('address', models.CharField(blank=True, max_length=100, null=True)),
+                ('born', models.DateField(null=True, blank=True, verbose_name='Born')),
+                ('image', models.CharField(null=True, blank=True, max_length=255)),
+                ('twitter_account', models.CharField(null=True, blank=True, max_length=30)),
+                ('address', models.CharField(null=True, blank=True, max_length=100)),
             ],
         ),
         migrations.CreateModel(
             name='Celebrity_lang',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('biography', models.TextField(blank=True, max_length=600, null=True)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('biography', models.TextField(null=True, blank=True, max_length=10000)),
                 ('celebrity', models.ForeignKey(to='movie.Celebrity')),
             ],
         ),
         migrations.CreateModel(
             name='Country',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('name', models.CharField(max_length=20)),
-                ('code', models.CharField(max_length=10, default='US')),
+                ('code', models.CharField(default='US', max_length=10)),
             ],
         ),
         migrations.CreateModel(
             name='Emotion',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('code', models.CharField(max_length=20, default='e')),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('code', models.CharField(default='e', max_length=20)),
             ],
         ),
         migrations.CreateModel(
             name='Emotion_lang',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('name', models.CharField(max_length=30)),
-                ('description', models.CharField(blank=True, max_length=50, null=True)),
+                ('description', models.CharField(null=True, blank=True, max_length=50)),
                 ('emotion', models.ForeignKey(to='movie.Emotion')),
             ],
         ),
         migrations.CreateModel(
             name='Genre',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('code', models.CharField(max_length=20, default='g')),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('code', models.CharField(default='g', max_length=20)),
             ],
         ),
         migrations.CreateModel(
             name='Genre_lang',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('name', models.CharField(max_length=20)),
                 ('genre', models.ForeignKey(to='movie.Genre')),
             ],
@@ -87,31 +87,31 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Lang',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('code', models.CharField(max_length=20)),
             ],
         ),
         migrations.CreateModel(
             name='Movie',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('original_title', models.CharField(max_length=100)),
                 ('runtime', models.PositiveSmallIntegerField(null=True)),
                 ('released', models.PositiveSmallIntegerField(null=True)),
                 ('movie_producer', models.CharField(max_length=255)),
                 ('saga_order', models.IntegerField(blank=True, default=1)),
-                ('average', models.DecimalField(max_digits=4, blank=True, null=True, decimal_places=2, default=0)),
+                ('average', models.DecimalField(max_digits=4, null=True, blank=True, decimal_places=2, default=0)),
             ],
         ),
         migrations.CreateModel(
             name='Movie_lang',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('title', models.CharField(max_length=100)),
                 ('synopsis', models.TextField(max_length=800)),
-                ('image', models.CharField(blank=True, max_length=255, null=True)),
-                ('trailer', models.CharField(blank=True, max_length=255, null=True)),
-                ('country', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='movie.Country')),
+                ('image', models.CharField(null=True, blank=True, max_length=255)),
+                ('trailer', models.CharField(null=True, blank=True, max_length=255)),
+                ('country', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, null=True, to='movie.Country')),
                 ('lang', models.ForeignKey(to='movie.Lang')),
                 ('movie', models.ForeignKey(to='movie.Movie')),
             ],
@@ -119,9 +119,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Participation',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('character', models.CharField(blank=True, max_length=100, null=True)),
-                ('award', models.CharField(blank=True, max_length=200, null=True)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('character', models.CharField(null=True, blank=True, max_length=100)),
+                ('award', models.CharField(null=True, blank=True, max_length=200)),
                 ('celebrity', models.ForeignKey(to='movie.Celebrity')),
                 ('movie', models.ForeignKey(to='movie.Movie')),
             ],
@@ -129,8 +129,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Rating',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('sourceid', models.CharField(max_length=30)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('sourceid', models.CharField(max_length=200)),
+                ('name', models.CharField(null=True, max_length=30)),
                 ('rating', models.PositiveSmallIntegerField(null=True, default=0)),
                 ('count', models.IntegerField(null=True, default=0)),
                 ('date_update', models.DateField(auto_now=True, null=True)),
@@ -140,14 +141,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Role',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('code', models.CharField(max_length=20)),
             ],
         ),
         migrations.CreateModel(
             name='Role_lang',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('name', models.CharField(max_length=20)),
                 ('lang', models.ForeignKey(to='movie.Lang')),
                 ('role', models.ForeignKey(to='movie.Role')),
@@ -156,16 +157,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Saga',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('code', models.CharField(max_length=20, default='s')),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
+                ('code', models.CharField(default='s', max_length=20)),
             ],
         ),
         migrations.CreateModel(
             name='Saga_lang',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('name', models.CharField(max_length=30)),
-                ('synopsis', models.CharField(blank=True, max_length=800, null=True)),
+                ('synopsis', models.CharField(null=True, blank=True, max_length=800)),
                 ('lang', models.ForeignKey(to='movie.Lang')),
                 ('saga', models.ForeignKey(to='movie.Saga')),
             ],
@@ -173,16 +174,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Source',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('name', models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
             name='Streaming',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', primary_key=True, auto_created=True)),
                 ('name', models.CharField(max_length=30)),
-                ('url', models.CharField(blank=True, max_length=255, null=True)),
+                ('url', models.CharField(null=True, blank=True, max_length=255)),
             ],
         ),
         migrations.AddField(
@@ -203,7 +204,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='participation',
             name='role',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='movie.Role'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, null=True, to='movie.Role'),
         ),
         migrations.AddField(
             model_name='movie',
@@ -263,7 +264,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='country',
             name='lang',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='movie.Lang'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, null=True, to='movie.Lang'),
         ),
         migrations.AddField(
             model_name='celebrity_lang',

@@ -2,6 +2,9 @@ venv
 
 mooviest/settings.py
 
+*/migrations/
+!*/migrations/__init__.py
+
 .*
 
 *.pyc
