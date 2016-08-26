@@ -56,7 +56,7 @@ class Saga_lang(models.Model):
     saga = models.ForeignKey(Saga, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
-    synopsis = models.CharField(max_length=800,blank=True,null=True)
+    synopsis = models.TextField(blank=True,null=True)
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
@@ -99,7 +99,7 @@ class Source(models.Model):
         return self.name
 
 class Movie(models.Model):
-    genres = models.ManyToManyField(Genre)
+    genres = models.ManyToManyField(Genre,blank = True)
     participations = models.ManyToManyField(Celebrity, through =
     'Participation')
     langs = models.ManyToManyField(Lang, through = 'Movie_lang')
@@ -110,7 +110,7 @@ class Movie(models.Model):
     original_title = models.CharField(max_length = 100)
     runtime = models.PositiveSmallIntegerField(null = True)
     released = models.PositiveSmallIntegerField(null = True)
-    movie_producer = models.CharField(max_length = 255)
+    movie_producer = models.TextField(null=True,blank = True)
     saga_order = models.IntegerField(default = 1,blank = True)
     average = models.DecimalField(default = 0, max_digits = 4, decimal_places = 2, null = True, blank = True)
     #def __str__(self):              # __unicode__ on Python 2
@@ -121,7 +121,7 @@ class Movie_lang(models.Model):
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     country = models.ForeignKey(Country, null= True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=100)
-    synopsis = models.TextField(max_length=800)
+    synopsis = models.TextField(blank=True,null=True)
     image = models.CharField(max_length = 255,null = True,blank = True)
     trailer = models.CharField(max_length = 255,null = True,blank = True)
     #def __str__(self):              # __unicode__ on Python 2
@@ -157,7 +157,7 @@ class Participation(models.Model):
     celebrity = models.ForeignKey(Celebrity, on_delete = models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     role = models.ForeignKey(Role, null=True, on_delete = models.SET_NULL)
-    character = models.CharField(max_length=100, blank=True,null=True)
+    character = models.TextField(blank=True,null=True)
     award = models.CharField(max_length=200,blank=True,null=True)
     #def __str__(self):              # __unicode__ on Python 2
     #    return self.character
