@@ -23,7 +23,7 @@ def insert_rating(db, data, movie_id):
         sourceid = int(data["idm"])
     except:
         error_code = True
-        error_message *= "Erroridm Tviso\n"
+        error_message += "Error idm Tviso\n"
 
     if not error_code:
         rating = {

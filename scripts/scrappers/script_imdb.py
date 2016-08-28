@@ -13,7 +13,7 @@ def get_rating(soup):
         rating = int(rating.replace(".", ""))
         count = int(count.replace(",", ""))
     except:
-        error_message = "Error get rating IMDb"
+        error_message = "Error get rating IMDb\n"
         rating = 0
         count = 0
 

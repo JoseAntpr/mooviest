@@ -66,17 +66,15 @@ def insert_ratings(db, ratings):
 		except:
 			print("Error insert rating res: "+str(res))
 
-
-
 db = interface_db.DB("admin","admin")
 ls = get_lineas("log.txt")
 lgs = get_logs(ls)
 group = group_by_text(lgs,"rating")
-tviso = group_by_text(group,"Tviso")
+#tviso = group_by_text(group,"Tviso")
 imdb = group_by_text(group,"IMDb")
 
-tviso = scraper_ratings(db,scraper_tviso, tviso)
+#tviso = scraper_ratings(db,scraper_tviso, tviso)
 imdb = scraper_ratings(db,scraper_imdb, imdb)
 
-insert_ratings(db,tviso)
-insert_ratings(db,imdb)
+#insert_ratings(db,tviso)
+#insert_ratings(db,imdb)

@@ -113,12 +113,13 @@ def insert_celebrities_and_participations(db, data, movie_id):
 		    #     error_message += msg
 	    else:
 		    results = results[0]
-
+	    participation = participation_list[i]
 	    if not error_code:
-		    participation = participation_list[i]
 		    participation['celebrity'] = results["id"]
 		    error_code, msg, res_participation = insert_participation(db, participation)
 		    error_message += msg
+	    else:
+		    error_message += "Error insert participation(celebrity is not inserted) participation: "+str(participation)+"\n"
 
 	return error_message
 
