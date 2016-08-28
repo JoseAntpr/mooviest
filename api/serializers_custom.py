@@ -15,12 +15,12 @@ class Movie_LangAppSerializer(serializers.ModelSerializer):
     country = CountryAppSerializer()
     class Meta:
         model = Movie_lang
-        fields = ('id', 'lang', 'country', 'title', 'synopsis','image','trailer')
+        fields = ('country', 'title', 'synopsis','image','trailer')
 
 class Genre_LangAppSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre_lang
-        fields = ('id', 'genre', 'lang', 'name')
+        fields = ('name',)
 
 class GenreAppSerializer(serializers.ModelSerializer):
     langs = serializers.SerializerMethodField('get')
@@ -31,7 +31,7 @@ class GenreAppSerializer(serializers.ModelSerializer):
         return langSerializer.data
     class Meta:
         model = Genre
-        fields = ('id', 'langs', 'code')
+        fields = ('langs',)
 
 class Celebrity_langAppSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,7 +47,7 @@ class ParticipationAppSerializer(serializers.ModelSerializer):
     celebrity = CelebrityAppSerializer(many= False)
     class Meta:
         model = Participation
-        fields = ('celebrity', 'movie', 'role', 'character', 'award')
+        fields = ('celebrity', 'role', 'character', 'award')
 
 class MovieAppSerializer(serializers.ModelSerializer):
     ratings = RatingAppSerializer(source='rating_set', many=True)

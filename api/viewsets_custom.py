@@ -30,8 +30,6 @@ class MoviesAppByLangViewSet(generics.ListAPIView):
         limit = self.request.query_params.get('limit', None)
         queryset = Movie.objects.all()[:int(limit)]
         self.lang = l
-        print(l)
-        print(limit)
         return queryset
 
     def get_serializer_context(self):
