@@ -62,10 +62,11 @@
               </li>
               {% if user.is_authenticated %}
                 <li>
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe"></i>{{user.username}}<span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}<span class="caret"></span></a>
                   <ul class="dropdown-menu">
           					<li><a href="{% url 'users_logout' %}">Salir</a></li>
-          					<li><a href="{% url 'users_settings' %}">Cuenta</a></li>
+                    <li><a href="{% url 'users_profile' %}">Perfil</a></li>
+          					<li><a href="{% url 'users_settings' %}">Ajustes</a></li>
           				</ul>
                 </li>
               {% else %}

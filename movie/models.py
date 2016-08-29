@@ -113,8 +113,8 @@ class Movie(models.Model):
     movie_producer = models.TextField(null=True,blank = True)
     saga_order = models.IntegerField(default = 1,blank = True)
     average = models.DecimalField(default = 0, max_digits = 4, decimal_places = 2, null = True, blank = True)
-    #def __str__(self):              # __unicode__ on Python 2
-    #    return self.original_title
+    def __str__(self):              # __unicode__ on Python 2
+        return self.original_title
 
 class Movie_lang(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
