@@ -50,6 +50,7 @@ router.register(r'user',UserViewSet)
 urlpatterns = [
     url(r'^$', 'home.views.index'),
     url(r'^users/','users.views.index'),
+    url(r'^movie/(?P<movie_id>[0-9]+)/$', 'movie.views.index', name = 'movie'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/',include(router.urls)),
     url('^api/celebrity_by_name/(?P<name>.+)/$', CelebrityCustomViewSet.as_view()),
