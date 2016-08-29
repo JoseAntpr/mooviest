@@ -62,7 +62,8 @@ urlpatterns = [
     url(r'^logout$', 'users.views.logout', name = 'users_logout'),
     url(r'^register$','users.views.register',name='users_register'),
     url(r'^setting$','users.views.settingInfo',name='users_settings'),
-    url(r'^settings/password$','users.views.settingPassword',name='users_password')
-    #url(r'^setting/info$','users.views.settingInfo',name='users_info')
+    url(r'^settings/password$','users.views.settingPassword',name='users_password'),
+    url(r'^profile$','users.views.profile',name='users_profile')
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
