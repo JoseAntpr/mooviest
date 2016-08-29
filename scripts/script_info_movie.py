@@ -71,6 +71,14 @@ def insert_participation(db, participation):
 		error_message += "Error insert participation Tviso, res: "+str(res)+" \nparticipation:"+str(json.dumps(participation))+"\n"
 		error_code = True
 
+	if error_code:
+		try:
+			res["non_field_errors"]
+			error_message = ""
+			error_code = False
+		except:
+			error_message += "Not Error resnon_field_errors"
+
 	return error_code, error_message, res
 
 # insert_celebrities_and_participations(db, celebrity_list, participation_list),
@@ -105,12 +113,13 @@ def insert_celebrities_and_participations(db, data, movie_id):
 		    #     error_message += msg
 	    else:
 		    results = results[0]
-
+	    participation = participation_list[i]
 	    if not error_code:
-		    participation = participation_list[i]
 		    participation['celebrity'] = results["id"]
 		    error_code, msg, res_participation = insert_participation(db, participation)
 		    error_message += msg
+	    else:
+		    error_message += "Error insert participation(celebrity is not inserted) participation: "+str(participation)+"\n"
 
 	return error_message
 
