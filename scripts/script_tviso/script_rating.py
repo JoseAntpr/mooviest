@@ -11,13 +11,19 @@ def insert_rating(db, data, movie_id):
     res = {}
 
     try:
-        source = db.SOURCES['Tviso']
-        sourceid = int(data["idm"])
         rating = int(data["rating"]*10)
         count = int(data["ratings_num"])
     except:
-        error_code = True
         error_message = "Error GET data rating Tviso\n"
+        rating = 0
+        count = 0
+
+    try:
+        source = db.SOURCES['Tviso']
+        sourceid = int(data["idm"])
+    except:
+        error_code = True
+        error_message += "Error idm Tviso\n"
 
     if not error_code:
         rating = {
@@ -32,6 +38,7 @@ def insert_rating(db, data, movie_id):
         params = json.dumps(rating)
         try:
             res = db.insert_data(db.API_URLS["rating"], params)
+            res["id"]
         except:
             error_code = True
             error_message += "Error INSERT rating Tviso\n"
