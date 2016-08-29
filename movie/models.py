@@ -18,7 +18,7 @@ class Country(models.Model):
 
 class Celebrity(models.Model):
     langs = models.ManyToManyField(Lang, through = 'Celebrity_lang')
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=250)
     born = models.DateField('Born',null=True,blank=True)
     image = models.CharField(max_length=255,null=True,blank=True)
     twitter_account = models.CharField(max_length=30,blank=True,null=True)

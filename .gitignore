@@ -6,9 +6,6 @@ scripts/lastline.txt
 scripts/log.txt
 
 
-*/migrations/
-!*/migrations/__init__.py
-
 
 .*
 
