@@ -50,25 +50,32 @@ router.register(r'user',UserViewSet)
 
 
 urlpatterns = [
+
+    # Apps URLs
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'home.views.index',name = 'home'),
-    
+    url(r'^nested_admin/', include('nested_admin.urls')),
+    url(r'^robots\.txt/$', TemplateView.as_view(template_name = 'robots.txt', content_type = 'text/plain')),
+
     # API
     url(r'^api/',include(router.urls)),
+    url(r'api_auth/',include('rest_framework.urls', namespace = 'rest_framework')),
+
     # App calls
     url('^api/movie_app_bylang', MoviesAppByLangViewSet.as_view()),
 
-    url(r'api_auth/',include('rest_framework.urls',namespace='rest_framework')),
-    url(r'^nested_admin/', include('nested_admin.urls')),
-    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
+    # Home URLs
+    url(r'^$', 'home.views.index', name = 'home'),
 
-    #Users URLS
+    # Movie URLs
+    url(r'^movie/(?P<movie_id>[0-9]+)/$', 'movie.views.index', name = 'movie'),
+
+    # Users URLs
     url(r'^login$', 'users.views.login', name = 'users_login'),
     url(r'^logout$', 'users.views.logout', name = 'users_logout'),
-    url(r'^register$','users.views.register',name='users_register'),
-    url(r'^setting$','users.views.settingInfo',name='users_settings'),
-    url(r'^settings/password$','users.views.settingPassword',name='users_password'),
-    url(r'^profile$','users.views.profile',name='users_profile')
+    url(r'^register$','users.views.register', name ='users_register'),
+    url(r'^setting$','users.views.settingInfo', name ='users_settings'),
+    url(r'^settings/password$','users.views.settingPassword', name = 'users_password'),
+    url(r'^profile$','users.views.profile', name = 'users_profile'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
