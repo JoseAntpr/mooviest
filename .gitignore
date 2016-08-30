@@ -1,8 +1,12 @@
 venv
 
 mooviest/settings.py
+scripts/datos_sin_numero.txt
+scripts/lastline.txt
+scripts/log.txt
+scripts/imds.txt
 
-.*
+
 
 *.pyc
 *.db

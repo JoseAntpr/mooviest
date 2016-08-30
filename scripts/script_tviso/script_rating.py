@@ -1,17 +1,46 @@
 import json
 
+# insert_rating(db, data, movie_id), insert rating in DB
+#   Params
+#       - db, interface db
+#       - data, json data of Tviso
+#       - movie_id, id of the movie in mooviest db
 def insert_rating(db, data, movie_id):
-    source = db.SOURCES['Tviso']
-    sourceid = int(data["idm"])
-    rating = int(data["rating"]*10)
-    count = int(data["ratings_num"])
-    rating = {
-        "source": source,
-        "movie": movie_id,
-        "sourceid": sourceid,
-        "rating": rating,
-        "count": count
-    }
+    error_code = False
+    error_message = ""
+    res = {}
 
-    params = json.dumps(rating)
-    db.insert_data(db.API_URLS["rating"], params)
+    try:
+        rating = int(data["rating"]*10)
+        count = int(data["ratings_num"])
+    except:
+        error_message = "Error GET data rating Tviso\n"
+        rating = 0
+        count = 0
+
+    try:
+        source = db.SOURCES['Tviso']
+        sourceid = int(data["idm"])
+    except:
+        error_code = True
+        error_message += "Error idm Tviso\n"
+
+    if not error_code:
+        rating = {
+            "source": source,
+            "movie": movie_id,
+            "sourceid": sourceid,
+            "name": "Tviso",
+            "rating": rating,
+            "count": count
+        }
+
+        params = json.dumps(rating)
+        try:
+            res = db.insert_data(db.API_URLS["rating"], params)
+            res["id"]
+        except:
+            error_code = True
+            error_message += "Error INSERT rating Tviso\n"
+
+    return error_code, error_message, res

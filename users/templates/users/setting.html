@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %} Setting de usuario {% endblock %}
+{% block content %}
+<div class="content">
+<ul>
+  <li><a href="{% url 'users_settings' %}">Información personal</a></li>
+  <li><a href="{% url 'users_password' %}">Cambio de contraseña</a></li>
+</ul>
+  {% for error in errors %}
+    <p>{{error}}</p>
+  {% endfor %}
+  <img src = "{{ user.profile.photo_profile.url }}">
+  <form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+      {{setting_form.as_p }}
+    <div>
+      <button type="submit" class="btn btn-primary">Entrar</button>
+    </div>
+  </form>
+</div>
+{% endblock content %}

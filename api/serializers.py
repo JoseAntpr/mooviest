@@ -10,12 +10,12 @@ class LangSerializer(serializers.ModelSerializer):
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ('id', 'code', 'lang', 'name')
+        fields = ('id', 'lang', 'name', 'code')
 
 class CelebritySerializer(serializers.ModelSerializer):
     class Meta:
         model = Celebrity
-        fields = ('id', 'name', 'born', 'image', 'twitter_account')
+        fields = ('id', 'langs', 'name', 'born', 'image', 'twitter_account', 'address')
 
 class Celebrity_langSerializer(serializers.ModelSerializer):
     class Meta:
@@ -80,7 +80,7 @@ class MovieSerializer(serializers.ModelSerializer):
 class Movie_langSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie_lang
-        fields = ('id', 'movie', 'lang', 'country', 'title', 'synopsis')
+        fields = ('id', 'movie', 'lang', 'country', 'title', 'synopsis','image','trailer')
 
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:

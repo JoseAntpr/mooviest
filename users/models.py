@@ -19,23 +19,46 @@ class TypeMovie (models.Model):
     name = models.CharField(max_length = 15)
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    born = models.DateField()
-    gender = models.CharField(max_length=6 ,choices = GENDER_CHOICES)
-    photo_profile = models.ImageField (upload_to = "user/profile",default = "user/profile/no-image.png",null = True)
-    cover_page = models.ImageField (upload_to = "user/cover",default = "user/cover/no-image.png",null = True)
-    city = models.CharField(max_length = 35)
-    country = models.ForeignKey(Country, on_delete = models.CASCADE)
-    lang = models.ForeignKey(Lang, on_delete = models.CASCADE)
-    collections = models.ManyToManyField(Movie, through = 'Collection')
-    feelings = models.ManyToManyField(Emotion, through = 'Feeling')
-    relationships = models.ManyToManyField("self", through = 'Relationship', symmetrical = False, related_name='related_to')
-    followers = models.ManyToManyField(Celebrity, through = 'Follower')
+    user = models.OneToOneField(User,primary_key = True ,on_delete=models.CASCADE)
+    born = models.DateField(null = True, blank = True)
+    gender = models.CharField(max_length=6 ,choices = GENDER_CHOICES,blank = True,null = True)
+    photo_profile = models.ImageField (upload_to = "user/profile/",default = "user/profile/no-image.png",null = True, blank = True)
+    cover_page = models.ImageField (upload_to = "user/cover",default = "user/cover/no-image.png",null = True, blank = True)
+    city = models.CharField(max_length = 35, blank = True, null = True)
+    postalCode = models.CharField(max_length = 35, null = True, blank = True)
+    country = models.ForeignKey(Country,null = True, blank = True)
+    lang = models.ForeignKey(Lang,null = True, blank= True)
+    collections = models.ManyToManyField(Movie, through = 'Collection', blank = True)
+    feelings = models.ManyToManyField(Emotion, through = 'Feeling', blank = True)
+    relationships = models.ManyToManyField("self", through = 'Relationship', symmetrical = False, related_name='related_to', blank = True)
+    likeCelebrities = models.ManyToManyField(Celebrity, through = 'LikeCelebrity', blank = True)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.user.username
 
 class Relationship (models.Model):
     from_person = models.ForeignKey(Profile, related_name='from_people')
     to_person = models.ForeignKey(Profile, related_name='to_people')
     status = models.IntegerField(choices=RELATIONSHIP_STATUSES)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return str(self.from_person.user.username) + " sigue a " + str(self.to_person.user.username)
+
+    def get_relationships(self,status):
+        return self.relationships.filter(
+        to_people__status=status,
+        to_people__from_person=self)
+
+    def get_related_to(self,status):
+        return self.related_to.filter(
+            from_people__status=status,
+            from_people__to_person=self)
+
+    def get_following(self):
+        return self.get_relationships(RELATIONSHIP_FOLLOWING)
+
+    def get_followers(self):
+        return self.get_related_to(RELATIONSHIP_FOLLOWING)
 
 class Collection (models.Model):
     user = models.ForeignKey(Profile, on_delete = models.CASCADE)
@@ -51,7 +74,7 @@ class Feeling (models.Model):
     movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
     pub_date = models.DateTimeField(auto_now_add = True, null= True)
 
-class Follower (models.Model):
+class LikeCelebrity (models.Model):
     profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
     celebrity = models.ForeignKey(Celebrity, on_delete = models.CASCADE)
     pub_date = models.DateTimeField(auto_now_add = True, null= True)

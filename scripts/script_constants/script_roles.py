@@ -1,6 +1,5 @@
 import  urllib.parse, http.client, json
 from base64 import b64encode
-import interface
 
 # insert_roles(c, headers), insert all roles in to th DB
 #   Params

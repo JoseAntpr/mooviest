@@ -26,6 +26,7 @@ class DB:
     	}
     ]
 
+
     API_URLS = {
         "rating": "/api/rating/",
         "country": "/api/country/",
@@ -36,7 +37,10 @@ class DB:
         "role_lang": "/api/role_lang/",
         "source": "/api/source/",
         "movie": "/api/movie/",
-        "movie_lang": "/api/movie_lang/"
+        "movie_lang": "/api/movie_lang/",
+        "celebrity": "/api/celebrity/",
+        "celebrity_lang": "/api/celebrity_lang/",
+        "participation": "/api/participation/"
     }
 
     connection = ""
@@ -52,20 +56,17 @@ class DB:
     def insert_data(self,api_url, js):
     	self.connection.request('POST', api_url, js, self.headers)
     	res = self.connection.getresponse()
-    	print(res.status, res.reason)
     	data = res.read().decode("utf8")
     	return json.loads(data)
 
     def search(self,api_url):
     	self.connection.request('GET', api_url, None, self.headers)
     	res = self.connection.getresponse()
-    	print(res.status, res.reason)
     	data = res.read().decode("utf8")
     	return json.loads(data)
 
     def update_data(self, api_url, js):
         self.connection.request('PATCH', api_url, js, self.headers)
         res = self.connection.getresponse()
-        print(res.status, res.reason)
         data = res.read().decode("utf8")
         return json.loads(data)

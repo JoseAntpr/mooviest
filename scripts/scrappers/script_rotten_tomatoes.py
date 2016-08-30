@@ -83,11 +83,11 @@ def insert_expert(soup, movie_id, sourceid, db, error_code):
                 "count": count
             }
         )
+
         res_expert = db.insert_data(db.API_URLS["rating"], params)
-        error_message = "Insert expert rating successfully\n"
 
     except:
-        error_message = "Error insert expert rating\n"
+        error_message = "Error insert expert rating Rotten Tomatoes\n"
         error_code = True
 
     return error_code, error_message, res_expert
@@ -118,11 +118,11 @@ def insert_audience(soup, movie_id, sourceid, db, error_code):
                 "count": count
             }
         )
+
         res_audience = db.insert_data(db.API_URLS["rating"], params)
-        error_message = "Insert audience rating successfully\n"
 
     except:
-        error_message += "Error insert audience rating\n"
+        error_message += "Error insert audience rating Rotten Tomatoes\n"
         error_code = True
 
     return error_code, error_message, res_audience
@@ -147,8 +147,7 @@ def update_expert(soup, rating_id, db, error_code):
                 "count": count
             }
         )
-        res_expert = db.update_data(db.API_URLS["rating"] + rating_id + "/", params)
-        error_message = "Update expert rating successfully\n"
+        res_expert = db.update_data(db.API_URLS["rating"] + str(rating_id) + "/", params)
 
     except:
         error_message = "Error update expert rating\n"
@@ -176,8 +175,7 @@ def update_audience(soup, rating_id, db, error_code):
                 "count": count
             }
         )
-        res_audience = db.update_data(db.API_URLS["rating"] + rating_id + "/", params)
-        error_message = "Update audience rating successfully\n"
+        res_audience = db.update_data(db.API_URLS["rating"] + str(rating_id) + "/", params)
 
     except:
         error_message = "Error update audience rating\n"
@@ -191,30 +189,37 @@ def update_audience(soup, rating_id, db, error_code):
 #   Params
 #       - db, interface db
 #       - movie_id, id of the movie in mooviest db
-#       - sourceid, sourceid for make the url of Rotten Tomatoes
-def insert_rating(db, movie_id, sourceid):
+#       - imdb_id, id of IMDb
+def insert_rating(db, movie_id, imdb_id):
 
-    url = "https://www.rottentomatoes.com/m/" + sourceid + "/"
-    error_message = "Movie id: " + str(movie_id) + " - Script INSERT rating Rotten Tomatoes\n URL:" + url + "\n"
     res_expert = {}
     res_audience = {}
+    error_message = ""
 
-    # Get soup from url
-    error_code, msg, soup = interface.get_soup(url)
+    error_code, msg, sourceid = get_url_rottentomatoes_by_omdb(imdb_id)
+    url = "https://www.rottentomatoes.com/m/" + sourceid + "/"
 
     if not error_code:
-        # Insert expert rating
-        error_code, msg, res_expert = insert_expert(soup, movie_id, sourceid, db, error_code)
-        error_message += msg
+        # Get soup from url
+        error_code, msg, soup = interface.get_soup(url)
 
-        # Insert audience rating
-        error_code, msg, res_audience = insert_audience(soup, movie_id, sourceid, db, error_code)
-        error_message += msg
+        if not error_code:
+            # Insert expert rating
+            error_code_expert, msg, res_expert = insert_expert(soup, movie_id, sourceid, db, error_code)
+            error_message += msg
+
+            # Insert audience rating
+            error_code_audience, msg, res_audience = insert_audience(soup, movie_id, sourceid, db, error_code)
+            error_message += msg
+
+            error_code = error_code_expert or error_code_audience
+        else:
+            error_message += msg
 
     else:
         error_message += msg
 
-    return error_code, error_message, res_expert, res_audience
+    return error_code, error_message, res_audience, res_expert
 
 # update_rating(db, rating_expert_id, rating_audience_id, sourceid),
 #             update expert and audience rating of Rotten Tomatoes,
@@ -226,7 +231,7 @@ def insert_rating(db, movie_id, sourceid):
 def update_rating(db, rating_audience_id, rating_expert_id, sourceid):
 
     url = "https://www.rottentomatoes.com/m/" + sourceid + "/"
-    error_message = "Rating id: " + str(rating_id) + " - Script UPDATE rating Rotten Tomatoes\n URL:" + url + "\n"
+    error_message = "Rating audience id: " + str(rating_audience_id) + " Rating expert id: " + str(rating_expert_id) + " - Script UPDATE rating Rotten Tomatoes\n URL:" + url + "\n"
     res_expert = {}
     res_audience = {}
 
@@ -235,14 +240,16 @@ def update_rating(db, rating_audience_id, rating_expert_id, sourceid):
 
     if not error_code:
         # Update expert rating
-        error_code, msg, res_expert = update_expert(soup, rating_expert_id, db, error_code)
+        error_code_expert, msg, res_expert = update_expert(soup, rating_expert_id, db, error_code)
         error_message += msg
 
         # Update audience rating
-        error_code, msg, res_audience = update_audience(soup, rating_audience_id, db, error_code)
+        error_code_audience, msg, res_audience = update_audience(soup, rating_audience_id, db, error_code)
         error_message += msg
+
+        error_code = error_code_expert or error_code_audience
 
     else:
         error_message += msg
 
-    return error_code, error_message, res_expert, res_audience
+    return error_code, error_message, res_audience, res_expert

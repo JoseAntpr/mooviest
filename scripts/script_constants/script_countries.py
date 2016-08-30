@@ -1,7 +1,5 @@
 import  urllib.parse, http.client, json
 from base64 import b64encode
-import interface
-
 
 # insert_countries(c, headers), insert all countries in to th DB
 #   Params

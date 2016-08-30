@@ -13,7 +13,9 @@ GENRES_JSON = {
 				'sport':       13, 'western':   14, 'animation': 15,
 				'documentary': 16, 'film-noir': 17, 'music':     18,
 				'drama':       19, 'musical':   20,	'romance':   21,
-				'thriller':    22, 'reallity':  23
+				'thriller':    22, 'reallity':  23, 'biography': 24,
+				'short':	   25, 'adult':     26, 'talk-show': 27,
+				'reality-tv':  28, 'game-show': 29
 			}
 ROLES = {
 			"actor": 1, "director": 2, "producer": 3,
@@ -33,41 +35,34 @@ def get_token():
 
 def get_info_tviso(idm, auth_token):
 	url = "https://api.tviso.com/media/full_info?auth_token=" + auth_token + "&idm=" + idm  + "&mediaType=" + mediaType
+	error_message = ""
+	data = {}
+
 	try:
 		response = urllib.request.urlopen(url)
 		data = json.loads(response.read().decode("utf8"))
 		error = data["error"]
 	except:
-		error = 502
+		error_message = "Error call get_info_tviso url: " + url + "\n"
+		error = 2
 
 	if error == 1:
-		error_msg = 'error: Auth token'
-		print(error_msg)
-		send_mail(idm, error_msg)
+		error_message = "error: Auth token\n"
 		auth_token = get_token()
 
 	elif(error == 9 or error == 50):
-		print(idm+' - error: Media type')
+		error_message = "error: Media type\n"
 
 	elif error == 10:
-		print(idm+' - error: Idm')
+		error_message = "error: Idm\n"
 
 	elif error == 20:
-		error_msg = 'error: Quota exceeded'
-		print(idm+' - '+error_msg)
-		save_lastid(idm)
-		send_mail(idm, error_msg)
+		error_message = "error: Quota exceeded\n"
 
 	elif error == 502:
-		error_msg = 'error: Response timeout or internet connection is not available'
-		print(idm+' - '+error_msg)
-		send_mail(idm, error_msg)
+		error_message = "error: Response timeout or internet connection is not available\n"
 
 	elif error == 803:
-		error_msg = 'error: Media limit reached'
-		print(idm+' - '+error_msg)
+		error_message = "error: Media limit reached\n"
 
-	else:
-		print("ok")
-
-	return data
+	return error, error_message, auth_token, data
