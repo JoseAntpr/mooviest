@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet
 from api.viewsets_users import UserViewSet
 from rest_framework.routers import DefaultRouter
-from api.viewsets_custom import CelebrityCustomViewSet, MovieByReleasedViewSet
+from api.viewsets_custom import CelebrityCustomViewSet, MovieByReleasedViewSet, MoviesAppByLangViewSet
 
 from django.views.generic import TemplateView
 
@@ -52,7 +52,12 @@ router.register(r'user',UserViewSet)
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'home.views.index',name = 'home'),
+    
+    # API
     url(r'^api/',include(router.urls)),
+    # App calls
+    url('^api/movie_app_bylang', MoviesAppByLangViewSet.as_view()),
+
     url(r'api_auth/',include('rest_framework.urls',namespace='rest_framework')),
     url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),

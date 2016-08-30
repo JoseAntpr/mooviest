@@ -1,5 +1,6 @@
 from movie.models import Celebrity, Movie
 from .serializers import CelebritySerializer, MovieSerializer
+from .serializers_custom import MovieAppSerializer
 from rest_framework import generics, filters, viewsets
 import urllib.parse
 
@@ -20,3 +21,16 @@ class MovieByReleasedViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     filter_backends = (filters.SearchFilter,)
     search_fields = ('=released',)
+
+class MoviesAppByLangViewSet(generics.ListAPIView):
+    serializer_class = MovieAppSerializer
+    lang = 1
+    def get_queryset(self):
+        l = self.request.query_params.get('lang_id', None)
+        limit = self.request.query_params.get('limit', None)
+        queryset = Movie.objects.all()[:int(limit)]
+        self.lang = l
+        return queryset
+
+    def get_serializer_context(self):
+        return {'lang': self.lang}
