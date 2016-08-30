@@ -5,6 +5,10 @@
     <div class="container">
       <div class="content">
 
+        {% for m in recommendations %}
+          <p>{{ m.original_title }}</p>
+        {% endfor %}
+
         <h3 class="text-center">Empieza ya a disfrutar de nuestras recomendaciones y clasifícalas...</h3>
 
         <!-- Movie recommendations -->
