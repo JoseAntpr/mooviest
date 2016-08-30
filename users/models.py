@@ -17,6 +17,8 @@ RELATIONSHIP_STATUSES = ((RELATIONSHIP_FOLLOWING, 'Following'), (RELATIONSHIP_BL
 
 class TypeMovie (models.Model):
     name = models.CharField(max_length = 15)
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User,primary_key = True ,on_delete=models.CASCADE)
@@ -67,6 +69,8 @@ class Collection (models.Model):
     pub_date = models.DateTimeField(auto_now = True, null= True)
     class Meta:
         unique_together = (("movie", "user"),)
+    #def __str__(self):
+        #return self.movie
 
 class Feeling (models.Model):
     profile = models.ForeignKey(Profile, on_delete = models.CASCADE)

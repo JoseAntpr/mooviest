@@ -10,12 +10,12 @@
   <img src = "{{ user.profile.photo_profile.url }}">
   <h1>Seguidores</h1>
   {% for follower in followers %}
-  <p> {{follower.from_person}}</p>
+  <p> {{follower}}</p>
   {% endfor %}
 
   <h1> Seguidos </h1>
   {% for following in followings %}
-  <p> {{following.to_person}}</p>
+  <p> {{following}}</p>
   {% endfor %}
 </div>
 {% endblock content %}

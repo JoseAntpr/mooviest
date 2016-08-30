@@ -12,10 +12,13 @@ class ProfileInline(admin.StackedInline):
 class UserAdmin(BaseUserAdmin):
     inlines = (ProfileInline,)
 
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ('user','movie','typeMovie')
+
 
 admin.site.unregister(User)
 admin.site.register(User,UserAdmin)
 admin.site.register(TypeMovie)
-admin.site.register(Collection)
+admin.site.register(Collection,CollectionAdmin)
 admin.site.register(LikeCelebrity)
 admin.site.register(Relationship)
