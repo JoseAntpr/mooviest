@@ -133,11 +133,10 @@ def settingPassword(request):
     return render(request,'users/password.html',context)
 
 def profile(request):
-    followers = request.user.profile.to_people.all()
-    followings = request.user.profile.from_people.all()
-
+    followers = request.user.profile.get_followers()
+    followings = request.user.profile.get_following()
     context = {
-        'followers' : followers,
-        'followings': followings
+        'followings': followings,
+        'followers': followers
     }
     return render(request,'users/profile.html',context)
