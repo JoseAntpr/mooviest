@@ -17,7 +17,9 @@
 
   <h1> Seguidos </h1>
   {% for following in followings %}
-  <p>  {{following}}</p>
+  <a href="{% url 'users_profile' following.user.id %}">
+    <p> {{following}}</p>
+  </a>
   {% endfor %}
 
   <h1> Peliculas vistas </h1>
