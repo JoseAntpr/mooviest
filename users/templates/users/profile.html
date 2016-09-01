@@ -10,12 +10,32 @@
   <img src = "{{ user.profile.photo_profile.url }}">
   <h1>Seguidores</h1>
   {% for follower in followers %}
-  <p> {{follower}}</p>
+  <a href="{% url 'users_profile' follower.user.id %}">
+    <p> {{follower}}</p>
+  </a>
   {% endfor %}
 
   <h1> Seguidos </h1>
   {% for following in followings %}
-  <p> {{following}}</p>
+  <p>  {{following}}</p>
+  {% endfor %}
+
+  <h1> Peliculas vistas </h1>
+  {% for movie in seenlist %}
+  <p>  {{movie.title}}</p>
+  {% endfor %}
+  <h1> Peliculas favoritas </h1>
+  {% for movie in favouritelist %}
+  <p>  {{movie.title}}</p>
+  {% endfor %}
+  <h1> Peliculas pendientes </h1>
+  {% for movie in watchlist %}
+  <p>  {{movie.title}}</p>
+  {% endfor %}
+
+  <h1> Famosos favoritos </h1>
+  {% for celebrity in likeCelebritiesList %}
+  <p>  {{celebrity.name}}</p>
   {% endfor %}
 </div>
 {% endblock content %}

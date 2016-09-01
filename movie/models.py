@@ -30,8 +30,8 @@ class Celebrity_lang(models.Model):
     celebrity = models.ForeignKey(Celebrity, on_delete=models.CASCADE)
     lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     biography = models.TextField(max_length=10000,blank=True,null=True)
-    #def __str__(self):              # __unicode__ on Python 2
-    #    return self.celebrity + " " + self.lang
+    def __str__(self):              # __unicode__ on Python 2
+        return self.celebrity + " " + self.lang
 
 class Role(models.Model):
     langs = models.ManyToManyField(Lang, through = 'Role_lang')
@@ -117,8 +117,8 @@ class Movie(models.Model):
         return self.original_title
 
 class Movie_lang(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE,related_name = "movie_lang")
+    lang = models.ForeignKey(Lang, on_delete=models.CASCADE,related_name = "movie_lang")
     country = models.ForeignKey(Country, null= True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=255)
     synopsis = models.TextField(blank=True,null=True)

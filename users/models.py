@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from movie.models import Lang, Country, Movie, Emotion, Celebrity
+from movie.models import Lang, Country, Movie,Movie_lang, Emotion, Celebrity
 
 FEMALE = "FE"
 MALE = "MA"
@@ -53,7 +53,14 @@ class Profile(models.Model):
 
     def get_followers(self):
         return self.get_related_to(RELATIONSHIP_FOLLOWING)
-
+    def get_seenlist(self):
+        return Movie_lang.objects.filter(lang__code = 'es').select_related('movie').filter(movie__collection__user=self, movie__collection__typeMovie__name='seen')
+    def get_watchlist(self):
+        return Movie_lang.objects.filter(lang__code = 'es').select_related('movie').filter(movie__collection__user=self, movie__collection__typeMovie__name='watchlist')
+    def get_favouritelist(self):
+        return Movie_lang.objects.filter(lang__code = 'es').select_related('movie').filter(movie__collection__user=self, movie__collection__typeMovie__name='favourite')
+    def get_likecelebrities(self):
+        return self.likeCelebrities.all()
 class Relationship (models.Model):
     from_person = models.ForeignKey(Profile, related_name='from_people')
     to_person = models.ForeignKey(Profile, related_name='to_people')
@@ -62,9 +69,12 @@ class Relationship (models.Model):
     def __str__(self):              # __unicode__ on Python 2
         return str(self.from_person.user.username) + " sigue a " + str(self.to_person.user.username)
 
+    class Meta:
+        unique_together = (("from_person", "to_person"),)
+
 class Collection (models.Model):
     user = models.ForeignKey(Profile, on_delete = models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete = models.CASCADE,related_name='collection')
     typeMovie = models.ForeignKey(TypeMovie, on_delete = models.CASCADE)
     pub_date = models.DateTimeField(auto_now = True, null= True)
     class Meta:

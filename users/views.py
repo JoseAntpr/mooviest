@@ -132,11 +132,22 @@ def settingPassword(request):
     }
     return render(request,'users/password.html',context)
 
-def profile(request):
-    followers = request.user.profile.get_followers()
-    followings = request.user.profile.get_following()
+def profile(request,user_id):
+    user = User.objects.get(pk=user_id)
+    followers = user.profile.get_followers()
+    followings = user.profile.get_following()
+    seenlist = user.profile.get_seenlist()
+    watchlist = user.profile.get_watchlist()
+    favouritelist = user.profile.get_favouritelist()
+    likeCelebritiesList = user.profile.get_likecelebrities()
+
+    print(seenlist)
     context = {
         'followings': followings,
-        'followers': followers
+        'followers': followers,
+        'seenlist': seenlist,
+        'watchlist':watchlist,
+        'favouritelist':favouritelist,
+        'likeCelebritiesList': likeCelebritiesList
     }
     return render(request,'users/profile.html',context)
