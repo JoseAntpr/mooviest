@@ -15,10 +15,13 @@ class UserAdmin(BaseUserAdmin):
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ('user','movie','typeMovie')
 
+class LikeCelebrityAdmin(admin.ModelAdmin):
+    list_display = ('profile','celebrity','pub_date')
+
 
 admin.site.unregister(User)
 admin.site.register(User,UserAdmin)
 admin.site.register(TypeMovie)
 admin.site.register(Collection,CollectionAdmin)
-admin.site.register(LikeCelebrity)
+admin.site.register(LikeCelebrity,LikeCelebrityAdmin)
 admin.site.register(Relationship)
