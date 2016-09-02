@@ -71,7 +71,7 @@ def register(request):
 
 def settingInfo(request):
     if request.method == 'POST':
-        form = SettingForm(request.POST,request.FILES)
+        form = SettingForm(request.user,request.POST,request.FILES)
         if form.is_valid():
             if form.cleaned_data['photo_profile'] is None:
                 request.user.profile.photo_profile = request.user.profile.photo_profile
@@ -95,6 +95,7 @@ def settingInfo(request):
 
     else:
         form = SettingForm(
+            request.user,
             initial={
                     'username':request.user.username,
                     'firstname':request.user.first_name,

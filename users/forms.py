@@ -45,25 +45,29 @@ class RegisterForm(forms.Form):
 class SettingForm(forms.Form):
     photo_profile = forms.ImageField(required=False)
     username = forms.CharField(min_length=4)
-    firstname = forms.CharField()
-    lastname = forms.CharField()
+    firstname = forms.CharField(required=False)
+    lastname = forms.CharField(required=False)
     email = forms.EmailField()
     born = forms.DateField(widget = SelectDateWidget(years=range(1940,int(datetime.datetime.now().year))),required=False)
-    gender = forms.ChoiceField(choices=GENDER_CHOICES,widget=forms.RadioSelect())
+    gender = forms.ChoiceField(choices=GENDER_CHOICES,widget=forms.RadioSelect(),required=False)
     country = forms.ModelChoiceField(queryset=Country.objects.all(),required=False)
     city = forms.CharField(required=False)
     postalcode = forms.CharField(required=False)
 
+    def __init__(self,user,*args,**kwargs):
+        self.user = user
+        super(SettingForm,self).__init__(*args,**kwargs)
+
     def clean_username(self):
         #Comprueba que no exista un username igual en la db
         username = self.cleaned_data['username']
-        if User.objects.filter(username=username.lower()):
+        if not self.user.username == username :
             raise forms.ValidationError('Nombre de usuario ya registrado.')
         return username.lower()
     def clean_email(self):
         #Comprueba que no exista ningún email igual en la db
         email = self.cleaned_data['email']
-        if User.objects.filter(email=email):
+        if not self.user.email == email:
             raise forms.ValidationError('Ya existe un email igual en la db')
         return email
 
