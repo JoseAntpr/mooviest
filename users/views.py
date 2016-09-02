@@ -141,7 +141,6 @@ def profile(request,user_id):
     favouritelist = user.profile.get_favouritelist()
     likeCelebritiesList = user.profile.get_likecelebrities()
 
-    print(seenlist)
     context = {
         'followings': followings,
         'followers': followers,
