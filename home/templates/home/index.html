@@ -6,8 +6,6 @@
     <div class="container">
       <div class="content">
 
-        <p>{{ recommendations.movie.runtime }}</p>
-
         <h3 class="text-center">Empieza ya a disfrutar de nuestras recomendaciones y clasifícalas...</h3>
 
         <!-- Movie recommendations -->
@@ -16,12 +14,12 @@
             <div class="stack">
               <div class="poster-bottom">
                 <a href="#" class="btn" data-action="open" data-side="right">
-                  <img id="poster" class="img-responsive" src="http://screencrush.com/files/2015/03/avengers-2-poster.jpg">
+                  <img id="poster" class="img-responsive" src="{{ recommendations.0.image }}">
                 </a>
               </div>
               <div class="poster-top">
                 <a href="#" class="btn" data-action="open" data-side="right">
-                  <img id="poster" class="img-responsive" src="http://a.dilcdn.com/bl/wp-content/uploads/sites/6/2015/10/star-wars-force-awakens-official-poster.jpg">
+                  <img id="poster" class="img-responsive" src="{{ recommendations.1.image }}">
                 </a>
               </div>
             </div>
@@ -178,7 +176,14 @@
     }
 
     function swapBottomMovie() {
-      //$('.poster-bottom #poster').attr('src', 'https://ca.movieposter.com/posters/archive/main/108/MPW-54063');
+      //$('.poster-bottom #poster').attr('src', '{{ view.nextMovie.image }}');
+      $.ajax({
+        url: '{% url 'home' %}',
+        success: function(response) {
+          console.log(response);
+          //$('.poster-bottom #poster').attr('src', data[6].image);
+        }
+      });
     }
 
   </script>

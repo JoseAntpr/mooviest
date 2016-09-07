@@ -115,12 +115,12 @@ class Movie(models.Model):
     average = models.DecimalField(default = 0, max_digits = 4, decimal_places = 2, null = True, blank = True)
     def __str__(self):              # __unicode__ on Python 2
         return self.original_title
-    def get_movieByLang(self):
-        return Movie_lang.objects.filter(movie = 3, lang = 2)
+    def get_movie_lang(self, lang):
+        return Movie_lang.objects.filter(lang__code = lang).select_related('movie').get(id = self.id)
 
 class Movie_lang(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name = 'movie_lang')
-    lang = models.ForeignKey(Lang, on_delete=models.CASCADE, related_name = 'movie_lang')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    lang = models.ForeignKey(Lang, on_delete=models.CASCADE)
     country = models.ForeignKey(Country, null= True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=255)
     synopsis = models.TextField(blank=True,null=True)
