@@ -7,7 +7,7 @@
     <p>{{error}}</p>
   {% endfor %}
 
-  <img src = "{{ user.profile.photo_profile.url }}">
+  <img src = "{{ userProfile.profile.avatar.url }}" class="img-circle">
   <h1>Seguidores</h1>
   {% for follower in followers %}
   <a href="{% url 'users_profile' follower.user.id %}">

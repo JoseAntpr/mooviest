@@ -73,10 +73,10 @@ def settingInfo(request):
     if request.method == 'POST':
         form = SettingForm(request.user,request.POST,request.FILES)
         if form.is_valid():
-            if form.cleaned_data['photo_profile'] is None:
-                request.user.profile.photo_profile = request.user.profile.photo_profile
+            if form.cleaned_data['avatar'] is None:
+                request.user.profile.avatar = request.user.profile.avatar
             else:
-                request.user.profile.photo_profile = form.cleaned_data['photo_profile']
+                request.user.profile.avatar = form.cleaned_data['avatar']
 
             request.user.username = form.cleaned_data.get('username')
             request.user.first_name = form.cleaned_data.get('firstname')
@@ -94,8 +94,7 @@ def settingInfo(request):
             return redirect('home')
 
     else:
-        form = SettingForm(
-            request.user,
+        form = SettingForm(request.user,
             initial={
                     'username':request.user.username,
                     'firstname':request.user.first_name,
@@ -134,15 +133,15 @@ def settingPassword(request):
     return render(request,'users/password.html',context)
 
 def profile(request,user_id):
-    user = User.objects.get(pk=user_id)
-    followers = user.profile.get_followers()
-    followings = user.profile.get_following()
-    seenlist = user.profile.get_seenlist()
-    watchlist = user.profile.get_watchlist()
-    favouritelist = user.profile.get_favouritelist()
-    likeCelebritiesList = user.profile.get_likecelebrities()
-
+    userProfile = User.objects.get(pk=user_id)
+    followers = userProfile.profile.get_followers()
+    followings = userProfile.profile.get_following()
+    seenlist = userProfile.profile.get_seenlist()
+    watchlist = userProfile.profile.get_watchlist()
+    favouritelist = userProfile.profile.get_favouritelist()
+    likeCelebritiesList = userProfile.profile.get_likecelebrities()
     context = {
+        'userProfile':userProfile,
         'followings': followings,
         'followers': followers,
         'seenlist': seenlist,

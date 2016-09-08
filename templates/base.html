@@ -36,7 +36,6 @@
 
       <!-- Font Awesome -->
       <script src="https://use.fontawesome.com/7c5129d645.js"></script>
-
     </head>
 
     <body>
@@ -61,6 +60,9 @@
         				</ul>
               </li>
               {% if user.is_authenticated %}
+                <li>
+                  <a href="{% url 'users_profile' user.id %}"><img src="{{ user.profile.avatar_thumbnail.url }}" class="img-circle"></a>
+                </li>
                 <li>
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}<span class="caret"></span></a>
                   <ul class="dropdown-menu">

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from movie.models import Lang, Country, Movie,Movie_lang, Emotion, Celebrity
+from imagekit.models import ProcessedImageField,ImageSpecField
+from imagekit.processors import ResizeToFill,SmartResize
 
 FEMALE = "FE"
 MALE = "MA"
@@ -27,7 +29,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User,primary_key = True ,on_delete=models.CASCADE)
     born = models.DateField(null = True, blank = True)
     gender = models.CharField(max_length=6 ,choices = GENDER_CHOICES,blank = True,null = True)
-    photo_profile = models.ImageField (upload_to = user_directory_path_profile,default = "user/default/no-image.png",null = True, blank = True)
+    avatar = ProcessedImageField (upload_to = user_directory_path_profile,default = "user/default/no-image.png",
+    processors=[ResizeToFill(180,180)],format='JPEG',options={'quality':60} ,null = True, blank = True)
+    avatar_thumbnail = ImageSpecField(source='avatar',processors=[SmartResize(30,30)],format='JPEG',options={'quality':60})
     cover_page = models.ImageField (upload_to = user_directory_path_profile,default = "user/default/no-image.png",null = True, blank = True)
     city = models.CharField(max_length = 35, blank = True, null = True)
     postalCode = models.CharField(max_length = 35, null = True, blank = True)
@@ -40,8 +44,6 @@ class Profile(models.Model):
 
     def __str__(self):              # __unicode__ on Python 2
         return self.user.username
-    def user_directory_path_cover(instance,filename):
-        return 'user/user_{0}/cover/{1}'.format(instance.user.id,filename)
 
     def get_relationships(self,status):
         return self.relationships.filter(

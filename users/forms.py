@@ -2,6 +2,7 @@
 from django import forms
 from .models import GENDER_CHOICES
 from movie.models import Country
+from .models import Profile
 from django.contrib.auth.models import User
 from django.forms.extras.widgets import SelectDateWidget
 import datetime
@@ -43,7 +44,7 @@ class RegisterForm(forms.Form):
 
 
 class SettingForm(forms.Form):
-    photo_profile = forms.ImageField(required=False)
+    avatar = forms.ImageField(required=False)
     username = forms.CharField(min_length=4)
     firstname = forms.CharField(required=False)
     lastname = forms.CharField(required=False)
