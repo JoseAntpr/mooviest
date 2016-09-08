@@ -110,6 +110,7 @@ class Movie(models.Model):
     original_title = models.CharField(max_length = 255)
     runtime = models.PositiveSmallIntegerField(null = True)
     released = models.PositiveSmallIntegerField(null = True)
+    backdrop = models.CharField(max_length = 255, null = True, blank = True)
     movie_producer = models.TextField(null=True,blank = True)
     saga_order = models.IntegerField(default = 1,blank = True)
     average = models.DecimalField(default = 0, max_digits = 4, decimal_places = 2, null = True, blank = True)
