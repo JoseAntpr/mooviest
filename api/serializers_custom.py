@@ -9,13 +9,13 @@ class CountryAppSerializer(serializers.ModelSerializer):
 class RatingAppSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ('name', 'rating', 'count', 'date_update')
+        fields = ('name', 'rating', 'count', 'date_update', "sourceid")
 
 class Movie_LangAppSerializer(serializers.ModelSerializer):
     country = CountryAppSerializer()
     class Meta:
         model = Movie_lang
-        fields = ('country', 'title', 'synopsis','image','trailer')
+        fields = ('id','country', 'title', 'synopsis','image','trailer')
 
 class Genre_LangAppSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,7 +50,7 @@ class ParticipationAppSerializer(serializers.ModelSerializer):
         fields = ('celebrity', 'role', 'character', 'award')
 
 class MovieAppSerializer(serializers.ModelSerializer):
-    ratings = RatingAppSerializer(source='rating_set', many=True)
+    ratings = serializers.SerializerMethodField('get_rating')
     genres = GenreAppSerializer(many=True)
     langs = serializers.SerializerMethodField('get')
     participations = serializers.SerializerMethodField('get_participation')
@@ -66,7 +66,11 @@ class MovieAppSerializer(serializers.ModelSerializer):
         participations = Participation.objects.filter(movie = obj)
         participationSerializer = ParticipationAppSerializer(source='participation_set', many=True, instance = participations)
         return participationSerializer.data
+    def get_rating(self,obj):
+        ratings = Rating.objects.filter(movie = obj, name = "Tviso")
+        ratingSerializer = RatingAppSerializer(source ="rating_set", many = True, instance = ratings)
+        return ratingSerializer.data
 
     class Meta:
         model = Movie
-        fields = ('id', 'genres', 'participations', 'langs', 'emotions', 'ratings', 'original_title', 'runtime', 'released', 'movie_producer', 'saga_order', 'average')
+        fields = ('id', 'genres', 'participations', 'langs', 'emotions', 'ratings', 'original_title', 'runtime', 'released', 'backdrop', 'movie_producer', 'saga_order', 'average')
