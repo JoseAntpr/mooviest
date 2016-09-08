@@ -21,7 +21,7 @@ from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrit
 from api.viewsets_users import UserViewSet
 from rest_framework.routers import DefaultRouter
 from api.viewsets_custom import CelebrityCustomViewSet, MovieByReleasedViewSet, MoviesAppByLangViewSet
-
+from api import viewsets_users
 from django.views.generic import TemplateView
 
 router = DefaultRouter()
@@ -46,7 +46,6 @@ router.register(r'rating', RatingViewSet)
 router.register(r'catalogue', CatalogueViewSet)
 router.register(r'catalogue_lang', Catalogue_langViewSet)
 router.register(r'participation', ParticipationViewSet)
-router.register(r'user',UserViewSet)
 
 
 urlpatterns = [
@@ -61,7 +60,8 @@ urlpatterns = [
     url(r'api_auth/',include('rest_framework.urls', namespace = 'rest_framework')),
 
     # App calls
-    url('^api/movie_app_bylang', MoviesAppByLangViewSet.as_view()),
+    url(r'^api/movie_app_bylang', MoviesAppByLangViewSet.as_view()),
+    url(r'^api/login/$',UserViewSet.as_view(),name='login'),
 
     # Home URLs
     url(r'^$', 'home.views.index', name = 'home'),
