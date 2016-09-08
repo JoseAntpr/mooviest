@@ -8,6 +8,20 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+class AuthView(APIView):
+    """
+    Authentication is needed for this methods
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        return Response({'detail': "I suppose you are authenticated"})
+
+
 class UserViewSet(APIView):
 
     def post(self,request):

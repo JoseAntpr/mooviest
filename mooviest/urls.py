@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet
-from api.viewsets_users import UserViewSet
+from api.viewsets_users import UserViewSet, AuthView
 from rest_framework.routers import DefaultRouter
 from api.viewsets_custom import CelebrityCustomViewSet, MovieByReleasedViewSet, MoviesAppByLangViewSet
 from api import viewsets_users
@@ -62,6 +62,7 @@ urlpatterns = [
     # App calls
     url(r'^api/movie_app_bylang', MoviesAppByLangViewSet.as_view()),
     url(r'^api/login/$',UserViewSet.as_view(),name='login'),
+    url(r'^api/auth/$', AuthView.as_view(), name='auth-view'),
 
     # Home URLs
     url(r'^$', 'home.views.index', name = 'home'),
