@@ -27,8 +27,8 @@ class MoviesAppByLangViewSet(generics.ListAPIView):
     lang = 1
     def get_queryset(self):
         l = self.request.query_params.get('lang_id', None)
-        limit = self.request.query_params.get('limit', None)
-        queryset = Movie.objects.all()[:int(limit)]
+        movie_id = self.request.query_params.get('id', None)
+        queryset = Movie.objects.filter(pk=movie_id)
         self.lang = l
         return queryset
 

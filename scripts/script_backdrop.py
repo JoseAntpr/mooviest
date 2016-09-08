@@ -8,7 +8,7 @@ from script_tviso import interface as interface_tviso
 
 db = interface_db.DB("admin","admin")
 
-api_url = "/api/movie_app_bylang?lang_id=2&limit=200000"
+api_url = "/api/movie_app_bylang?idlang_id=2&limit=200000"
 caracter_delete = "EXTERNAL#"
 
 
@@ -55,19 +55,33 @@ def external_image(movie_id, movie_lang_id, idm, image,auth_token):
     while error_code == 1:
         error_code, error_message, auth_token, data = get_info_tviso(idm, auth_token)
     # print(data)
-    backdrop = str(data["media"]["images"]["backdrop"])
+
     if error_code == 0:
-        db.update_data(db.API_URLS["movie"]+movie_id+"/",json.dumps({"backdrop": backdrop}))
-        db.update_data(db.API_URLS["movie_lang"]+movie_lang_id+"/",json.dumps({"image": image}))
+        try:
+            backdrop = data["media"]["images"]["backdrop"]
+            backdrop.replace(caracter_delete,"")
+            db.update_data(db.API_URLS["movie"]+movie_id+"/",json.dumps({"backdrop": backdrop}))
+            db.update_data(db.API_URLS["movie_lang"]+movie_lang_id+"/",json.dumps({"image": image}))
+        except:
+            log = "Movie idm: "+idm+"\n Mooviest id: "+movie_id+"\n Error data: "+str(data)+"\n"
+            print(log)
+            interface.save_log(interface.log_txt, log)
     else:
-        interface.save_log(interface.log_txt, "Movie idm: "+idm+"\n Mooviest id: "+movie_id+"\n" + error_message + "\n")
+        log = "Movie idm: "+idm+"\n Mooviest id: "+movie_id+"\n" + error_message+"\n"
+        print(log)
+        interface.save_log(interface.log_txt, log)
 
 
-def insert_update_backdrop(api_url,auth_token):
+def insert_update_backdrop(movie_id,auth_token):
+    api_url = "/api/movie_app_bylang?id="+str(movie_id)+"&lang_id=2"
     response = db.search(api_url)
-    next_url = str(response["next"])
-    count = str(response["count"])
-    movies = response["results"]
+    try:
+        movies = response["results"]
+    except:
+        log = "Mooviest id: "+movie_id+" no existe la movie\n"
+        print(log)
+        interface.save_log(interface.log_txt, log)
+
 
     for movie in movies:
         image = str(movie["langs"][0]["image"])
@@ -78,25 +92,10 @@ def insert_update_backdrop(api_url,auth_token):
             movie_lang_id = str(movie["langs"][0]["id"])
             idm = str(movie["ratings"][0]["sourceid"])
             external_image(movie_id, movie_lang_id, idm, image,auth_token)
-    return next_url, count
 
 # Generate token
 auth_token = interface_tviso.get_token()
 
-next_url, count = insert_update_backdrop(api_url,auth_token)
-i = 0
-print(str(i)+"/"+count)
-while next_url != None:
-    next_url, count = insert_update_backdrop(api_url,auth_token)
-    i += 1
-    print(str(i)+"/"+count)
-
-# next_url = str(result["next"])
-# results
-
-
-# while next_url != None:
-
-
-# print(next_url)
-# print(str(result["previous"]))
+for i in range(671, 181874):
+    insert_update_backdrop(i,auth_token)
+    print(str(i)+"/181874")
