@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'nested_admin',
     'users',
+    'imagekit',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -18,7 +18,6 @@ class CollectionAdmin(admin.ModelAdmin):
 class LikeCelebrityAdmin(admin.ModelAdmin):
     list_display = ('profile','celebrity','pub_date')
 
-
 admin.site.unregister(User)
 admin.site.register(User,UserAdmin)
 admin.site.register(TypeMovie)
