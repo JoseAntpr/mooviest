@@ -63,39 +63,56 @@ def external_image(movie_id, movie_lang_id, idm, image,auth_token):
             db.update_data(db.API_URLS["movie"]+movie_id+"/",json.dumps({"backdrop": backdrop}))
             db.update_data(db.API_URLS["movie_lang"]+movie_lang_id+"/",json.dumps({"image": image}))
         except:
-            log = "Movie idm: "+idm+"\n Mooviest id: "+movie_id+"\n Error data: "+str(data)+"\n"
+            log = "\nMovie idm: "+idm+"\n Mooviest id: "+movie_id+"\n Error data: "+str(data)+"\n"
             print(log)
             interface.save_log(interface.log_txt, log)
+            backdrop = ""
+            db.update_data(db.API_URLS["movie"]+movie_id+"/",json.dumps({"backdrop": backdrop}))
     else:
-        log = "Movie idm: "+idm+"\n Mooviest id: "+movie_id+"\n" + error_message+"\n"
+        log = "\nMovie idm: "+idm+"\n Mooviest id: "+movie_id+"\n" + error_message+"\n"
         print(log)
         interface.save_log(interface.log_txt, log)
 
 
 def insert_update_backdrop(movie_id,auth_token):
+    error_code = False
     api_url = "/api/movie_app_bylang?id="+str(movie_id)+"&lang_id=2"
     response = db.search(api_url)
     try:
         movies = response["results"]
     except:
-        log = "Mooviest id: "+movie_id+" no existe la movie\n"
+        log = "\nMooviest id: "+movie_id+" no existe la movie\n"
         print(log)
         interface.save_log(interface.log_txt, log)
+        movies = []
+        error_code = True
 
-
-    for movie in movies:
-        image = str(movie["langs"][0]["image"])
-        movie_id = str(movie["id"])
-        if image.find(caracter_delete) < 0:
-            db.update_data(db.API_URLS["movie"]+movie_id+"/",json.dumps({"backdrop": image}))
-        else:
-            movie_lang_id = str(movie["langs"][0]["id"])
-            idm = str(movie["ratings"][0]["sourceid"])
-            external_image(movie_id, movie_lang_id, idm, image,auth_token)
+    if not error_code:
+        for movie in movies:
+            movie_id = str(movie["id"])
+            try:
+                image = str(movie["langs"][0]["image"])
+            except:
+                log = "\nMooviest id: "+movie_id+" no tiene image\n"
+                print(log)
+                interface.save_log(interface.log_txt, log)
+                error_code = True
+            if not error_code:
+                if image.find(caracter_delete) < 0:
+                    db.update_data(db.API_URLS["movie"]+movie_id+"/",json.dumps({"backdrop": image}))
+                else:
+                    try:
+                        movie_lang_id = str(movie["langs"][0]["id"])
+                        idm = str(movie["ratings"][0]["sourceid"])
+                        external_image(movie_id, movie_lang_id, idm, image,auth_token)
+                    except:
+                        log = "\nMooviest id: "+movie_id+" no tiene sourceid\n"
+                        print(log)
+                        interface.save_log(interface.log_txt, log)
 
 # Generate token
 auth_token = interface_tviso.get_token()
 
-for i in range(671, 181874):
+for i in range(1, 181874):
     insert_update_backdrop(i,auth_token)
     print(str(i)+"/181874")
