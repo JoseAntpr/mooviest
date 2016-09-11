@@ -60,7 +60,6 @@ class SettingForm(forms.Form):
         super(SettingForm,self).__init__(*args,**kwargs)
 
     def clean_username(self):
-
         #Comprueba que no exista un username igual en la db
         username = self.cleaned_data['username']
         if not self.user.username == username and User.objects.filter(username=username.lower()) :
