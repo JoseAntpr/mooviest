@@ -74,7 +74,7 @@ class UserSerializer(serializers.ModelSerializer) :
         return instance
     def validate_username(self,data):
         user = User.objects.filter(username=data.lower())
-        if self.instance is not None and self.instance.username != data and user = User.objects.filter(username=data.lower()):
+        if self.instance is not None and self.instance.username != data and User.objects.filter(username=data.lower()):
             raise serializers.ValidationError('Nombre de usuario ya registrado.')
         else:
             return data
