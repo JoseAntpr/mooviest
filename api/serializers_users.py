@@ -2,16 +2,12 @@ from rest_framework import serializers
 from users.models import Profile
 from django.contrib.auth.models import User
 
-class ProfileRegisterSerializer(serializers.Serializer):
-    born = serializers.DateField()
-
 class UserRegisterSerializer(serializers.Serializer):
     username = serializers.CharField()
     email = serializers.EmailField()
     password = serializers.CharField(
         style={'input_type':'password'}
     )
-    profile = ProfileRegisterSerializer()
 
     def create(self,validated_data):
         """
@@ -22,15 +18,12 @@ class UserRegisterSerializer(serializers.Serializer):
         password = validated_data.get('password')
         profile = validated_data.get('profile')
 
-
         user = User.objects.create_user(username=username,password=password,email=email)
         user_profile = Profile()
         user_profile.user = user
-        user_profile.born = profile['born']
         user_profile.save()
 
         return user
-
 
     def validate_username(self,data):
         """
@@ -53,7 +46,38 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('born','gender','avatar','city','postalCode')
 
 class UserSerializer(serializers.ModelSerializer) :
-    profile = ProfileSerializer()
+    profile = ProfileSerializer(partial=True)
     class Meta:
         model = User
         fields = ('username','first_name','last_name','email','profile')
+
+    def update(self,instance,validated_data):
+        profile_data = validated_data.pop('profile')
+
+        profile = instance.profile
+
+        instance.username = validated_data.get('username',instance.username)
+        instance.first_name = validated_data.get('first_name',instance.first_name)
+        instance.last_name = validated_data.get('last_name',instance.last_name)
+        instance.email = validated_data.get('email',instance.email)
+
+        instance.save()
+
+        profile.born = profile_data.get('born',profile.born)
+        profile.gender = profile_data.get('gender',profile.gender)
+        profile.avatar = profile_data.get('avatar',profile.avatar)
+        profile.city = profile_data.get('city',profile.city)
+        profile.postalCode = profile_data.get('postalCode',profile.postalCode)
+
+        profile.save()
+
+        return instance
+    def validate_username(self,data):
+        user = User.objects.filter(username=data.lower())
+
+        if not self.instance and len(user)!=0:
+            raise serializers.ValidationError('Nombre de usuario ya registrado.')
+        elif self.instance is not None and self.instance.username != data and len(user)!=0 :
+            raise serializers.ValidationError('Nombre de usuario ya registrado.')
+        else:
+            return data

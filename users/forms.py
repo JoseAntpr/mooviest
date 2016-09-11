@@ -60,11 +60,13 @@ class SettingForm(forms.Form):
         super(SettingForm,self).__init__(*args,**kwargs)
 
     def clean_username(self):
+
         #Comprueba que no exista un username igual en la db
         username = self.cleaned_data['username']
-        if not self.user.username == username :
+        if not self.user.username == username and User.objects.filter(username=username.lower()) :
             raise forms.ValidationError('Nombre de usuario ya registrado.')
-        return username.lower()
+        else:
+            return username.lower()
     def clean_email(self):
         #Comprueba que no exista ningún email igual en la db
         email = self.cleaned_data['email']
