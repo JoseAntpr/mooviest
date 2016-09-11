@@ -61,3 +61,4 @@ class UserViewSet(ModelViewSet):
                 'status': http_code,
                 'token': token
             }
+        )
