@@ -21,13 +21,32 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
 
     def create(self,request):
-        serializer = UserRegisterSerializer(data = request.data)
+        data = request.data
+        http_code = ""
+        token = None
+        errors = None
+
+        serializer = UserRegisterSerializer(data=data)
         if serializer.is_valid():
             user = serializer.save()
-            token = Token.objects.get_or_create(user=user)
-            return Response({'user':serializer.data,'status':status.HTTP_201_CREATED,'token':token[0].key})
+            data =  serializer.data
+            http_code = status.HTTP_201_CREATED
+            token = Token.objects.get_or_create(user=user)[0].key
+
         else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+            data = None
+            http_code = status.HTTP_400_BAD_REQUEST
+            errors = serializer.errors
+
+        return Response(
+            {
+                'user':data,
+                'status':http_code,
+                'token':token,
+                'errors':errors
+            }
+        )
+
     #def retrieve(self,request,pk):
     #    return Response('retrieve',status=status.HTTP_200_OK)
     #def update(self,request,pk):
