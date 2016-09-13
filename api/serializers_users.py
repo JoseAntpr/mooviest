@@ -1,14 +1,17 @@
 from rest_framework import serializers
-from users.models import Profile
+from users.models import Profile, Lang
 from django.contrib.auth.models import User
 
+class ProfileRegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('lang',)
 
 class UserRegisterSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    email = serializers.EmailField()
-    password = serializers.CharField(
-        style={'input_type':'password'}
-    )
+    class Meta:
+        model = Profile
+        fields = ('username','email','password','profile')
+
 
     def create(self,validated_data):
         """
@@ -17,11 +20,13 @@ class UserRegisterSerializer(serializers.Serializer):
         username = validated_data.get('username')
         email = validated_data.get('email')
         password = validated_data.get('password')
-        profile = validated_data.get('profile')
+        profile_data = validated_data.get('profile')
+        print(lang)
 
         user = User.objects.create_user(username=username,password=password,email=email)
         user_profile = Profile()
         user_profile.user = user
+        user_profile.lang = 
         user_profile.save()
 
         return user
@@ -44,7 +49,7 @@ class UserRegisterSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('born','gender','avatar','city','postalCode')
+        fields = ('born','gender','avatar','city','postalCode','lang')
 
 class UserSerializer(serializers.ModelSerializer) :
     profile = ProfileSerializer(partial=True)

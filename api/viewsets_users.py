@@ -1,5 +1,5 @@
 from users.models import Profile
-from .serializers_users import UserRegisterSerializer,UserSerializer,UserLoginSerializer
+from .serializers_users import UserRegisterSerializer,UserSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
@@ -27,6 +27,7 @@ class UserViewSet(ModelViewSet):
         errors = None
 
         serializer = UserRegisterSerializer(data=data)
+        #print('Serializer' + str(serializer))
         if serializer.is_valid():
             user = serializer.save()
             data =  serializer.data
@@ -61,28 +62,22 @@ class UserViewSet(ModelViewSet):
         http_code = ''
         token = None
 
-        serializer = UserLoginSerializer(data=data)
-        if serializer.is_valid():
-            username = data.get('username')
-            if '@' in username:
-                print (username)
-                user_aux = User.objects.filter(email=username)[0]
-                user = authenticate(username=user_aux.username,password=data.get('password'))
-            else:
-                user = authenticate(username=data.get('username'),password=data.get('password'))
 
-            if user is None:
-                message = 'User or password incorrect'
-                http_code = status.HTTP_404_NOT_FOUND
-            else:
-                message = 'Login successfully'
-                http_code = status.HTTP_200_OK
-                token = Token.objects.get_or_create(user=user)[0].key
-
+        username = data.get('username')
+        if '@' in username:
+            print (username)
+            user_aux = User.objects.filter(email=username)[0]
+            user = authenticate(username=user_aux.username,password=data.get('password'))
         else:
-            data = None
-            http_code = status.HTTP_400_BAD_REQUEST
-            errors = serializer.errors
+            user = authenticate(username=data.get('username'),password=data.get('password'))
+
+        if user is None:
+            message = 'User or password incorrect'
+            http_code = status.HTTP_404_NOT_FOUND
+        else:
+            message = 'Login successfully'
+            http_code = status.HTTP_200_OK
+            token = Token.objects.get_or_create(user=user)[0].key
 
         return Response(
             {
