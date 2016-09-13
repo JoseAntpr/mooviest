@@ -27,7 +27,7 @@ class UserViewSet(ModelViewSet):
         errors = None
 
         serializer = UserRegisterSerializer(data=data)
-        #print('Serializer' + str(serializer))
+        print (serializer)
         if serializer.is_valid():
             user = serializer.save()
             data =  serializer.data

@@ -1,15 +1,19 @@
 from rest_framework import serializers
-from users.models import Profile, Lang
+from users.models import Profile
+from movie.models import Lang
 from django.contrib.auth.models import User
+from .serializers import LangSerializer
 
 class ProfileRegisterSerializer(serializers.ModelSerializer):
+    lang = LangSerializer()
     class Meta:
         model = Profile
         fields = ('lang',)
 
-class UserRegisterSerializer(serializers.Serializer):
+class UserRegisterSerializer(serializers.ModelSerializer):
+    profile = ProfileRegisterSerializer()
     class Meta:
-        model = Profile
+        model = User
         fields = ('username','email','password','profile')
 
 
@@ -17,16 +21,16 @@ class UserRegisterSerializer(serializers.Serializer):
         """
         Crea una instacia de User
         """
-        username = validated_data.get('username')
-        email = validated_data.get('email')
-        password = validated_data.get('password')
-        profile_data = validated_data.get('profile')
-        print(lang)
 
-        user = User.objects.create_user(username=username,password=password,email=email)
+        profile_data = validated_data.pop('profile')
+        print(profile_data)
+        print(profile_data['lang']['code'])
+
+        user = User.objects.create(**validated_data)
+
         user_profile = Profile()
         user_profile.user = user
-        user_profile.lang = 
+        user_profile.lang = Lang.objects.get(code = profile_data['lang']['code'])
         user_profile.save()
 
         return user

@@ -5,7 +5,7 @@ from movie.models import *
 class LangSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lang
-        fields = ('id', 'code')
+        fields = ('code',)
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
