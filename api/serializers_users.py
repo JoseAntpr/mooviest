@@ -14,7 +14,7 @@ class ProfileRegisterSerializer(serializers.ModelSerializer):
     lang = LangSerializer()
     class Meta:
         model = Profile
-        fields = ('lang',)
+        fields = ('lang','avatar',)
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     profile = ProfileRegisterSerializer()

@@ -95,10 +95,12 @@ class UserViewSet(ModelViewSet):
                     'id':user.id,
                     'username':user.username,
                     'email':user.email,
-
-                },
-                'lang': {
-                    'code':user.profile.lang.code,
+                    'profile': {
+                        'lang': {
+                            'code': user.profile.lang.code,
+                        },
+                        'avatar': str(user.profile.avatar)
+                    }
                 },
                 'status': http_code,
                 'token': token,
