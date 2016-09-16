@@ -1,5 +1,6 @@
-from users.models import Profile
-from .serializers_users import UserRegisterSerializer,UserSerializer
+from users.models import Profile,Collection
+from .serializers_users import UserRegisterSerializer,UserSerializer,CollectionSerializer
+from .serializers import Movie_langSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
@@ -12,6 +13,11 @@ from rest_framework.viewsets import ViewSet,ModelViewSet
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+
+class CollectionViewSet(ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+
 
 class UserViewSet(ModelViewSet):
 
@@ -68,10 +74,13 @@ class UserViewSet(ModelViewSet):
             print (username)
             user_aux = User.objects.filter(email=username)[0]
             user = authenticate(username=user_aux.username,password=data.get('password'))
+
         else:
             user = authenticate(username=data.get('username'),password=data.get('password'))
 
+
         if user is None:
+            data = None
             message = 'User or password incorrect'
             http_code = status.HTTP_404_NOT_FOUND
         else:
@@ -82,7 +91,48 @@ class UserViewSet(ModelViewSet):
         return Response(
             {
                 'message': message,
+                'user':{
+                    'id':user.id,
+                    'username':user.username,
+                    'email':user.email,
+
+                },
+                'lang': {
+                    'code':user.profile.lang.code,
+                },
                 'status': http_code,
                 'token': token,
             }
         )
+    @detail_route(methods = ['get'])
+    def seen_list(self,request,pk=None):
+
+        user = User.objects.get(pk=pk)
+        queryset = user.profile.get_seenlist()
+        serializer = Movie_langSerializer(queryset,many=True)
+
+        return Response(serializer.data)
+    @detail_route(methods = ['get'])
+    def watchlist(self,request,pk=None):
+        print(request.data)
+        user = User.objects.get(pk=pk)
+        queryset = user.profile.get_watchlist()
+        serializer = Movie_langSerializer(queryset,many=True)
+
+        return Response(serializer.data)
+    @detail_route(methods = ['get'])
+    def swipe_list(self,request,pk=None):
+        print(request.data)
+        user = User.objects.get(pk=pk)
+        queryset = user.profile.get_swipelist()
+        serializer = Movie_langSerializer(queryset,many=True)
+
+        return Response(serializer.data)
+    @detail_route(methods = ['get'])
+    def favourite_list(self,request,pk=None):
+        print(request.data)
+        user = User.objects.get(pk=pk)
+        queryset = user.profile.get_favouritelist()
+        serializer = Movie_langSerializer(queryset,many=True)
+
+        return Response(serializer.data)

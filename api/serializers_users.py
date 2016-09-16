@@ -1,8 +1,14 @@
 from rest_framework import serializers
-from users.models import Profile
+from users.models import Profile,Collection
 from movie.models import Lang
 from django.contrib.auth.models import User
 from .serializers import LangSerializer
+
+
+class CollectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ('user','movie','typeMovie','pub_date')
 
 class ProfileRegisterSerializer(serializers.ModelSerializer):
     lang = LangSerializer()
@@ -14,7 +20,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     profile = ProfileRegisterSerializer()
     class Meta:
         model = User
-        fields = ('username','email','password','profile')
+        fields = ('id','username','email','password','profile')
 
 
     def create(self,validated_data):
@@ -23,14 +29,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         """
 
         profile_data = validated_data.pop('profile')
-        print(profile_data)
-        print(profile_data['lang']['code'])
-
-        user = User.objects.create(**validated_data)
-
+        #user = User.objects.create(**validated_data)
+        user = User.objects.create_user(validated_data.get('username'),validated_data.get('email'),validated_data.get('password'))
         user_profile = Profile()
         user_profile.user = user
-        user_profile.lang = Lang.objects.get(code = profile_data['lang']['code'])
+        user_profile.lang = Lang.objects.get(code = profile_data.get('lang').get('code'))
+
         user_profile.save()
 
         return user
@@ -59,14 +63,17 @@ class UserSerializer(serializers.ModelSerializer) :
     profile = ProfileSerializer(partial=True)
     class Meta:
         model = User
-        fields = ('username','first_name','last_name','email','profile')
+        fields = ('id','username','first_name','last_name','email','profile')
 
     def update(self,instance,validated_data):
         profile_data = validated_data.pop('profile')
+        print(validated_data)
 
         profile = instance.profile
+        print (profile)
 
         instance.username = validated_data.get('username',instance.username)
+        print(instance)
         instance.first_name = validated_data.get('first_name',instance.first_name)
         instance.last_name = validated_data.get('last_name',instance.last_name)
         instance.email = validated_data.get('email',instance.email)

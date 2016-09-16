@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from movie.models import *
+from users.models import Collection
 
 
 class LangSerializer(serializers.ModelSerializer):
@@ -78,6 +79,7 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = ('id', 'genres', 'participations', 'langs', 'emotions', 'saga', 'catalogues', 'ratings', 'original_title', 'runtime', 'released', 'movie_producer', 'saga_order', 'average')
 
 class Movie_langSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Movie_lang
         fields = ('id', 'movie', 'lang', 'country', 'title', 'synopsis','image','trailer')
