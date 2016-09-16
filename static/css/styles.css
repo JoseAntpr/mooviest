@@ -1,4 +1,3 @@
-{% load staticfiles %}
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 
 html, body {
@@ -10,8 +9,8 @@ html, body {
 }
 
 .container {
-  position: relative;
-	margin-top: 15vh;
+    position: relative;
+    margin-top: 15vh;
 	padding: 50px;
 }
 
