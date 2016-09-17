@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'nested_admin',
     'users',
     'imagekit',
+    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
