@@ -87,21 +87,22 @@ class UserViewSet(ModelViewSet):
             message = 'Login successfully'
             http_code = status.HTTP_200_OK
             token = Token.objects.get_or_create(user=user)[0].key
+            data = {
+                'id':user.id,
+                'username':user.username,
+                'email':user.email,
+                'profile': {
+                    'lang': {
+                        'code': user.profile.lang.code,
+                    },
+                    'avatar': str(user.profile.avatar)
+                }
+            }
 
         return Response(
             {
                 'message': message,
-                'user':{
-                    'id':user.id,
-                    'username':user.username,
-                    'email':user.email,
-                    'profile': {
-                        'lang': {
-                            'code': user.profile.lang.code,
-                        },
-                        'avatar': str(user.profile.avatar)
-                    }
-                },
+                'user': data,
                 'status': http_code,
                 'token': token,
             }
