@@ -6,15 +6,23 @@ from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.decorators import detail_route,list_route
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status,viewsets
 from rest_framework.viewsets import ViewSet,ModelViewSet
+from api.permissions import UserPermission
+
 
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 class CollectionViewSet(ModelViewSet):
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
 
@@ -26,7 +34,11 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (UserPermission,)
+
     def create(self,request):
+
         data = request.data
         http_code = ""
         token = None

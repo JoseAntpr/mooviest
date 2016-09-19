@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet
 from api.viewsets_users import UserViewSet,CollectionViewSet
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
 from api.viewsets_custom import CelebrityCustomViewSet, MovieByReleasedViewSet, MoviesAppByLangViewSet
 from django.views.generic import TemplateView
 
@@ -57,7 +58,7 @@ urlpatterns = [
 
     # API
     url(r'^api/',include(router.urls)),
-    url(r'api_auth/',include('rest_framework.urls', namespace = 'rest_framework')),
+    url(r'api-token-auth/',views.obtain_auth_token),
 
     # App calls
     url(r'^api/movie_app_bylang', MoviesAppByLangViewSet.as_view()),
