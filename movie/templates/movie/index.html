@@ -11,16 +11,32 @@
                     </div>
                     <div class="row">
                         <div class="col-md-3">
-                            <button type="button" title="Pendiente" action="#" class="btn btn-sm btn-default btn-round watchlist"><i class="fa fa-plus"></i></button>
+                            {% if collection = 'watchlist' %}
+                                <button type="button" title="Pendiente" action="#" class="btn btn-sm btn-default btn-round watchlist" style="color: orange"><i class="fa fa-plus"></i></button>
+                            {% else %}
+                                <button type="button" title="Pendiente" action="#" class="btn btn-sm btn-default btn-round watchlist"><i class="fa fa-plus"></i></button>
+                            {% endif %}
                         </div>
                         <div class="col-md-3">
-                            <button type="button" title="No vista" action="#" class="btn btn-sm btn-default btn-round not-seen"><i class="fa fa-times"></i></button>
+                            {% if collection = 'not-seen' %}
+                                <button type="button" title="No vista" action="#" class="btn btn-sm btn-default btn-round not-seen" style="color: blue"><i class="fa fa-times"></i></button>
+                            {% else %}
+                                <button type="button" title="No vista" action="#" class="btn btn-sm btn-default btn-round not-seen"><i class="fa fa-times"></i></button>
+                            {% endif %}
                         </div>
                         <div class="col-md-3">
-                            <button type="button" title="Vista" action="#" class="btn btn-sm btn-default btn-round seen"><i class="fa fa-check"></i></button>
+                            {% if collection == 'seen' %}
+                                <button type="button" title="Vista" action="#" class="btn btn-sm btn-default btn-round seen" style="color: green;"><i class="fa fa-check"></i></button>
+                            {% else %}
+                                <button type="button" title="Vista" action="#" class="btn btn-sm btn-default btn-round seen"><i class="fa fa-check"></i></button>
+                            {% endif %}
                         </div>
                         <div class="col-md-3">
-                            <button type="button" title="Favorita" action="#" class="btn btn-sm btn-default btn-round favourite"><i class="fa fa-heart"></i></button>
+                            {% if collection = 'watchlist' %}
+                                <button type="button" title="Favorita" action="#" class="btn btn-sm btn-default btn-round favourite" style="color: pink"><i class="fa fa-heart"></i></button>
+                            {% else %}
+                                <button type="button" title="Favorita" action="#" class="btn btn-sm btn-default btn-round favourite"><i class="fa fa-heart"></i></button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
