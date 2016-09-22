@@ -66,8 +66,19 @@ class UserViewSet(ModelViewSet):
             }
         )
 
-    #def retrieve(self,request,pk):
-    #    return Response('retrieve',status=status.HTTP_200_OK)
+    # def retrieve(self,request,pk):
+    #     user = User.objects.get(pk=pk)
+    #     serializer = UserSerializer(data = user)
+    #
+    #     http_code = status.HTTP_200_OK
+    #
+    #     return Response(
+    #         {
+    #             'user':serializer,
+    #             'status':http_code,
+    #         }
+    #     )
+
     #def update(self,request,pk):
     #    return Response('update',status=status.HTTP_200_OK)
     #def destroy(self,request,pk):

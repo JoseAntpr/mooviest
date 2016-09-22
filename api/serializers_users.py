@@ -55,6 +55,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return data.lower()
 
 class ProfileSerializer(serializers.ModelSerializer):
+    lang = LangSerializer()
     class Meta:
         model = Profile
         fields = ('born','gender','avatar','city','postalCode','lang')

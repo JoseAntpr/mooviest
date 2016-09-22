@@ -4,6 +4,9 @@ from .serializers_custom import MovieAppSerializer
 from rest_framework import generics, filters, viewsets
 import urllib.parse
 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 class CelebrityCustomViewSet(generics.ListAPIView):
     serializer_class = CelebritySerializer
 
@@ -23,6 +26,9 @@ class MovieByReleasedViewSet(viewsets.ModelViewSet):
     search_fields = ('=released',)
 
 class MoviesAppByLangViewSet(generics.ListAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     serializer_class = MovieAppSerializer
     lang = 1
     def get_queryset(self):
