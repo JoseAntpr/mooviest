@@ -1,7 +1,7 @@
 import json
 from django.core import serializers
 from users.models import Profile, Collection, Lang
-from .serializers_users import UserRegisterSerializer,UserSerializer, UserRetrieveSerializer,CollectionSerializer
+from .serializers_users import UserRegisterSerializer, UserSerializer, CollectionSerializer
 from .serializers import Movie_langSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
