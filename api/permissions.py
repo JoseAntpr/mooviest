@@ -14,7 +14,6 @@ class UserPermission(BasePermission):
         elif view.action == 'login':
             return True
         elif view.action in ['retrieve','update','destroy']:
-            print (view.action+ " Entra por aquí")
             return True
         elif view.action == 'list':
             return False
