@@ -1,5 +1,7 @@
-from users.models import Profile,Collection
-from .serializers_users import UserRegisterSerializer,UserSerializer,CollectionSerializer
+import json
+from django.core import serializers
+from users.models import Profile, Collection, Lang
+from .serializers_users import UserRegisterSerializer,UserSerializer, UserRetrieveSerializer,CollectionSerializer
 from .serializers import Movie_langSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
@@ -12,8 +14,7 @@ from rest_framework.response import Response
 from rest_framework import status,viewsets
 from rest_framework.viewsets import ViewSet,ModelViewSet
 from api.permissions import UserPermission
-
-
+from django.forms import model_to_dict
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -66,18 +67,33 @@ class UserViewSet(ModelViewSet):
             }
         )
 
-    # def retrieve(self,request,pk):
-    #     user = User.objects.get(pk=pk)
-    #     serializer = UserSerializer(data = user)
-    #
-    #     http_code = status.HTTP_200_OK
-    #
-    #     return Response(
-    #         {
-    #             'user':serializer,
-    #             'status':http_code,
-    #         }
-    #     )
+    def retrieve(self,request,pk):
+        user = User.objects.get(pk=pk)
+        profile = user.profile
+        lang = Lang.objects.get(pk = profile.lang.id)
+
+        return Response(
+            {
+                'user':{
+                    'id': user.id,
+                    'username': user.username,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'email': user.email,
+                    'profile':{
+                        'born': profile.born,
+                        'avatar': profile.avatar.url,
+                        'city': profile.city,
+                        'gender': profile.gender,
+                        'postalCode': profile.postalCode,
+                        'lang': {
+                            'code': lang.code
+                        },
+                    },
+                },
+                'status':status.HTTP_200_OK,
+            }
+        )
 
     #def update(self,request,pk):
     #    return Response('update',status=status.HTTP_200_OK)
