@@ -15,7 +15,7 @@ def login(request):
             username = form.cleaned_data.get('usr')
             password = form.cleaned_data.get('pwd')
             if '@' in username:
-                user_aux = User.objects.filter(email=username)[0]
+                user_aux = User.objects.get(email=username)
                 user = authenticate(username=user_aux.username,password=password)
             else:
                 user = authenticate(username=username, password=password)
@@ -55,7 +55,6 @@ def register(request):
             #Aunque no guarde nada del profile, pero asi queda la referencia creada
             user_profile = Profile()
             user_profile.user = user_model
-            user_profile.born = born
             # Guardamos el perfil
             user_profile.save()
             #redirigimos

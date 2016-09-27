@@ -1,17 +1,86 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %} Registro de usuario {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
+{% endblock css %}
 {% block content %}
 <div class="content">
 
   {% for error in errors %}
-    <p>{{error}}</p>
+  <p>{{error}}</p>
   {% endfor %}
-  <form method="post">
+  <form method="post" class="form-horizontal" role="form">
+    {% load widget_tweaks %}
     {% csrf_token %}
-      {{register_form.as_p }}
-    <div>
-      <button type="submit" class="btn btn-primary">Entrar</button>
+    <div class="row">
+      <div class="col-lg-offset-4 col-lg-4">
+        <div class="card">
+          <div class="cardContainer">
+            <div class="col-lg-offset-3 col-lg-6">
+              <h2 class="text-center">Únete a Mooviest</h2>
+              <br>
+            </div>
+            <div class="form-group">
+              <!-- <label for="username" class="col-lg-2 control-label">Nombre usuario</label> -->
+              <div class="col-lg-offset-3 col-lg-6">
+                <div class="row">
+                  <div class="col-lg-2">
+                    <i class="fa fa-at fa-2x" aria-hidden="true"></i>
+                  </div>
+                  <div class="col-lg-10">
+                    {% render_field register_form.username type="text" id="username" class+="form-control" placeholder="Nombre de usuario" %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <!-- <label for="username" class="col-lg-2 control-label">Email</label> -->
+              <div class="col-lg-offset-3 col-lg-6">
+                <div class="row">
+                  <div class="col-lg-2">
+                    <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+                  </div>
+                  <div class="col-lg-10">
+                    {% render_field register_form.email type="email" class+="form-control" placeholder="Email"%}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <!-- <label for="username" class="col-lg-2 control-label">Contraseña</label> -->
+              <div class="col-lg-offset-3 col-lg-6">
+                <div class="row">
+                  <div class="col-lg-2">
+                    <i class="fa fa-unlock-alt fa-2x" aria-hidden="true"></i>
+                  </div>
+                  <div class="col-lg-10">
+                    {% render_field register_form.password type="password" class+="form-control" placeholder="Contraseña" %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <!-- <label for="username" class="col-lg-2 control-label">Confirmar contraseña</label> -->
+              <div class="col-lg-offset-3 col-lg-6">
+                <div class="row">
+                  <div class="col-lg-2">
+                    <i class="fa fa-unlock-alt fa-2x" aria-hidden="true"></i>
+                  </div>
+                  <div class="col-lg-10">
+                  {% render_field register_form.password2 type="password" class+="form-control" placeholder="Confirmar contraseña" %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-lg-offset-3 col-lg-6">
+                <button type="submit" class="btn btn-success btn-block">Regístrate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
 </div>

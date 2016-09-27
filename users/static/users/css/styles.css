@@ -1,0 +1,12 @@
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  background-color: white;
+  padding-top: 40px;
+  padding-bottom: 150px;
+}
+
+.cardContainer{
+  padding: 2px 16px;
+}
