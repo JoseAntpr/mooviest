@@ -9,36 +9,39 @@
                     <div class="row">
                         <img class="img-responsive" src="{{ movie.image }}" alt="">
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            {% if collection = 'watchlist' %}
-                                <button type="button" title="Pendiente" action="#" class="btn btn-sm btn-default btn-round watchlist" style="color: orange"><i class="fa fa-plus"></i></button>
-                            {% else %}
-                                <button type="button" title="Pendiente" action="#" class="btn btn-sm btn-default btn-round watchlist"><i class="fa fa-plus"></i></button>
-                            {% endif %}
+                    <form action="change-collection" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-3">
+                                {% if collection = 'watchlist' %}
+                                    <button type="submit" name="watchlist" title="Pendiente" id="watchlist" class="btn btn-sm btn-default btn-round watchlist" style="color: orange"><i class="fa fa-plus"></i></button>
+                                {% else %}
+                                    <button type="submit" name="watchlist" title="Pendiente" id="watchlist" class="btn btn-sm btn-default btn-round watchlist"><i class="fa fa-plus"></i></button>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-3">
+                                {% if collection = 'not-seen' %}
+                                    <button type="submit" name="not-seen" title="No vista" id="not-seen" class="btn btn-sm btn-default btn-round not-seen" style="color: blue"><i class="fa fa-times"></i></button>
+                                {% else %}
+                                    <button type="submit" name="not-seen" title="No vista" id="not-seen" class="btn btn-sm btn-default btn-round not-seen"><i class="fa fa-times"></i></button>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-3">
+                                {% if collection == 'seen' %}
+                                    <button type="submit" name="seen" title="Vista" id="seen" class="btn btn-sm btn-default btn-round seen" style="color: green;"><i class="fa fa-check"></i></button>
+                                {% else %}
+                                    <button type="submit" name="seen" title="Vista" id="seen" class="btn btn-sm btn-default btn-round seen"><i class="fa fa-check"></i></button>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-3">
+                                {% if collection = 'favourite' %}
+                                    <button type="submit" name="favourite" title="Favorita" id="favourite" class="btn btn-sm btn-default btn-round favourite" style="color: pink"><i class="fa fa-heart"></i></button>
+                                {% else %}
+                                    <button type="submit" name="favourite" title="Favorita" id="favourite" class="btn btn-sm btn-default btn-round favourite"><i class="fa fa-heart"></i></button>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            {% if collection = 'not-seen' %}
-                                <button type="button" title="No vista" action="#" class="btn btn-sm btn-default btn-round not-seen" style="color: blue"><i class="fa fa-times"></i></button>
-                            {% else %}
-                                <button type="button" title="No vista" action="#" class="btn btn-sm btn-default btn-round not-seen"><i class="fa fa-times"></i></button>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-3">
-                            {% if collection == 'seen' %}
-                                <button type="button" title="Vista" action="#" class="btn btn-sm btn-default btn-round seen" style="color: green;"><i class="fa fa-check"></i></button>
-                            {% else %}
-                                <button type="button" title="Vista" action="#" class="btn btn-sm btn-default btn-round seen"><i class="fa fa-check"></i></button>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-3">
-                            {% if collection = 'watchlist' %}
-                                <button type="button" title="Favorita" action="#" class="btn btn-sm btn-default btn-round favourite" style="color: pink"><i class="fa fa-heart"></i></button>
-                            {% else %}
-                                <button type="button" title="Favorita" action="#" class="btn btn-sm btn-default btn-round favourite"><i class="fa fa-heart"></i></button>
-                            {% endif %}
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="col-md-3">
                     <h1>{{ movie.movie.original_title }}</h1><p>{{ movie.movie.released }}</p>
