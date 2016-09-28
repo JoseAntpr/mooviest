@@ -34,7 +34,7 @@ p {
 
 /* Navbar */
 .navbar {
-	min-height: 70px;
+	min-height: 6vh;
 	padding-top: 10px;
 	margin-bottom: 0px;
 }

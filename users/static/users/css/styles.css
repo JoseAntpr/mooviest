@@ -10,3 +10,43 @@
 .cardContainer{
   padding: 2px 16px;
 }
+
+.backdrop{
+  height: 400px;
+  margin-top: 6vh;
+  background-image: url(https://static.justwatch.com/backdrop/137681/s1440/avengers-assemble);
+  background-size: cover;
+}
+
+.avatar-wrapper{
+  text-align: center;
+  position: absolute;
+  top:150px;
+  width: 100%;
+
+}
+
+.movieCard{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.movieCard:hover{
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.movieContainer{
+  text-align: center;
+  padding: 2px 16px;
+}
+.followerCard{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height:100px
+}

@@ -54,13 +54,6 @@
           </div>
       		<div class="collapse navbar-collapse" id="navbar">
       			<ul class="nav navbar-nav navbar-right">
-        			<li class="dropdown">
-        				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe"></i> Idioma<span class="caret"></span></a>
-        				<ul class="dropdown-menu">
-        					<li><a href="index_en.html">English</a></li>
-        					<li><a href="index.html">Español</a></li>
-        				</ul>
-              </li>
               {% if user.is_authenticated %}
                 <li>
                   <a href="{% url 'users_profile' user.id %}"><img src="{{ user.profile.avatar_thumbnail.url }}" class="img-circle"></a>
