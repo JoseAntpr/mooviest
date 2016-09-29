@@ -48,5 +48,8 @@
   background-color: white;
   margin-top: 10px;
   margin-bottom: 10px;
-  height:100px
+  margin-right:10px;
+}
+.followerContainer{
+  padding: 2px 16px;
 }
