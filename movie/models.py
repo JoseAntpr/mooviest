@@ -117,7 +117,7 @@ class Movie(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         return self.original_title
     def get_movie_lang(self, lang):
-        return Movie_lang.objects.filter(lang__code = lang).select_related('movie').get(id = self.id)
+        return Movie_lang.objects.filter(lang__code = lang).select_related('movie').get(movie = self)
 
 class Movie_lang(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE,related_name = "movie_lang")

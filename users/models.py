@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from movie.models import Lang, Country, Movie,Movie_lang, Emotion, Celebrity
 from imagekit.models import ProcessedImageField,ImageSpecField
 from imagekit.processors import ResizeToFill,SmartResize
@@ -68,6 +69,13 @@ class Profile(models.Model):
         return Movie_lang.objects.filter(lang__code = 'es').select_related('movie').filter(movie__collection__user=self, movie__collection__typeMovie__name='favourite')
     def get_likecelebrities(self):
         return self.likeCelebrities.all()
+    def get_typemovie(self, movie):
+        try:
+            typeMovie = Collection.objects.get(user = self, movie = movie).typeMovie
+        except ObjectDoesNotExist:
+            typeMovie = None
+        return typeMovie
+
 class Relationship (models.Model):
     from_person = models.ForeignKey(Profile, related_name='from_people')
     to_person = models.ForeignKey(Profile, related_name='to_people')
@@ -81,7 +89,7 @@ class Relationship (models.Model):
 
 class Collection (models.Model):
     user = models.ForeignKey(Profile, on_delete = models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete = models.CASCADE,related_name='collection')
+    movie = models.ForeignKey(Movie, on_delete = models.CASCADE, related_name='collection')
     typeMovie = models.ForeignKey(TypeMovie, on_delete = models.CASCADE)
     pub_date = models.DateTimeField(auto_now = True, null= True)
     class Meta:
