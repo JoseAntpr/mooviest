@@ -17,7 +17,6 @@ class RegisterForm(forms.Form):
 
     username = forms.CharField(min_length=4)
     email = forms.EmailField()
-    born = forms.DateField(widget = SelectDateWidget(years=range(1940,int(datetime.datetime.now().year))),required=False)
     password = forms.CharField(min_length=5,widget=forms.PasswordInput())
     password2 = forms.CharField(widget=forms.PasswordInput())
 
@@ -49,7 +48,7 @@ class SettingForm(forms.Form):
     firstname = forms.CharField(required=False)
     lastname = forms.CharField(required=False)
     email = forms.EmailField()
-    born = forms.DateField(widget = SelectDateWidget(years=range(1940,int(datetime.datetime.now().year))),required=False)
+    born = forms.DateField(required=False)
     gender = forms.ChoiceField(choices=GENDER_CHOICES,widget=forms.RadioSelect(),required=False)
     country = forms.ModelChoiceField(queryset=Country.objects.all(),required=False)
     city = forms.CharField(required=False)
@@ -62,8 +61,9 @@ class SettingForm(forms.Form):
     def clean_username(self):
         #Comprueba que no exista un username igual en la db
         username = self.cleaned_data['username']
-        if not self.user.username == username :
-            raise forms.ValidationError('Nombre de usuario ya registrado.')
+        if  not self.user.username == username :
+            if User.objects.filter(username=username.lower()):
+                raise forms.ValidationError('Nombre de usuario ya registrado.')
         return username.lower()
     def clean_email(self):
         #Comprueba que no exista ningún email igual en la db

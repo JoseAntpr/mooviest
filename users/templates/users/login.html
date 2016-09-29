@@ -1,18 +1,49 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %} Login {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
+{% endblock css %}
 {% block content %}
 <div class="content">
 
+
   {% for error in errors %}
-    <p>{{error}}</p>
+  <p>{{error}}</p>
   {% endfor %}
-  <form method="post">
+  <form method="post" class="form-horizontal" role="form">
+    {% load widget_tweaks %}
     {% csrf_token %}
-      {{login_form.as_p }}
-    <div>
-      <button type="submit" class="btn btn-default">Entrar</button>
+    <div class="row">
+      <div class="col-lg-offset-4 col-lg-4">
+        <div class="card">
+          <div class="cardContainer">
+            <div class="col-lg-offset-3 col-lg-6">
+              <h2 class="text-center">Luces, cámara... acción</h2>
+              <br>
+            </div>
+            <div class="form-group">
+              <!-- <label for="username" class="col-lg-2 control-label">Nombre usuario</label> -->
+              <div class="col-lg-offset-2 col-lg-8">
+                    {% render_field login_form.usr type="text"  class+="form-control" placeholder="Nombre de usuario o correo" %}
+              </div>
+            </div>
+            <div class="form-group">
+              <!-- <label for="username" class="col-lg-2 control-label">Nombre usuario</label> -->
+              <div class="col-lg-offset-2 col-lg-8">
+                    {% render_field login_form.pwd type="password"  class+="form-control" placeholder="Contraseña" %}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-lg-offset-2 col-lg-8">
+                <button type="submit" class="btn btn-success btn-block">Iniciar sesión</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
+
 </div>
 {% endblock content %}

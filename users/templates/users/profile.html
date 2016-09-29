@@ -1,43 +1,162 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %} Profile {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
+{% endblock css %}
 {% block content %}
-<div class="content">
-  {% for error in errors %}
-    <p>{{error}}</p>
-  {% endfor %}
+<div class="container-fluid">
+  <div class="row backdrop">
+    <div class="col-lg-12 ">
+      <div class="avatar-wrapper">
+        <img src = "{{ userProfile.profile.avatar.url }}" class="img-circle">
+        <h3>{{userProfile.username}}</h3>
+        <form method="post">
+          <
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#recomendaciones" aria-controls="recomendaciones" role="tab" data-toggle="tab">Recomendaciones</a></li>
+          <li><a href="#listas" aria-controls="listas" role="tab" data-toggle="tab">Listas</a></li>
+          <li><a href="#seguidores" aria-controls="seguidores" role="tab" data-toggle="tab">Seguidores</a></li>
+          <li><a href="#seguidos" aria-controls="seguidos" role="tab" data-toggle="tab">Seguidos</a></li>
+          <li><a href="#famosos" aria-controls="famosos" role="tab" data-toggle="tab">Famosos</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="recomendaciones">
+            <div class="row">
+              <h1>Recomendaciones</h1>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="listas">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="movieCard">
+                  <img src="http://images5.fanpop.com/image/photos/30600000/Avengers-the-avengers-30656125-500-348.jpg" class="img-responsive" style="width:100%"/>
+                  <div class="movieContainer">
+                    <h4>Películas vistas</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="movieCard">
+                  <img src="http://images5.fanpop.com/image/photos/30600000/Avengers-the-avengers-30656125-500-348.jpg" class="img-responsive" style="width:100%"/>
+                  <div class="movieContainer">
+                    <h4>Películas Favoritas</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="movieCard">
+                  <img src="http://images5.fanpop.com/image/photos/30600000/Avengers-the-avengers-30656125-500-348.jpg" class="img-responsive" style="width:100%"/>
+                  <div class="movieContainer">
+                    <h4>Películas Pendientes</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--  <h1> Peliculas vistas </h1>
+            {% for movie in seenlist %}
+            <p>  {{movie.title}}</p>
+            {% endfor %}
+            <h1> Peliculas favoritas </h1>
+            {% for movie in favouritelist %}
+            <p>  {{movie.title}}</p>
+            {% endfor %}
+            <h1> Peliculas pendientes </h1>
+            {% for movie in watchlist %}
+            <p>  {{movie.title}}</p>
+            {% endfor %}-->
 
-  <img src = "{{ userProfile.profile.avatar.url }}" class="img-circle">
-  <h1>Seguidores</h1>
-  {% for follower in followers %}
-  <a href="{% url 'users_profile' follower.user.id %}">
-    <p> {{follower}}</p>
-  </a>
-  {% endfor %}
+          </div>
 
-  <h1> Seguidos </h1>
-  {% for following in followings %}
-  <a href="{% url 'users_profile' following.user.id %}">
-    <p> {{following}}</p>
-  </a>
-  {% endfor %}
+          <div role="tabpanel" class="tab-pane" id="seguidores">
+            <h1>Seguidores</h1>
 
-  <h1> Peliculas vistas </h1>
-  {% for movie in seenlist %}
-  <p>  {{movie.title}}</p>
-  {% endfor %}
-  <h1> Peliculas favoritas </h1>
-  {% for movie in favouritelist %}
-  <p>  {{movie.title}}</p>
-  {% endfor %}
-  <h1> Peliculas pendientes </h1>
-  {% for movie in watchlist %}
-  <p>  {{movie.title}}</p>
-  {% endfor %}
+            <div class="row">
+            {% for follower in followers %}
+              <div class="col-lg-3 followerCard">
+                  <div class="col-lg-4">
+                    <img src = "{{ follower.user.profile.avatar.url }}" class="img-circle img-responsive">
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="followerContainer">
+                      <a href="{% url 'users_profile' follower.user.id %}">
+                        <h4>{{follower.user.first_name}} {{follower.user.last_name}}</h4>
+                      </a>
+                      <a href="{% url 'users_profile' follower.user.id %}">
+                        <h5> @{{follower}}</h4>
+                      </a>
+                    </div>
+                  </div>
+              </div>
+            {% endfor %}
+          </div>
+          </div>
 
-  <h1> Famosos favoritos </h1>
-  {% for celebrity in likeCelebritiesList %}
-  <p>  {{celebrity.name}}</p>
-  {% endfor %}
+          <div role="tabpanel" class="tab-pane" id="seguidos">
+            <h1> Seguidos </h1>
+            <div class="row">
+            {% for following in followings %}
+
+              <div class="col-lg-3 followerCard">
+                  <div class="col-lg-4">
+                    <img src = "{{ following.user.profile.avatar.url }}" class="img-circle img-responsive">
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="followerContainer">
+                      <a href="{% url 'users_profile' following.user.id %}">
+                        <h4>{{following.user.first_name}} {{following.user.last_name}}</h4>
+                      </a>
+                      <a href="{% url 'users_profile' following.user.id %}">
+                        <h5> @{{following}}</h4>
+                      </a>
+                    </div>
+                  </div>
+              </div>
+
+            {% endfor %}
+            </div>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="famosos">
+            <div class="row">
+            <h1> Famosos favoritos </h1>
+            {% for celebrity in likeCelebritiesList %}
+            <div class="col-lg-3 followerCard">
+                <div class="col-lg-4">
+                  <img src = "https://img.tviso.com/XX/face/w175{{ celebrity.image }}" class="img-thumbnail img-responsive">
+                </div>
+                <div class="col-lg-8">
+                  <div class="followerContainer">
+                      <h4>{{celebrity.name}}</h4>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 {% endblock content %}
+{% block javascript %}
+<script>
+$('#myTabs a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+</script>
+{% endblock javascript %}

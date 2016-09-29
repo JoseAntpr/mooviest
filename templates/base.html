@@ -11,7 +11,7 @@
       <meta name="author" content="Mooviest">
 
     	<!-- Favicon -->
-    	<link rel="apple-touch-icon" sizes="57x57" href="{% static 'favicon/apple-icon-57x57.png'" %}">
+    	<link rel="apple-touch-icon" sizes="57x57" href="{% static 'favicon/apple-icon-57x57.png' %}">
     	<link rel="apple-touch-icon" sizes="60x60" href="{% static 'favicon/apple-icon-60x60.png' %}">
     	<link rel="apple-touch-icon" sizes="72x72" href="{% static 'favicon/apple-icon-72x72.png' %}">
     	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'favicon/apple-icon-76x76.png'' %}">
@@ -34,6 +34,8 @@
       <link rel="stylesheet" href="{% static 'home/css/animate.css' %}">
       <link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
 
+      {% block css %}{% endblock %}
+
       <!-- Font Awesome -->
       <script src="https://use.fontawesome.com/7c5129d645.js"></script>
     </head>
@@ -52,13 +54,6 @@
           </div>
       		<div class="collapse navbar-collapse" id="navbar">
       			<ul class="nav navbar-nav navbar-right">
-        			<li class="dropdown">
-        				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe"></i> Idioma<span class="caret"></span></a>
-        				<ul class="dropdown-menu">
-        					<li><a href="index_en.html">English</a></li>
-        					<li><a href="index.html">Español</a></li>
-        				</ul>
-              </li>
               {% if user.is_authenticated %}
                 <li>
                   <a href="{% url 'users_profile' user.id %}"><img src="{{ user.profile.avatar_thumbnail.url }}" class="img-circle"></a>
