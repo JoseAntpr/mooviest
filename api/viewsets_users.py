@@ -95,8 +95,31 @@ class UserViewSet(ModelViewSet):
             }
         )
 
-    #def update(self,request,pk):
-    #    return Response('update',status=status.HTTP_200_OK)
+    # def update(self,request,pk):
+    #     data = request.data
+    #     http_code = ""
+    #     errors = None
+    #
+    #     serializer = UserSerializer(data=data)
+    #     if serializer.is_valid():
+    #         user = serializer.save()
+    #         data =  serializer.data
+    #         http_code = status.HTTP_200_OK
+    #
+    #     else:
+    #         data = None
+    #         http_code = status.HTTP_400_BAD_REQUEST
+    #         errors = serializer.errors
+    #
+    #     print(errors)
+    #
+    #     return Response(
+    #         {
+    #             'user':data,
+    #             'status':http_code,
+    #         }
+    #     )
+
     #def destroy(self,request,pk):
     #    return Response('destroy',status=status.HTTP_200_OK)
 
