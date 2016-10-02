@@ -1,5 +1,6 @@
 import json
 from django.core import serializers
+from django.shortcuts import get_object_or_404
 from users.models import Profile, Collection, Lang
 from .serializers_users import UserRegisterSerializer, UserSerializer, CollectionSerializer
 from .serializers import Movie_langSerializer
@@ -12,7 +13,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status,viewsets
-from rest_framework.viewsets import ViewSet,ModelViewSet
+from rest_framework.viewsets import GenericViewSet,ModelViewSet
 from api.permissions import UserPermission
 from django.forms import model_to_dict
 
@@ -28,18 +29,18 @@ class CollectionViewSet(ModelViewSet):
     serializer_class = CollectionSerializer
 
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(GenericViewSet):
 
     #def list(self,request):
     #    return Response('listado',status=status.HTTP_200_OK)
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    #queryset = User.objects.all()
+    #serializer_class = UserSerializer
 
     authentication_classes = (TokenAuthentication,)
     permission_classes = (UserPermission,)
 
     def create(self,request):
-
+        print("create view")
         data = request.data
         http_code = ""
         token = None
@@ -95,30 +96,33 @@ class UserViewSet(ModelViewSet):
             }
         )
 
-    # def update(self,request,pk):
-    #     data = request.data
-    #     http_code = ""
-    #     errors = None
-    #
-    #     serializer = UserSerializer(data=data)
-    #     if serializer.is_valid():
-    #         user = serializer.save()
-    #         data =  serializer.data
-    #         http_code = status.HTTP_200_OK
-    #
-    #     else:
-    #         data = None
-    #         http_code = status.HTTP_400_BAD_REQUEST
-    #         errors = serializer.errors
-    #
-    #     print(errors)
-    #
-    #     return Response(
-    #         {
-    #             'user':data,
-    #             'status':http_code,
-    #         }
-    #     )
+    def update(self,request,pk=None):
+        data = request.data
+        http_code = ""
+        errors = None
+        print(pk)
+        user = get_object_or_404(User,pk=pk)
+        print(user)
+        serializer = UserSerializer(instance=user,data=data)
+
+        if serializer.is_valid():
+            user = serializer.save()
+            data =  serializer.data
+            http_code = status.HTTP_200_OK
+
+        else:
+            data = None
+            http_code = status.HTTP_400_BAD_REQUEST
+            errors = serializer.errors
+
+        print(errors)
+
+        return Response(
+            {
+                'user':data,
+                'status':http_code,
+            }
+        )
 
     #def destroy(self,request,pk):
     #    return Response('destroy',status=status.HTTP_200_OK)

@@ -46,7 +46,7 @@ router.register(r'rating', RatingViewSet)
 router.register(r'catalogue', CatalogueViewSet)
 router.register(r'catalogue_lang', Catalogue_langViewSet)
 router.register(r'participation', ParticipationViewSet)
-router.register(r'users', UserViewSet)
+router.register(r'users', UserViewSet,base_name="users")
 router.register(r'collection',CollectionViewSet)
 
 urlpatterns = [

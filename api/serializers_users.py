@@ -66,7 +66,11 @@ class UserSerializer(serializers.ModelSerializer) :
         model = User
         fields = ('id','username','first_name','last_name','email','profile')
 
+    def create(self,validated_data):
+        print("Create")
+
     def update(self,instance,validated_data):
+        print ("Update")
         profile_data = validated_data.pop('profile')
 
         profile = instance.profile
