@@ -11,17 +11,26 @@
   padding: 2px 16px;
 }
 
-.backdrop{
-  height: 400px;
+.backdrop {
+  position: absolute;
+  height: 500px;
+  width: 100%;
   margin-top: 6vh;
-  background-image: url(https://static.justwatch.com/backdrop/137681/s1440/avengers-assemble);
+  object-fit: cover;
+  opacity: 0.5;
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+
+.profile-detail {
+  margin-top: 600px;
 }
 
 .avatar-wrapper{
   text-align: center;
   position: absolute;
-  top:150px;
+  top: 150px;
   width: 100%;
 
 }
