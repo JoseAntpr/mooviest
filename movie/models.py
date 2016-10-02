@@ -100,8 +100,7 @@ class Source(models.Model):
 
 class Movie(models.Model):
     genres = models.ManyToManyField(Genre,blank = True)
-    participations = models.ManyToManyField(Celebrity, through =
-    'Participation')
+    participations = models.ManyToManyField(Celebrity, through = 'Participation')
     langs = models.ManyToManyField(Lang, through = 'Movie_lang')
     emotions = models.ManyToManyField(Emotion,blank = True)
     saga = models.ForeignKey(Saga,null = True,blank = True,on_delete = models.CASCADE)

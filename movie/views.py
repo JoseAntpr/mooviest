@@ -5,8 +5,8 @@ from users.models import Profile, User, Collection, TypeMovie
 
 def index(request, movie_id):
     movie =  get_object_or_404(Movie, pk = movie_id)
-    movie_lang = movie.get_movie_lang('en')
-    celebs = movie.participations.filter(movie = movie.pk)
+    movie_lang = movie.get_movie_lang('es')
+    celebrities = movie.participations.filter(movie = movie.pk)
     # typemovie = string with collection its in
     user = request.user
     if user.is_authenticated():
@@ -15,7 +15,7 @@ def index(request, movie_id):
             typeMovie = typeMovie.name
     else:
         typeMovie = None
-    return render(request, 'movie/index.html', {'movie': movie_lang, 'celebs': celebs, 'collection': typeMovie})
+    return render(request, 'movie/index.html', {'movie': movie_lang, 'celebrities': celebrities, 'collection': typeMovie})
 
 def changeCollection(request, movie_id):
     movie =  get_object_or_404(Movie, pk = movie_id)

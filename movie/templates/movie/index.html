@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
+{% block title %} {{ movie.movie.title }} {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'movie/css/styles.css' %}">
+{% endblock css %}
 {% block content %}
-    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <img class="backdrop" src="https://static.justwatch.com/backdrop/248288/s1440/the-lord-of-the-rings-the-two-towers" alt="">
+        </div>
+    </div>
 
+    <div class="container movie-detail">
         <div class="row">
             <div class="content">
                 <div class="col-md-3 text-center">
-                    <div class="row">
-                        <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/{{ movie.image }}" alt="">
-                    </div>
+                    <img class="img-responsive poster" src="https://img.tviso.com/ES/poster/w430/{{ movie.image }}" alt="">
+
                     <form action="change-collection" method="post">
                         {% csrf_token %}
                         <div class="row">
@@ -43,34 +51,116 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-3">
-                    <h1>{{ movie.movie.original_title }}</h1><p>{{ movie.movie.released }}</p>
-                    <p>{{ movie.movie.average }}</p>
-                    <p>{{ movie.movie.runtime }} min.</p>
+                <div class="col-md-9">
+                    <br>
+                    <br>
+                    <br>
+                    <h1>{{ movie.movie.original_title }} ({{ movie.movie.released }})</h1>
+                    <h4>
+                        {% for genre in movie.movie.genres.all %}
+                            {{ genre.langs.name }} |
+                        {% endfor %}
+                    </h4>
+                    <h4>{{ movie.movie.average }}</h4>
+                    <h4>{{ movie.movie.runtime }} min.</h4>
+                    <div>
+                        <a href="https://www.youtube.com/watch?v=LbfMDwc4azU" target="_blank">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fa fa-play"></i> Ver trailer
+                            </button>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <br>
+
         <div class="row">
             <div class="col-md-4">
-                <h2>Información</h2>
+                <h2>Synopsis</h2>
                 <div class="hline"></div>
                 <br>
-                <h3>Synopsis</h3>
                 <p>{{ movie.synopsis }}</p>
             </div>
             <div class="col-md-4">
-                <h2>Reparto</h2>
+                <h2>Puntuaciones</h2>
                 <div class="hline"></div>
-                {% for celeb in celebs %}
-                    <div>
-                        {{ celeb.name }}
-                    </div>
+                <br>
+                {% for rating in movie.movie.rating_set.all %}
+                    <p>{{ rating.source }}: {{ rating.rating }}</p>
                 {% endfor %}
             </div>
             <div class="col-md-4">
                 <h2>Ver</h2>
                 <div class="hline"></div>
+                <br>
+                {% for stream in movie.movie.streaming_set.all %}
+                    <a href="{{ stream.url }}"><p>{{ stream.name }}</p></a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Reparto</h2>
+                <div class="hline"></div>
+                <br>
+                {% for participation in movie.movie.participation_set.all %}
+                    {% if participation.role.code == 'actor' %}
+                        <div class="col-md-1">
+                            <img class="img-responsive" src="https://img.tviso.com/XX/face/w175{{ participation.celebrity.image }}" alt="{{ participation.celebrity }}">
+                            <h4>{{ participation.celebrity }}</h4>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Directores</h2>
+                <div class="hline"></div>
+                <br>
+                {% for participation in movie.movie.participation_set.all %}
+                    {% if participation.role.code == 'director' %}
+                        <div class="col-md-1">
+                            <img class="img-responsive" src="https://img.tviso.com/XX/face/w175{{ participation.celebrity.image }}" alt="{{ participation.celebrity }}">
+                            <h4>{{ participation.celebrity }}</h4>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6">
+                <h2>Escritores</h2>
+                <div class="hline"></div>
+                <br>
+                {% for participation in movie.movie.participation_set.all %}
+                    {% if participation.role.code == 'writer' %}
+                        <div class="col-md-1">
+                            <img class="img-responsive" src="https://img.tviso.com/XX/face/w175{{ participation.celebrity.image }}" alt="{{ participation.celebrity }}">
+                            <h4>{{ participation.celebrity }}</h4>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Películas similares</h2>
+                <div class="hline"></div>
+                <br>
+                <div>
+                    
+                </div>
             </div>
         </div>
     </div>
