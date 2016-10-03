@@ -31,7 +31,7 @@
             {% if user.profile in followers %}
             <button type="submit" name="unfollow" class="btn btn-danger">Dejar de seguir</button>
             {%elif userProfile == user %}
-            <a href="#" ><button class="btn btn-primary">Editar</button></a>
+            <a href="{% url 'users_settings' %}" class="btn btn-primary" >Editar</a>
             {% else%}
             <button type="submit" name="follow" class="btn btn-success">Seguir</button>
             {% endif%}

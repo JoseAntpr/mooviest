@@ -156,7 +156,10 @@ def follow(request, user_id):
     user = request.user
 
     if request.method == "POST":
-        user.profile.follow(userFollowed.profile,RELATIONSHIP_FOLLOWING)
+        if 'follow' in request.POST:
+            user.profile.follow(userFollowed.profile,RELATIONSHIP_FOLLOWING)
+        elif 'unfollow' in request.POST:
+            user.profile.unfollow(userFollowed.profile,RELATIONSHIP_FOLLOWING)
     else:
         print("ERROR: not followed")
 

@@ -52,6 +52,13 @@ class Profile(models.Model):
             status=status,
         )
         return relationship
+    def unfollow(self,person,status):
+        Relationship.objects.filter(
+            from_person=self,
+            to_person=person,
+            status=status
+        ).delete()
+        return
     def get_relationships(self,status):
         return self.relationships.filter(
             to_people__status=status,
