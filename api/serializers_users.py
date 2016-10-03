@@ -70,7 +70,6 @@ class UserSerializer(serializers.ModelSerializer) :
         print("Create")
 
     def update(self,instance,validated_data):
-        print ("Update")
         profile_data = validated_data.pop('profile')
 
         profile = instance.profile

@@ -40,14 +40,13 @@ class UserViewSet(GenericViewSet):
     permission_classes = (UserPermission,)
 
     def create(self,request):
-        print("create view")
         data = request.data
         http_code = ""
         token = None
         errors = None
 
         serializer = UserRegisterSerializer(data=data)
-        print (serializer)
+
         if serializer.is_valid():
             user = serializer.save()
             data =  serializer.data
@@ -100,9 +99,8 @@ class UserViewSet(GenericViewSet):
         data = request.data
         http_code = ""
         errors = None
-        print(pk)
+
         user = get_object_or_404(User,pk=pk)
-        print(user)
         serializer = UserSerializer(instance=user,data=data)
 
         if serializer.is_valid():
@@ -115,12 +113,11 @@ class UserViewSet(GenericViewSet):
             http_code = status.HTTP_400_BAD_REQUEST
             errors = serializer.errors
 
-        print(errors)
-
         return Response(
             {
-                'user':data,
-                'status':http_code,
+                'user': data,
+                'status': http_code,
+                'errors': errors
             }
         )
 
@@ -137,7 +134,6 @@ class UserViewSet(GenericViewSet):
 
         username = data.get('username')
         if '@' in username:
-            print (username)
             user_aux = User.objects.filter(email=username)[0]
             user = authenticate(username=user_aux.username,password=data.get('password'))
 
