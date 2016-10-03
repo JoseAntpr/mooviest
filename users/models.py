@@ -46,6 +46,20 @@ class Profile(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         return self.user.username
 
+    def follow(self, person, status):
+        relationship, created = Relationship.objects.get_or_create(
+            from_person = self,
+            to_person=person,
+            status=status,
+        )
+        return relationship
+    def unfollow(self,person,status):
+        Relationship.objects.filter(
+            from_person=self,
+            to_person=person,
+            status=status
+        ).delete()
+        return
     def get_relationships(self,status):
         return self.relationships.filter(
             to_people__status=status,
