@@ -30,9 +30,15 @@
 .avatar-wrapper{
   text-align: center;
   position: absolute;
-  top: 150px;
+  top: -380px;
   width: 100%;
 
+}
+.followButton{
+  text-align: center;
+  position: absolute;
+  top: -100px;
+  width: 100%;
 }
 
 .movieCard{

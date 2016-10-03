@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import logout as django_logout,authenticate, login as django_login, update_session_auth_hash
 from django.contrib.auth.models import User
 from movie.models import Country
-from .models import Profile
+from .models import Profile,RELATIONSHIP_FOLLOWING
 from users.forms import LoginForm,RegisterForm,SettingForm,PasswordForm
 
 # Create your views here.
@@ -149,3 +149,15 @@ def profile(request,user_id):
         'likeCelebritiesList': likeCelebritiesList
     }
     return render(request,'users/profile.html',context)
+
+def follow(request, user_id):
+    print("Entra en esta funcion")
+    userFollowed = User.objects.get(pk = user_id)
+    user = request.user
+
+    if request.method == "POST":
+        user.profile.follow(userFollowed.profile,RELATIONSHIP_FOLLOWING)
+    else:
+        print("ERROR: not followed")
+
+    return redirect('/profile/' + user_id)

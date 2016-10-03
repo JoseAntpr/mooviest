@@ -75,7 +75,8 @@ urlpatterns = [
     url(r'^register$','users.views.register', name ='users_register'),
     url(r'^setting$','users.views.settingInfo', name ='users_settings'),
     url(r'^settings/password$','users.views.settingPassword', name = 'users_password'),
-    url(r'^profile/(?P<user_id>[0-9]+)$','users.views.profile', name = 'users_profile'),
+    url(r'^profile/(?P<user_id>[0-9]+)/$','users.views.profile', name = 'users_profile'),
+    url(r'^profile/(?P<user_id>[0-9]+)/follow$','users.views.follow',name="follow"),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

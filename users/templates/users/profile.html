@@ -23,6 +23,22 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-lg-offset-10 col-lg-2">
+        <div class="followButton">
+          <form action="follow" method="post" class="form-horizontal">
+            {% csrf_token %}
+            {% if user.profile in followers %}
+            <button type="submit" name="unfollow" class="btn btn-danger">Dejar de seguir</button>
+            {%elif userProfile == user %}
+            <a href="#" ><button class="btn btn-primary">Editar</button></a>
+            {% else%}
+            <button type="submit" name="follow" class="btn btn-success">Seguir</button>
+            {% endif%}
+          </form>
+        </div>
+      </div>
+    </div>
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
