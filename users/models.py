@@ -75,12 +75,31 @@ class Profile(models.Model):
 
     def get_followers(self):
         return self.get_related_to(RELATIONSHIP_FOLLOWING)
-    def get_seenlist(self):
-        return Movie_lang.objects.filter(lang__code = 'es').select_related('movie').filter(movie__collection__user=self, movie__collection__typeMovie__name='seen')
-    def get_watchlist(self):
-        return Movie_lang.objects.filter(lang__code = 'es').select_related('movie').filter(movie__collection__user=self, movie__collection__typeMovie__name='watchlist')
-    def get_favouritelist(self):
-        return Movie_lang.objects.filter(lang__code = 'es').select_related('movie').filter(movie__collection__user=self, movie__collection__typeMovie__name='favourite')
+
+    def get_seenlist(self, flag=None):
+        if (flag != None):
+            return Movie.objects.filter(collection__user = self, collection__typeMovie__name = 'seen')
+        else:
+            return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self,movie__collection__typeMovie__name="seen")
+
+    def get_watchlist(self, flag=None):
+        if (flag != None):
+            return Movie.objects.filter(collection__user = self, collection__typeMovie__name = 'watchlist')
+        else:
+            return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='watchlist')
+
+    def get_favouritelist(self, flag=None):
+        if (flag != None):
+            return Movie.objects.filter(collection__user = self, collection__typeMovie__name = 'favourite')
+        else:
+            return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='favourite')
+
+    def get_swipelist(self, flag=None):
+        if (flag != None):
+            return Movie.objects.filter(collection__user = self, collection__typeMovie__name = 'swipe')
+        else:
+            return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='swipe')
+
     def get_likecelebrities(self):
         return self.likeCelebrities.all()
     def get_typemovie(self, movie):
