@@ -2,7 +2,8 @@ import json
 from django.core import serializers
 from django.shortcuts import get_object_or_404
 from users.models import Profile, Collection, Lang
-from .serializers_users import UserRegisterSerializer, UserSerializer, CollectionSerializer
+from movie.models import Movie
+from .serializers_users import UserRegisterSerializer, UserSerializer, CollectionSerializer, MoviesListSerializer
 from .serializers import Movie_langSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
@@ -169,35 +170,43 @@ class UserViewSet(GenericViewSet):
                 'token': token,
             }
         )
+
     @detail_route(methods = ['get'])
     def seen_list(self,request,pk=None):
-
         user = User.objects.get(pk=pk)
-        queryset = user.profile.get_seenlist()
-        serializer = Movie_langSerializer(queryset,many=True)
+        queryset = user.profile.get_seenlist("API")
 
-        return Response(serializer.data)
+        page = self.paginate_queryset(queryset)
+        serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
+
+        return self.get_paginated_response(serializer.data)
+
     @detail_route(methods = ['get'])
     def watchlist(self,request,pk=None):
-        print(request.data)
         user = User.objects.get(pk=pk)
-        queryset = user.profile.get_watchlist()
-        serializer = Movie_langSerializer(queryset,many=True)
+        queryset = user.profile.get_watchlist("API")
 
-        return Response(serializer.data)
+        page = self.paginate_queryset(queryset)
+        serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
+
+        return self.get_paginated_response(serializer.data)
+
     @detail_route(methods = ['get'])
     def swipe_list(self,request,pk=None):
-        print(request.data)
         user = User.objects.get(pk=pk)
-        queryset = user.profile.get_swipelist()
-        serializer = Movie_langSerializer(queryset,many=True)
+        queryset = user.profile.get_swipelist("API")
 
-        return Response(serializer.data)
+        page = self.paginate_queryset(queryset)
+        serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
+
+        return self.get_paginated_response(serializer.data)
+
     @detail_route(methods = ['get'])
     def favourite_list(self,request,pk=None):
-        print(request.data)
         user = User.objects.get(pk=pk)
-        queryset = user.profile.get_favouritelist()
-        serializer = Movie_langSerializer(queryset,many=True)
+        queryset = user.profile.get_favouritelist("API")
 
-        return Response(serializer.data)
+        page = self.paginate_queryset(queryset)
+        serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
+
+        return self.get_paginated_response(serializer.data)

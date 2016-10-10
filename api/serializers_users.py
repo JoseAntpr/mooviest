@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.models import Profile,Collection
-from movie.models import Lang
+from movie.models import Lang, Movie_lang, Movie
 from django.contrib.auth.models import User
 from .serializers import LangSerializer
 
@@ -9,6 +9,21 @@ class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
         fields = ('user','movie','typeMovie','pub_date')
+
+class Movie_LangAppSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie_lang
+        fields = ('id','title','image')
+
+class MoviesListSerializer(serializers.ModelSerializer):
+    langs = serializers.SerializerMethodField('getMovieLang')
+    class Meta:
+        model = Movie
+        fields = ('id', 'average', 'langs')
+
+    def getMovieLang(self, obj):
+        langs = Movie_lang.objects.get(lang = self.context['lang'], movie = obj)
+        return Movie_LangAppSerializer(instance = langs).data
 
 class ProfileRegisterSerializer(serializers.ModelSerializer):
     lang = LangSerializer()
