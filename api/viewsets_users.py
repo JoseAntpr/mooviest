@@ -5,6 +5,7 @@ from users.models import Profile, Collection, Lang
 from movie.models import Movie
 from .serializers_users import UserRegisterSerializer, UserSerializer, CollectionSerializer, MoviesListSerializer
 from .serializers import Movie_langSerializer
+from .serializers_custom import MovieListCustomSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
@@ -204,9 +205,9 @@ class UserViewSet(GenericViewSet):
     @detail_route(methods = ['get'])
     def favourite_list(self,request,pk=None):
         user = User.objects.get(pk=pk)
-        queryset = user.profile.get_favouritelist("API")
+        queryset = user.profile.get_favouritelist()
 
         page = self.paginate_queryset(queryset)
-        serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
+        serializer = MovieListCustomSerializer(many=True, instance=page)
 
         return self.get_paginated_response(serializer.data)

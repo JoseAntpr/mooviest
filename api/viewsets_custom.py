@@ -1,11 +1,19 @@
-from movie.models import Celebrity, Movie
+from movie.models import Celebrity, Movie, Movie_lang
 from .serializers import CelebritySerializer, MovieSerializer
-from .serializers_custom import MovieAppSerializer
+from .serializers_custom import MovieAppSerializer, MovieListCustomSerializer
 from rest_framework import generics, filters, viewsets
 import urllib.parse
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+
+class MovieSearchViewSet(viewsets.ModelViewSet):
+    serializer_class = MovieListCustomSerializer
+    queryset = Movie_lang.objects.all()
+    http_method_names = ['get',]
+
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('title',)
 
 class CelebrityCustomViewSet(generics.ListAPIView):
     serializer_class = CelebritySerializer

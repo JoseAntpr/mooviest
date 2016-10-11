@@ -1,6 +1,8 @@
 from movie.models import Lang, Country, Celebrity, Celebrity_lang, Role, Role_lang, Saga, Saga_lang, Genre, Genre_lang, Emotion, Emotion_lang, Streaming, Source, Movie, Movie_lang, Rating, Catalogue, Catalogue_lang, Participation
 from .serializers import LangSerializer, CountrySerializer, CelebritySerializer, Celebrity_langSerializer, RoleSerializer, Role_langSerializer, SagaSerializer, Saga_langSerializer, GenreSerializer, Genre_langSerializer, EmotionSerializer, Emotion_langSerializer, StreamingSerializer, SourceSerializer, MovieSerializer, Movie_langSerializer, RatingSerializer, CatalogueSerializer, Catalogue_langSerializer, ParticipationSerializer
 from rest_framework import viewsets, filters
+from rest_framework.response import Response
+from .serializers_custom import MovieCustomSerializer, MovieListCustomSerializer
 
 
 class LangViewSet(viewsets.ModelViewSet):
@@ -79,14 +81,20 @@ class MovieViewSet(viewsets.ModelViewSet):
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
     http_method_names = ['get', 'post', 'head', 'put', 'patch']
-    # Search for users
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('original_title',)
+
+    def retrieve(self,request,pk=None):
+        instance = Movie_lang.objects.get(pk=request.query_params.get('movie_lang'))
+        serializer = MovieCustomSerializer(instance)
+
+        return Response(serializer.data)
 
 class Movie_langViewSet(viewsets.ModelViewSet):
-    serializer_class = Movie_langSerializer
+    serializer_class = MovieListCustomSerializer
     queryset = Movie_lang.objects.all()
     http_method_names = ['get', 'post', 'head', 'put', 'patch']
+
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('title',)
 
 class RatingViewSet(viewsets.ModelViewSet):
     serializer_class = RatingSerializer

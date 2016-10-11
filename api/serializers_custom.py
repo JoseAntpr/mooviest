@@ -49,6 +49,33 @@ class ParticipationAppSerializer(serializers.ModelSerializer):
         model = Participation
         fields = ('celebrity', 'role', 'character', 'award')
 
+class MovieListCustomSerializer(serializers.BaseSerializer):
+    def to_representation(self,obj):
+
+        return {
+            'id': obj.movie.id,
+            'average': obj.movie.average,
+            'image': obj.image,
+            'title': obj.title,
+            'movie_lang_id': obj.id
+        }
+
+class MovieCustomSerializer(serializers.BaseSerializer):
+    def to_representation(self,obj):
+        ratings = Rating.objects.filter(movie=obj.movie)
+        ratingsSerializer = RatingAppSerializer(source='rating_set', many=True, instance = ratings)
+
+        participations = Participation.objects.filter(movie = obj.movie)
+        participationSerializer = ParticipationAppSerializer(source='participation_set', many=True, instance = participations)
+
+        return {
+            'id': obj.movie.id,
+            'average': obj.movie.average,
+            'synopsis': obj.synopsis,
+            'ratings': ratingsSerializer.data,
+            'participations': participationSerializer.data
+        }
+
 class MovieAppSerializer(serializers.ModelSerializer):
     ratings = RatingAppSerializer(source='rating_set', many=True)
     genres = GenreAppSerializer(many=True)

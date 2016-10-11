@@ -21,7 +21,7 @@ from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrit
 from api.viewsets_users import UserViewSet,CollectionViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
-from api.viewsets_custom import CelebrityCustomViewSet, MovieByReleasedViewSet, MoviesAppByLangViewSet
+from api.viewsets_custom import CelebrityCustomViewSet, MovieByReleasedViewSet, MoviesAppByLangViewSet,MovieSearchViewSet
 from django.views.generic import TemplateView
 
 router = DefaultRouter()
@@ -41,6 +41,7 @@ router.register(r'streaming', StreamingViewSet)
 router.register(r'source', SourceViewSet)
 router.register(r'movie', MovieViewSet)
 router.register(r'movie_released', MovieByReleasedViewSet)
+router.register(r'movie_search',MovieSearchViewSet)
 router.register(r'movie_lang', Movie_langViewSet)
 router.register(r'rating', RatingViewSet)
 router.register(r'catalogue', CatalogueViewSet)
