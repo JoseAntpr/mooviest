@@ -30,6 +30,8 @@ class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
 
+    http_method_names = ['get', 'post', 'head', 'put', 'patch']
+
 
 class UserViewSet(GenericViewSet):
 
@@ -175,30 +177,30 @@ class UserViewSet(GenericViewSet):
     @detail_route(methods = ['get'])
     def seen_list(self,request,pk=None):
         user = User.objects.get(pk=pk)
-        queryset = user.profile.get_seenlist("API")
+        queryset = user.profile.get_seenlist()
 
         page = self.paginate_queryset(queryset)
-        serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
+        serializer = MovieListCustomSerializer(many=True, instance=page)
 
         return self.get_paginated_response(serializer.data)
 
     @detail_route(methods = ['get'])
     def watchlist(self,request,pk=None):
         user = User.objects.get(pk=pk)
-        queryset = user.profile.get_watchlist("API")
+        queryset = user.profile.get_watchlist()
 
         page = self.paginate_queryset(queryset)
-        serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
+        serializer = MovieListCustomSerializer(many=True, instance=page)
 
         return self.get_paginated_response(serializer.data)
 
     @detail_route(methods = ['get'])
     def swipe_list(self,request,pk=None):
         user = User.objects.get(pk=pk)
-        queryset = user.profile.get_swipelist("API")
+        queryset = user.profile.get_swipelist()
 
         page = self.paginate_queryset(queryset)
-        serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
+        serializer = MovieListCustomSerializer(many=True, instance=page)
 
         return self.get_paginated_response(serializer.data)
 

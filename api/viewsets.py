@@ -1,8 +1,9 @@
 from movie.models import Lang, Country, Celebrity, Celebrity_lang, Role, Role_lang, Saga, Saga_lang, Genre, Genre_lang, Emotion, Emotion_lang, Streaming, Source, Movie, Movie_lang, Rating, Catalogue, Catalogue_lang, Participation
+from users.models import Collection
 from .serializers import LangSerializer, CountrySerializer, CelebritySerializer, Celebrity_langSerializer, RoleSerializer, Role_langSerializer, SagaSerializer, Saga_langSerializer, GenreSerializer, Genre_langSerializer, EmotionSerializer, Emotion_langSerializer, StreamingSerializer, SourceSerializer, MovieSerializer, Movie_langSerializer, RatingSerializer, CatalogueSerializer, Catalogue_langSerializer, ParticipationSerializer
 from rest_framework import viewsets, filters
 from rest_framework.response import Response
-from .serializers_custom import MovieCustomSerializer, MovieListCustomSerializer
+from .serializers_custom import MovieListCustomSerializer, RatingAppSerializer, ParticipationAppSerializer, GenreAppSerializer
 
 
 class LangViewSet(viewsets.ModelViewSet):
@@ -80,13 +81,55 @@ class SourceViewSet(viewsets.ModelViewSet):
 class MovieViewSet(viewsets.ModelViewSet):
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
-    http_method_names = ['get', 'post', 'head', 'put', 'patch']
 
     def retrieve(self,request,pk=None):
-        instance = Movie_lang.objects.get(pk=request.query_params.get('movie_lang'))
-        serializer = MovieCustomSerializer(instance)
+        movie_lang = Movie_lang.objects.get(pk=request.query_params.get('movie_lang_id'))
+        movie = movie_lang.movie
 
-        return Response(serializer.data)
+        # ratings = []
+        # for r in Rating.objects.filter(movie = movie).select_related('movie'):
+        #     ratings.append(
+        #         {
+        #             'name': r.name,
+        #             'rating': r.rating,
+        #             'count': r.count,
+        #             'date_update': r.date_update
+        #         }
+        #     )
+
+        ratings = Rating.objects.filter(movie=movie)
+        ratingsSerializer = RatingAppSerializer(source='rating_set', many=True, instance = ratings)
+
+        participations = Participation.objects.filter(movie = movie)
+        participationSerializer = ParticipationAppSerializer(source='participation_set', many=True, instance = participations)
+
+        genres = Genre.objects.filter(movie = movie)
+        genresSerializer = GenreAppSerializer(source='rating_set', many=True, instance = genres, context={'lang':movie_lang.lang.id})
+
+        try:
+            get = Collection.objects.get(movie = movie_lang.movie, user = request.query_params.get('user_id'))
+            typeMovie = get.typeMovie.name
+        except:
+            typeMovie = None
+
+        return Response(
+            {
+                'id': movie.id,
+                'average': movie.average,
+                'synopsis': movie_lang.synopsis,
+                'type_movie': typeMovie,
+                'original_title': movie.original_title,
+                'runtime': movie.runtime,
+                'released': movie.released,
+                'backdrop': movie.backdrop,
+                'image': movie_lang.image,
+                'movie_producer': movie.movie_producer,
+                'genres': genresSerializer.data,
+                'country': None,
+                'ratings': ratingsSerializer.data,
+                'participations': participationSerializer.data
+            }
+        )
 
 class Movie_langViewSet(viewsets.ModelViewSet):
     serializer_class = MovieListCustomSerializer
