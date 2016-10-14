@@ -26,7 +26,7 @@ class GenreAppSerializer(serializers.BaseSerializer):
     def to_representation(self, obj):
         lang = self.context['lang']
         genre_lang = Genre_lang.objects.get(lang = lang, genre = obj)
-        return genre_lang.name
+        return {'name': genre_lang.name}
 
 
 class Celebrity_langAppSerializer(serializers.ModelSerializer):

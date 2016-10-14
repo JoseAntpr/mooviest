@@ -1,9 +1,12 @@
 from movie.models import Lang, Country, Celebrity, Celebrity_lang, Role, Role_lang, Saga, Saga_lang, Genre, Genre_lang, Emotion, Emotion_lang, Streaming, Source, Movie, Movie_lang, Rating, Catalogue, Catalogue_lang, Participation
 from users.models import Collection
 from .serializers import LangSerializer, CountrySerializer, CelebritySerializer, Celebrity_langSerializer, RoleSerializer, Role_langSerializer, SagaSerializer, Saga_langSerializer, GenreSerializer, Genre_langSerializer, EmotionSerializer, Emotion_langSerializer, StreamingSerializer, SourceSerializer, MovieSerializer, Movie_langSerializer, RatingSerializer, CatalogueSerializer, Catalogue_langSerializer, ParticipationSerializer
+from .serializers_custom import MovieListCustomSerializer, RatingAppSerializer, ParticipationAppSerializer, GenreAppSerializer
+
 from rest_framework import viewsets, filters
 from rest_framework.response import Response
-from .serializers_custom import MovieListCustomSerializer, RatingAppSerializer, ParticipationAppSerializer, GenreAppSerializer
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 class LangViewSet(viewsets.ModelViewSet):
@@ -79,10 +82,16 @@ class SourceViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'head', 'put', 'patch']
 
 class MovieViewSet(viewsets.ModelViewSet):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
 
     def retrieve(self,request,pk=None):
+        authentication_classes = (TokenAuthentication,)
+        permission_classes = (IsAuthenticated,)
+
         movie_lang = Movie_lang.objects.get(pk=request.query_params.get('movie_lang_id'))
         movie = movie_lang.movie
 
@@ -119,6 +128,7 @@ class MovieViewSet(viewsets.ModelViewSet):
                 'synopsis': movie_lang.synopsis,
                 'type_movie': typeMovie,
                 'original_title': movie.original_title,
+                'title': movie_lang.title,
                 'runtime': movie.runtime,
                 'released': movie.released,
                 'backdrop': movie.backdrop,
