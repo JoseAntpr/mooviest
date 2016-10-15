@@ -1,14 +1,18 @@
 from rest_framework import serializers
-from users.models import Profile,Collection
+from users.models import Profile, Collection, TypeMovie
 from movie.models import Lang, Movie_lang, Movie
 from django.contrib.auth.models import User
 from .serializers import LangSerializer
 
+class TypeMovieSerializer(serializers.BaseSerializer):
+    def to_representation(self, obj):
+        return obj.name
 
 class CollectionSerializer(serializers.ModelSerializer):
+    typeMovie = TypeMovieSerializer()
     class Meta:
         model = Collection
-        fields = ('user','movie','typeMovie','pub_date')
+        fields = ('id', 'user','movie','typeMovie','pub_date')
 
 class Movie_LangAppSerializer(serializers.ModelSerializer):
     class Meta:

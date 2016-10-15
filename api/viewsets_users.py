@@ -19,9 +19,6 @@ from rest_framework.viewsets import GenericViewSet,ModelViewSet
 from api.permissions import UserPermission
 from django.forms import model_to_dict
 
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-
 class CollectionViewSet(ModelViewSet):
 
     authentication_classes = (TokenAuthentication,)
@@ -180,7 +177,7 @@ class UserViewSet(GenericViewSet):
         queryset = user.profile.get_seenlist()
 
         page = self.paginate_queryset(queryset)
-        serializer = MovieListCustomSerializer(many=True, instance=page)
+        serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
 
         return self.get_paginated_response(serializer.data)
 
@@ -190,7 +187,7 @@ class UserViewSet(GenericViewSet):
         queryset = user.profile.get_watchlist()
 
         page = self.paginate_queryset(queryset)
-        serializer = MovieListCustomSerializer(many=True, instance=page)
+        serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
 
         return self.get_paginated_response(serializer.data)
 
@@ -200,7 +197,7 @@ class UserViewSet(GenericViewSet):
         queryset = user.profile.get_swipelist()
 
         page = self.paginate_queryset(queryset)
-        serializer = MovieListCustomSerializer(many=True, instance=page)
+        serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
 
         return self.get_paginated_response(serializer.data)
 
@@ -210,6 +207,6 @@ class UserViewSet(GenericViewSet):
         queryset = user.profile.get_favouritelist()
 
         page = self.paginate_queryset(queryset)
-        serializer = MovieListCustomSerializer(many=True, instance=page)
+        serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
 
         return self.get_paginated_response(serializer.data)

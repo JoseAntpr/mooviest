@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from movie.models import Movie, Movie_lang, Rating, Country, Genre, Genre_lang, Celebrity, Participation, Celebrity_lang
+from users.models import Collection
 
 class CountryAppSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,9 +49,20 @@ class ParticipationAppSerializer(serializers.ModelSerializer):
 class MovieListCustomSerializer(serializers.BaseSerializer):
     def to_representation(self,obj):
 
+        try:
+            getCollection = Collection.objects.get(movie = obj.movie.id, user = self.context['user_id'])
+            collection = {
+                'id': getCollection.id,
+                'type_movie': getCollection.typeMovie.name
+            }
+
+        except:
+            collection = None
+
         return {
             'id': obj.movie.id,
             'average': obj.movie.average,
+            'collection': collection,
             'image': obj.image,
             'title': obj.title,
             'movie_lang_id': obj.id

@@ -89,8 +89,6 @@ class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
 
     def retrieve(self,request,pk=None):
-        authentication_classes = (TokenAuthentication,)
-        permission_classes = (IsAuthenticated,)
 
         movie_lang = Movie_lang.objects.get(pk=request.query_params.get('movie_lang_id'))
         movie = movie_lang.movie
@@ -116,17 +114,21 @@ class MovieViewSet(viewsets.ModelViewSet):
         genresSerializer = GenreAppSerializer(source='rating_set', many=True, instance = genres, context={'lang':movie_lang.lang.id})
 
         try:
-            get = Collection.objects.get(movie = movie_lang.movie, user = request.query_params.get('user_id'))
-            typeMovie = get.typeMovie.name
+            getCollection = Collection.objects.get(movie = movie_lang.movie, user = request.query_params.get('user_id'))
+            collection = {
+                'id': getCollection.id,
+                'type_movie': getCollection.typeMovie.name
+            }
+
         except:
-            typeMovie = None
+            collection = None
 
         return Response(
             {
                 'id': movie.id,
                 'average': movie.average,
                 'synopsis': movie_lang.synopsis,
-                'type_movie': typeMovie,
+                'collection': collection,
                 'original_title': movie.original_title,
                 'title': movie_lang.title,
                 'runtime': movie.runtime,
