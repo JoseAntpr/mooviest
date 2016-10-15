@@ -8,6 +8,9 @@ class TypeMovieSerializer(serializers.BaseSerializer):
     def to_representation(self, obj):
         return obj.name
 
+    def to_internal_value(self, data):
+        return TypeMovie.objects.get(pk=data)
+
 class CollectionSerializer(serializers.ModelSerializer):
     typeMovie = TypeMovieSerializer()
     class Meta:
