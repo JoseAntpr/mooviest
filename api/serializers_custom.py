@@ -57,8 +57,8 @@ class MovieAppSerializer(serializers.ModelSerializer):
 
     def get(self, obj):
         lang = self.context['lang']
-        langs = Movie_lang.objects.filter(lang = lang, movie = obj)
-        langSerializer = Movie_LangAppSerializer(source='movie_lang_set', many=True, instance = langs)
+        langs = Movie_lang.objects.get(lang = lang, movie = obj)
+        langSerializer = Movie_LangAppSerializer( instance = langs)
         return langSerializer.data
 
     def get_participation(self, obj):

@@ -6,12 +6,11 @@ from rest_framework import viewsets, filters
 class LangViewSet(viewsets.ModelViewSet):
     serializer_class = LangSerializer
     queryset = Lang.objects.all()
-    http_method_names = ['get', 'post', 'head', 'put', 'patch']
+
 
 class CountryViewSet(viewsets.ModelViewSet):
     serializer_class = CountrySerializer
     queryset = Country.objects.all()
-    http_method_names = ['get', 'post', 'head', 'put', 'patch']
 
 class CelebrityViewSet(viewsets.ModelViewSet):
     serializer_class = CelebritySerializer
@@ -39,7 +38,7 @@ class Role_langViewSet(viewsets.ModelViewSet):
 class SagaViewSet(viewsets.ModelViewSet):
     serializer_class = SagaSerializer
     queryset = Saga.objects.all()
-    http_method_names = ['get', 'post', 'head', 'put', 'patch']
+
 
 class Saga_langViewSet(viewsets.ModelViewSet):
     serializer_class = Saga_langSerializer

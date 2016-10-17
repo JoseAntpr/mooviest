@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 # Create your models here.
+
 class Lang(models.Model):
     code = models.CharField(max_length=20,null=False)
     def __str__(self):              # __unicode__ on Python 2
