@@ -53,7 +53,7 @@ class MovieListCustomSerializer(serializers.BaseSerializer):
             getCollection = Collection.objects.get(movie = obj.movie.id, user = self.context['user_id'])
             collection = {
                 'id': getCollection.id,
-                'type_movie': getCollection.typeMovie.name
+                'typeMovie': getCollection.typeMovie.name
             }
 
         except:

@@ -117,7 +117,7 @@ class MovieViewSet(viewsets.ModelViewSet):
             getCollection = Collection.objects.get(movie = movie_lang.movie, user = request.query_params.get('user_id'))
             collection = {
                 'id': getCollection.id,
-                'type_movie': getCollection.typeMovie.name
+                'typeMovie': getCollection.typeMovie.name
             }
 
         except:
@@ -126,6 +126,7 @@ class MovieViewSet(viewsets.ModelViewSet):
         return Response(
             {
                 'id': movie.id,
+                'movie_lang_id': movie_lang.id,
                 'average': movie.average,
                 'synopsis': movie_lang.synopsis,
                 'collection': collection,
