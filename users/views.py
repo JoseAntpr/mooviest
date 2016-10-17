@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from movie.models import Country
 from .models import Profile,RELATIONSHIP_FOLLOWING
 from users.forms import LoginForm,RegisterForm,SettingForm,PasswordForm
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def login(request):
@@ -15,10 +16,14 @@ def login(request):
             username = form.cleaned_data.get('usr')
             password = form.cleaned_data.get('pwd')
             if '@' in username:
-                user_aux = User.objects.get(email=username)
-                user = authenticate(username=user_aux.username,password=password)
-            else:
-                user = authenticate(username=username, password=password)
+                if not User.objects.filter(email=username):
+                    username = None
+                else:
+                    user_aux = User.objects.filter(email=username)[0]
+                    username = user_aux.username
+
+
+            user = authenticate(username=username, password=password)
 
             if user is None:
                 error_messages.append('Nombre de usuario o contraseña incorrectos')
