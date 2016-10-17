@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'users',
     'imagekit',
     'debug_toolbar',
+    'widget_tweaks',
 )
 
 MIDDLEWARE_CLASSES = (
