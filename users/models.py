@@ -76,11 +76,9 @@ class Profile(models.Model):
     def get_followers(self):
         return self.get_related_to(RELATIONSHIP_FOLLOWING)
 
-    def get_seenlist(self, flag=None):
-        if (flag != None):
-            return Movie.objects.filter(collection__user = self, collection__typeMovie__name = 'seen')
-        else:
-            return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self,movie__collection__typeMovie__name="seen")
+    def get_list(self, flag=None, list_name=None):
+        print(list_name)
+        return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self,movie__collection__typeMovie__name=list_name)
 
     def get_watchlist(self, flag=None):
         if (flag != None):

@@ -21,6 +21,8 @@ from django.forms import model_to_dict
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from users.functions import authenticate_function
+
 class CollectionViewSet(ModelViewSet):
 
     authentication_classes = (TokenAuthentication,)
@@ -134,12 +136,10 @@ class UserViewSet(GenericViewSet):
 
 
         username = data.get('username')
-        if '@' in username:
-            user_aux = User.objects.filter(email=username)[0]
-            user = authenticate(username=user_aux.username,password=data.get('password'))
+        password=data.get('password')
 
-        else:
-            user = authenticate(username=data.get('username'),password=data.get('password'))
+
+        user = authenticate_function(username,password)
 
 
         if user is None:
@@ -172,10 +172,13 @@ class UserViewSet(GenericViewSet):
         )
 
     @detail_route(methods = ['get'])
-    def seen_list(self,request,pk=None):
+    def collection(self,request,pk=None):
         user = User.objects.get(pk=pk)
-        queryset = user.profile.get_seenlist("API")
+        name = self.request.query_params.get('name', None)
+        queryset = user.profile.get_list("API",name)
 
+        print(queryset)
+        
         page = self.paginate_queryset(queryset)
         serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
 
@@ -206,6 +209,7 @@ class UserViewSet(GenericViewSet):
         user = User.objects.get(pk=pk)
         queryset = user.profile.get_favouritelist("API")
 
+        print(queryset)
         page = self.paginate_queryset(queryset)
         serializer = MoviesListSerializer(page, many=True, context={'lang':user.profile.lang.id})
 
