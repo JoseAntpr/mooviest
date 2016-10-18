@@ -2,7 +2,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import logout as django_logout,authenticate, login as django_login, update_session_auth_hash
 from django.contrib.auth.models import User
-from movie.models import Country
+from movie.models import Country,Lang
 from .models import Profile,RELATIONSHIP_FOLLOWING
 from users.forms import LoginForm,RegisterForm,SettingForm,PasswordForm
 from django.shortcuts import get_object_or_404
@@ -58,6 +58,7 @@ def register(request):
             #Aunque no guarde nada del profile, pero asi queda la referencia creada
             user_profile = Profile()
             user_profile.user = user_model
+            user_profile.lang = Lang.objects.get(code="es")
             # Guardamos el perfil
             user_profile.save()
             #redirigimos
