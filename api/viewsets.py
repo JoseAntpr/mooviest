@@ -1,6 +1,12 @@
 from movie.models import Lang, Country, Celebrity, Celebrity_lang, Role, Role_lang, Saga, Saga_lang, Genre, Genre_lang, Emotion, Emotion_lang, Streaming, Source, Movie, Movie_lang, Rating, Catalogue, Catalogue_lang, Participation
+from users.models import Collection
 from .serializers import LangSerializer, CountrySerializer, CelebritySerializer, Celebrity_langSerializer, RoleSerializer, Role_langSerializer, SagaSerializer, Saga_langSerializer, GenreSerializer, Genre_langSerializer, EmotionSerializer, Emotion_langSerializer, StreamingSerializer, SourceSerializer, MovieSerializer, Movie_langSerializer, RatingSerializer, CatalogueSerializer, Catalogue_langSerializer, ParticipationSerializer
+from .serializers_custom import MovieListCustomSerializer, RatingAppSerializer, ParticipationAppSerializer, GenreAppSerializer
+
 from rest_framework import viewsets, filters
+from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 class LangViewSet(viewsets.ModelViewSet):
@@ -76,17 +82,75 @@ class SourceViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'head', 'put', 'patch']
 
 class MovieViewSet(viewsets.ModelViewSet):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
-    http_method_names = ['get', 'post', 'head', 'put', 'patch']
-    # Search for users
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('original_title',)
+
+    def retrieve(self,request,pk=None):
+
+        movie_lang = Movie_lang.objects.get(pk=request.query_params.get('movie_lang_id'))
+        movie = movie_lang.movie
+
+        # ratings = []
+        # for r in Rating.objects.filter(movie = movie).select_related('movie'):
+        #     ratings.append(
+        #         {
+        #             'name': r.name,
+        #             'rating': r.rating,
+        #             'count': r.count,
+        #             'date_update': r.date_update
+        #         }
+        #     )
+
+        ratings = Rating.objects.filter(movie=movie)
+        ratingsSerializer = RatingAppSerializer(source='rating_set', many=True, instance = ratings)
+
+        participations = Participation.objects.filter(movie = movie)
+        participationSerializer = ParticipationAppSerializer(source='participation_set', many=True, instance = participations)
+
+        genres = Genre.objects.filter(movie = movie)
+        genresSerializer = GenreAppSerializer(source='rating_set', many=True, instance = genres, context={'lang':movie_lang.lang.id})
+
+        try:
+            getCollection = Collection.objects.get(movie = movie_lang.movie, user = request.query_params.get('user_id'))
+            collection = {
+                'id': getCollection.id,
+                'typeMovie': getCollection.typeMovie.name
+            }
+
+        except:
+            collection = None
+
+        return Response(
+            {
+                'id': movie.id,
+                'movie_lang_id': movie_lang.id,
+                'average': movie.average,
+                'synopsis': movie_lang.synopsis,
+                'collection': collection,
+                'original_title': movie.original_title,
+                'title': movie_lang.title,
+                'runtime': movie.runtime,
+                'released': movie.released,
+                'backdrop': movie.backdrop,
+                'image': movie_lang.image,
+                'movie_producer': movie.movie_producer,
+                'genres': genresSerializer.data,
+                'country': None,
+                'ratings': ratingsSerializer.data,
+                'participations': participationSerializer.data
+            }
+        )
 
 class Movie_langViewSet(viewsets.ModelViewSet):
-    serializer_class = Movie_langSerializer
+    serializer_class = MovieListCustomSerializer
     queryset = Movie_lang.objects.all()
     http_method_names = ['get', 'post', 'head', 'put', 'patch']
+
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('title',)
 
 class RatingViewSet(viewsets.ModelViewSet):
     serializer_class = RatingSerializer

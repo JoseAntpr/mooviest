@@ -80,23 +80,14 @@ class Profile(models.Model):
         print(list_name)
         return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self,movie__collection__typeMovie__name=list_name)
 
-    def get_watchlist(self, flag=None):
-        if (flag != None):
-            return Movie.objects.filter(collection__user = self, collection__typeMovie__name = 'watchlist')
-        else:
-            return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='watchlist')
+    def get_watchlist(self):
+        return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='watchlist')
 
-    def get_favouritelist(self, flag=None):
-        if (flag != None):
-            return Movie.objects.filter(collection__user = self, collection__typeMovie__name = 'favourite')
-        else:
-            return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='favourite')
+    def get_favouritelist(self):
+        return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='favourite')
 
-    def get_swipelist(self, flag=None):
-        if (flag != None):
-            return Movie.objects.filter(collection__user = self, collection__typeMovie__name = 'swipe')
-        else:
-            return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='swipe')
+    def get_swipelist(self):
+        return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='swipe')
 
     def get_likecelebrities(self):
         return self.likeCelebrities.all()
