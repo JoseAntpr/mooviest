@@ -16,12 +16,10 @@ def login(request):
             username = form.cleaned_data.get('usr')
             password = form.cleaned_data.get('pwd')
             if '@' in username:
-                if not User.objects.filter(email=username):
+                try:
+                    username = User.objects.get(email=username)
+                except User.DoesNotExist:
                     username = None
-                else:
-                    user_aux = User.objects.filter(email=username)[0]
-                    username = user_aux.username
-
 
             user = authenticate(username=username, password=password)
 
