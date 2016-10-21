@@ -20,3 +20,4 @@ South==1.0.2
 sqlparse==0.2.1
 static3==0.6.1
 whitenoise==3.0
+django-widget-tweaks=1.4.1
