@@ -6,9 +6,10 @@ scripts/lastline.txt
 scripts/log.txt
 scripts/imds.txt
 
-
-
-.*
-
 *.pyc
 *.db
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

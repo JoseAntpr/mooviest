@@ -104,8 +104,8 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'mooviest',
-            'USER': 'user'
-            'PASSWORD': 'pass',
+            'USER': 'octavio',
+            'PASSWORD': 'cp274aceas5',
             'HOST': 'localhost',
             'PORT': '5432',
         }

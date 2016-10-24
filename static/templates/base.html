@@ -1,0 +1,131 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>{% block title %}{% endblock %}</title>
+
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=320, height=device-height">
+      <meta name="description" content="Sistema de recomendaciones películas">
+      <meta name="author" content="Mooviest">
+
+    	<!-- Favicon -->
+    	<link rel="apple-touch-icon" sizes="57x57" href="{% static 'favicon/apple-icon-57x57.png' %}">
+    	<link rel="apple-touch-icon" sizes="60x60" href="{% static 'favicon/apple-icon-60x60.png' %}">
+    	<link rel="apple-touch-icon" sizes="72x72" href="{% static 'favicon/apple-icon-72x72.png' %}">
+    	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'favicon/apple-icon-76x76.png'' %}">
+    	<link rel="apple-touch-icon" sizes="114x114" href="{% static 'favicon/apple-icon-114x114.png' %}">
+    	<link rel="apple-touch-icon" sizes="120x120" href="{% static 'favicon/apple-icon-120x120.png' %}">
+    	<link rel="apple-touch-icon" sizes="144x144" href="{% static 'favicon/apple-icon-144x144.png'' %}">
+    	<link rel="apple-touch-icon" sizes="152x152" href="{% static 'favicon/apple-icon-152x152.png' %}">
+    	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-icon-180x180.png' %}">
+    	<link rel="icon" type="image/png" sizes="192x192"  href="{% static 'favicon/android-icon-192x192.png' %}">
+    	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    	<link rel="icon" type="image/png" sizes="96x96" href="{% static 'favicon/favicon-96x96.png' %}">
+    	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    	<link rel="manifest" href="{% static 'favicon/manifest.json' %}">
+    	<meta name="msapplication-TileColor" content="#940123">
+    	<meta name="msapplication-TileImage" content="{% static 'favicon/ms-icon-144x144.png' %}">
+    	<meta name="theme-color" content="#940123">
+
+      <!-- CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <link rel="stylesheet" href="{% static 'home/css/animate.css' %}">
+      <link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
+
+      {% block css %}{% endblock %}
+
+      <!-- Font Awesome -->
+      <script src="https://use.fontawesome.com/7c5129d645.js"></script>
+    </head>
+
+    <body>
+
+      <!-- Navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+  				    <span class="sr-only">Toggle navigation</span>
+  				    <i class="fa fa-bars"></i>
+        		</button>
+            <a class="navbar-brand" href="{% url 'home' %}">M</a>
+          </div>
+      		<div class="collapse navbar-collapse" id="navbar">
+      			<ul class="nav navbar-nav navbar-right">
+              {% if user.is_authenticated %}
+                <li>
+                  <a href="{% url 'users_profile' user.id %}"><img src="{{ user.profile.avatar_thumbnail.url }}" class="img-circle"></a>
+                </li>
+                <li>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+          					<li><a href="{% url 'users_logout' %}">Salir</a></li>
+                    <li><a href="{% url 'users_profile' user.id %}">Perfil</a></li>
+          					<li><a href="{% url 'users_settings' %}">Ajustes</a></li>
+          				</ul>
+                </li>
+              {% else %}
+              <li>
+                  <a href="{% url 'users_login' %}">Entrar</a>
+              </li>
+              <li>
+                  <a href="{% url 'users_register' %}">Registrate</a>
+              </li>
+              {% endif %}
+          	</ul>
+      		</div>
+        </div>
+      </div>
+
+      {% block content %}{% endblock content %}
+
+     <!-- Footer -->
+      <div id="footerwrap">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4">
+              <h4>Acerca de</h4>
+              <div class="hline-w"></div>
+              <p>
+                Con Mooviest podrás marcar tus películas vistas de manera fácil y cómoda con un simple gesto de swipe. Tus películas vistas y actores preferidos junto con tu contexto
+                y estado de ánimo del día a día permiten a Mooviest realizar recomendaciones de películas mucho más acertadas.
+               </p>
+            </div>
+            <div class="col-lg-4">
+              <h4>Enlaces</h4>
+              <div class="hline-w"></div>
+              <p>
+                <a href="http://facebook.com/mooviest" target="_blank"><i class="fa fa-facebook"></i></a>
+                <a href="http://twitter.com/mooviest" target="_blank"><i class="fa fa-twitter"></i></a>
+                <a href="https://plus.google.com/110852632495504689943" target="_blank"><i class="fa fa-google-plus"></i></a>
+                <a href="https://instagram.com/mooviest" target="_blank"><i class="fa fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/mooviest" target="_blank"><i class="fa fa-linkedin"></i></a>
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <h4>Nuestro Bunker</h4>
+              <div class="hline-w"></div>
+              <p>
+                C/ Rioja, 25<br/>
+                Torre del Mar, 29740<br/>
+                Málaga</br>
+                España</br>
+              </p>
+            </div>
+          </div><!--/row -->
+        </div><!--/container -->
+      </div><!--/footerwrap -->
+
+
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sidebar/3.3.2/jquery.sidebar.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    {% block javascript %}{% endblock javascript %}
+
+    </body>
+
+</html>
