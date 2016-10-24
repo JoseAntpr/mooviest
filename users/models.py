@@ -76,11 +76,15 @@ class Profile(models.Model):
     def get_followers(self):
         return self.get_related_to(RELATIONSHIP_FOLLOWING)
 
-    def get_list(self, flag=None, list_name=None):
+    def get_list(self,list_name=None):
         return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self,movie__collection__typeMovie__name=list_name)
+
+    def get_swipe(self):
+        return Movie_lang.objects.filter(lang__code = self.lang.code).exclude(movie__collection__user=self).order_by('?')[:10]
 
     def get_likecelebrities(self):
         return self.likeCelebrities.all()
+
     def get_typemovie(self, movie):
         try:
             typeMovie = Collection.objects.get(user = self, movie = movie).typeMovie

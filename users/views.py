@@ -128,9 +128,9 @@ def profile(request,user_id):
     userProfile = User.objects.get(pk=user_id)
     followers = userProfile.profile.get_followers()
     followings = userProfile.profile.get_following()
-    seenlist = userProfile.profile.get_list(None,"seen")
-    watchlist = userProfile.profile.get_list(None,"watchlist")
-    favouritelist = userProfile.profile.get_list(None,"favourite")
+    seenlist = userProfile.profile.get_list("seen")
+    watchlist = userProfile.profile.get_list("watchlist")
+    favouritelist = userProfile.profile.get_list("favourite")
     #likeCelebritiesList = userProfile.profile.get_list(flag,"")
     context = {
         'userProfile':userProfile,

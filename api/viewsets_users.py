@@ -176,7 +176,17 @@ class UserViewSet(GenericViewSet):
         user = User.objects.get(pk=pk)
 
         name = self.request.query_params.get('name', None)
-        queryset = user.profile.get_list("API",name)
+        queryset = user.profile.get_list(name)
+
+        page = self.paginate_queryset(queryset)
+        serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
+
+        return self.get_paginated_response(serializer.data)
+    @detail_route(methods = ['get'])
+    def swipelist(self,request,pk=None):
+        user = User.objects.get(pk=pk)
+
+        queryset = user.profile.get_swipe()
 
         page = self.paginate_queryset(queryset)
         serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
