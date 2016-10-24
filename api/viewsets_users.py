@@ -182,34 +182,3 @@ class UserViewSet(GenericViewSet):
         serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
 
         return self.get_paginated_response(serializer.data)
-
-    @detail_route(methods = ['get'])
-    def watchlist(self,request,pk=None):
-        user = User.objects.get(pk=pk)
-        queryset = user.profile.get_watchlist()
-
-        page = self.paginate_queryset(queryset)
-        serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
-
-        return self.get_paginated_response(serializer.data)
-
-    @detail_route(methods = ['get'])
-    def swipe_list(self,request,pk=None):
-        user = User.objects.get(pk=pk)
-        queryset = user.profile.get_swipelist()
-
-        page = self.paginate_queryset(queryset)
-        serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
-
-        return self.get_paginated_response(serializer.data)
-
-    @detail_route(methods = ['get'])
-    def favourite_list(self,request,pk=None):
-        user = User.objects.get(pk=pk)
-        queryset = user.profile.get_favouritelist()
-
-        print(queryset)
-        page = self.paginate_queryset(queryset)
-        serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
-
-        return self.get_paginated_response(serializer.data)

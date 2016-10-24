@@ -77,17 +77,7 @@ class Profile(models.Model):
         return self.get_related_to(RELATIONSHIP_FOLLOWING)
 
     def get_list(self, flag=None, list_name=None):
-        print(list_name)
         return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self,movie__collection__typeMovie__name=list_name)
-
-    def get_watchlist(self):
-        return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='watchlist')
-
-    def get_favouritelist(self):
-        return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='favourite')
-
-    def get_swipelist(self):
-        return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self, movie__collection__typeMovie__name='swipe')
 
     def get_likecelebrities(self):
         return self.likeCelebrities.all()
