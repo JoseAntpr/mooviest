@@ -49,7 +49,11 @@ INSTALLED_APPS = (
     'users',
     'imagekit',
     'debug_toolbar',
+<<<<<<< HEAD
     'storages',
+=======
+    'widget_tweaks',
+>>>>>>> 89b7245b960480d05b9173310f8f0ce9c9f7dba3
 )
 
 MIDDLEWARE_CLASSES = (

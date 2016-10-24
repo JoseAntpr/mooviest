@@ -2,9 +2,11 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import logout as django_logout,authenticate, login as django_login, update_session_auth_hash
 from django.contrib.auth.models import User
-from movie.models import Country
+from movie.models import Country,Lang
 from .models import Profile,RELATIONSHIP_FOLLOWING
 from users.forms import LoginForm,RegisterForm,SettingForm,PasswordForm
+from django.shortcuts import get_object_or_404
+from users.functions import authenticate_function,register_function
 
 # Create your views here.
 def login(request):
@@ -14,11 +16,8 @@ def login(request):
         if form.is_valid():
             username = form.cleaned_data.get('usr')
             password = form.cleaned_data.get('pwd')
-            if '@' in username:
-                user_aux = User.objects.get(email=username)
-                user = authenticate(username=user_aux.username,password=password)
-            else:
-                user = authenticate(username=username, password=password)
+
+            user = authenticate_function(username,password)
 
             if user is None:
                 error_messages.append('Nombre de usuario o contraseña incorrectos')
@@ -30,6 +29,7 @@ def login(request):
                     error_messages.append("El usuario no está activo")
     else:
         form = LoginForm()
+
     context={
         'errors': error_messages,
         'login_form': form
@@ -47,18 +47,11 @@ def register(request):
         if form.is_valid():
             cleaned_data = form.cleaned_data
             username = cleaned_data.get('username')
-            born = cleaned_data.get('born')
             password = cleaned_data.get('password')
             email = cleaned_data.get('email')
 
-            user_model = User.objects.create_user(username=username,password=password,email=email)
-            #Aunque no guarde nada del profile, pero asi queda la referencia creada
-            user_profile = Profile()
-            user_profile.user = user_model
-            # Guardamos el perfil
-            user_profile.save()
-            #redirigimos
-            user = authenticate(username=username, password=password)
+            user = register_function(username,email,password,request.LANGUAGE_CODE)
+
             django_login(request,user)
             return redirect('home')
     else:
@@ -135,10 +128,10 @@ def profile(request,user_id):
     userProfile = User.objects.get(pk=user_id)
     followers = userProfile.profile.get_followers()
     followings = userProfile.profile.get_following()
-    seenlist = userProfile.profile.get_seenlist()
-    watchlist = userProfile.profile.get_watchlist()
-    favouritelist = userProfile.profile.get_favouritelist()
-    likeCelebritiesList = userProfile.profile.get_likecelebrities()
+    seenlist = userProfile.profile.get_list("seen")
+    watchlist = userProfile.profile.get_list("watchlist")
+    favouritelist = userProfile.profile.get_list("favourite")
+    #likeCelebritiesList = userProfile.profile.get_list(flag,"")
     context = {
         'userProfile':userProfile,
         'followings': followings,
@@ -146,7 +139,7 @@ def profile(request,user_id):
         'seenlist': seenlist,
         'watchlist':watchlist,
         'favouritelist':favouritelist,
-        'likeCelebritiesList': likeCelebritiesList
+        #'likeCelebritiesList': likeCelebritiesList
     }
     return render(request,'users/profile.html',context)
 

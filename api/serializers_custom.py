@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from movie.models import Movie, Movie_lang, Rating, Country, Genre, Genre_lang, Celebrity, Participation, Celebrity_lang
+from users.models import Collection
 
 class CountryAppSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,18 +21,14 @@ class Movie_LangAppSerializer(serializers.ModelSerializer):
 class Genre_LangAppSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre_lang
-        fields = ('name',)
+        fields = ("name")
 
-class GenreAppSerializer(serializers.ModelSerializer):
-    langs = serializers.SerializerMethodField('get')
-    def get(self, obj):
+class GenreAppSerializer(serializers.BaseSerializer):
+    def to_representation(self, obj):
         lang = self.context['lang']
-        langs = Genre_lang.objects.filter(lang = lang, genre = obj)
-        langSerializer = Genre_LangAppSerializer(source='genre_lang_set', many=True, instance = langs)
-        return langSerializer.data
-    class Meta:
-        model = Genre
-        fields = ('langs',)
+        genre_lang = Genre_lang.objects.get(lang = lang, genre = obj)
+        return {'name': genre_lang.name}
+
 
 class Celebrity_langAppSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,6 +45,28 @@ class ParticipationAppSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participation
         fields = ('celebrity', 'role', 'character', 'award')
+
+class MovieListCustomSerializer(serializers.BaseSerializer):
+    def to_representation(self,obj):
+
+        try:
+            getCollection = Collection.objects.get(movie = obj.movie.id, user = self.context['user_id'])
+            collection = {
+                'id': getCollection.id,
+                'typeMovie': getCollection.typeMovie.name
+            }
+
+        except:
+            collection = None
+
+        return {
+            'id': obj.movie.id,
+            'average': obj.movie.average,
+            'collection': collection,
+            'image': obj.image,
+            'title': obj.title,
+            'movie_lang_id': obj.id
+        }
 
 class MovieAppSerializer(serializers.ModelSerializer):
     ratings = RatingAppSerializer(source='rating_set', many=True)

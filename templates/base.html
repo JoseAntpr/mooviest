@@ -33,7 +33,7 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
       <link rel="stylesheet" href="{% static 'home/css/animate.css' %}">
       <link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
-
+      {% load i18n %}
       {% block css %}{% endblock %}
 
       <!-- Font Awesome -->
@@ -61,7 +61,7 @@
                 <li>
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}<span class="caret"></span></a>
                   <ul class="dropdown-menu">
-          					<li><a href="{% url 'users_logout' %}">Salir</a></li>
+          					<li><a href="{% url 'users_logout' %}">{% trans "Exit" %}</a></li>
                     <li><a href="{% url 'users_profile' user.id %}">Perfil</a></li>
           					<li><a href="{% url 'users_settings' %}">Ajustes</a></li>
           				</ul>

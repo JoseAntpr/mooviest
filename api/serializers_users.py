@@ -1,14 +1,22 @@
 from rest_framework import serializers
-from users.models import Profile,Collection
+from users.models import Profile, Collection, TypeMovie
 from movie.models import Lang, Movie_lang, Movie
 from django.contrib.auth.models import User
 from .serializers import LangSerializer
+from users.functions import register_function
 
+class TypeMovieSerializer(serializers.BaseSerializer):
+    def to_representation(self, obj):
+        return obj.name
+
+    def to_internal_value(self, data):
+        return TypeMovie.objects.get(pk=data)
 
 class CollectionSerializer(serializers.ModelSerializer):
+    typeMovie = TypeMovieSerializer()
     class Meta:
         model = Collection
-        fields = ('user','movie','typeMovie','pub_date')
+        fields = ('id', 'user','movie','typeMovie','pub_date')
 
 class Movie_LangAppSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,17 +50,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         """
         Crea una instacia de User
         """
-
+        username = validated_data.get('username')
+        email = validated_data.get('email')
+        password = validated_data.get('password')
         profile_data = validated_data.pop('profile')
-        #user = User.objects.create(**validated_data)
-        user = User.objects.create_user(validated_data.get('username'),validated_data.get('email'),validated_data.get('password'))
-        user_profile = Profile()
-        user_profile.user = user
-        user_profile.lang = Lang.objects.get(code = profile_data.get('lang').get('code'))
+        code = profile_data.get('lang').get('code')
 
-        user_profile.save()
-
-        return user
+        return register_function(username,email,password,code)
 
     def validate_username(self,data):
         """
