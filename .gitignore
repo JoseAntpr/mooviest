@@ -1,6 +1,6 @@
 venv
 
-mooviest/settings.py
+mooviest/settings_develop.py
 scripts/datos_sin_numero.txt
 scripts/lastline.txt
 scripts/log.txt
