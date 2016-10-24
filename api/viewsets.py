@@ -145,6 +145,10 @@ class MovieViewSet(viewsets.ModelViewSet):
         )
 
 class Movie_langViewSet(viewsets.ModelViewSet):
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    
     serializer_class = MovieListCustomSerializer
     queryset = Movie_lang.objects.all()
     http_method_names = ['get', 'post', 'head', 'put', 'patch']
