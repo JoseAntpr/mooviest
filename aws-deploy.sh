@@ -1,6 +1,6 @@
 # Replaces "mooviest.settings_develop" to "mooviest_settings_deploy" in all .py files
-./replace-string-subfolders-extension.sh py mooviest.settings_develop mooviest.settings_deploy
-echo "Reemplazados 'mooviest.settings_develop' por 'mooviest_deploy' en archivos .py"
+./replace-string-subfolders-extension.sh py mooviest.settings_develop mooviest.settings
+echo "Reemplazados 'mooviest.settings_develop' por 'mooviest.settings' en archivos .py"
 seq  -f "-" -s '' "$(tput cols)";
 
 # Commit changes to deploy
@@ -14,8 +14,8 @@ seq  -f "-" -s '' "$(tput cols)";
 
 if eb deploy test; then (
 
-    # Replaces "mooviest.settings_deploy" to "mooviest_settings_develop" in all .py files
-    ./replace-string-subfolders-extension.sh py mooviest.settings_deploy mooviest.settings_develop
+    # Replaces "mooviest.settings" to "mooviest.settings_develop" in all .py files
+    ./replace-string-subfolders-extension.sh py mooviest.settings mooviest.settings_develop
 
     # Commit changes to previous state
     git add .
