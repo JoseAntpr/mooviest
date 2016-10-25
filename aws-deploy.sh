@@ -1,12 +1,18 @@
 # Creates a new branch only to perform the deployment
 git branch aws-deploy
+git checkout aws-deploy
 
-# Sets Debug to false
-./replace-string-subfolders-extension.sh py "AWS_DEPLOYMENT = False" "AWS_DEPLOYMENT = True;"
+# Sets deployment flag to true
+sed -i -- 's/DEPLOYMENT = False/DEPLOYMENT = True/g' mooviest/settings.py
+rm mooviest/settings.py--
 
-# Replaces "mooviest.settings_develop" to "mooviest_settings_deploy" in all .py files
-./replace-string-subfolders-extension.sh py mooviest.settings_develop mooviest.settings
-echo "Reemplazados 'mooviest.settings_develop' por 'mooviest.settings' en archivos .py"
+# Replaces "settings_develop" to "settings" in wsgi.py y manage.py
+sed -i -- 's/settings_develop/settings/g' mooviest/wsgi.py
+sed -i -- 's/settings_develop/settings/g' manage.py
+rm mooviest/wsgi.py--
+rm manage.py--
+
+echo "Reemplazados 'settings_develop' por 'settings' en wsgi.py y manage.py"
 seq  -f "-" -s '' "$(tput cols)";
 
 # Commit changes to deploy
@@ -19,15 +25,6 @@ echo "Desplegando en Elastic Beanstalk de Amazon..."
 seq  -f "-" -s '' "$(tput cols)";
 
 if eb deploy test; then (
-
-    # Replaces "mooviest.settings" to "mooviest.settings_develop" in all .py files
-    ./replace-string-subfolders-extension.sh py mooviest.settings mooviest.settings_develop
-
-    # Commit changes to previous state
-    git add .
-    git commit -m "Changed to previous settings paths"
-    seq  -f "-" -s '' "$(tput cols)";
-    echo "Cadenas de settings reestablecidas al estado previo"
     echo "Despliegue en Amazon EB completado"
     echo "Volviendo a la rama develop"
     git checkout develop
