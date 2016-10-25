@@ -2,7 +2,7 @@
 git branch aws-deploy
 
 # Sets Debug to false
-./replace-string-subfolders-extension.sh py "DEBUG = True" "DEBUG = False"
+./replace-string-subfolders-extension.sh py "AWS_DEPLOYMENT = False" "AWS_DEPLOYMENT = True;"
 
 # Replaces "mooviest.settings_develop" to "mooviest_settings_deploy" in all .py files
 ./replace-string-subfolders-extension.sh py mooviest.settings_develop mooviest.settings

@@ -1,6 +1,6 @@
-from mooviest.settings_develop import *
+from mooviest.settings import *
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 

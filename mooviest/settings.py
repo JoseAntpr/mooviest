@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!v#&o%c@#i@=-tnmy2%y%dkjl3^51p#c^96-)1bv+yb_@tl_65'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -131,8 +131,12 @@ REST_FRAMEWORK = {
     ),
 }
 
+DEPLOYMENT = False
+
 # If debug is false for Amazon deployment
-if DEBUG == False:
+if DEPLOYMENT == True:
+
+    DEBUG == False
 
     INSTALLED_APPS += (
         'storages',
