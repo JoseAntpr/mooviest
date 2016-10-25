@@ -132,7 +132,7 @@ REST_FRAMEWORK = {
 }
 
 # If debug is false for Amazon deployment
-if DEBUG == FALSE:
+if DEBUG == False:
 
     INSTALLED_APPS += (
         'storages',
