@@ -53,6 +53,12 @@
             <a class="navbar-brand" href="{% url 'home' %}">M</a>
           </div>
       		<div class="collapse navbar-collapse" id="navbar">
+            <form class="navbar-form navbar-left" role="search" action="/search/" method="get">
+              <div class="form-group" id="remote">
+                <input type="text" class="form-control typeahead" id="search" placeholder="Search for another movie..." name="q">
+              </div>
+              <button type="submit" class="btn btn-default btn-warning">Go!</button>
+            </form>
       			<ul class="nav navbar-nav navbar-right">
               {% if user.is_authenticated %}
                 <li>
@@ -123,6 +129,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sidebar/3.3.2/jquery.sidebar.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.min.js"></script>
+
+    <script>
+      var movies = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+          url: '/busqueda/',
+          wildcard: '%q'
+        }
+      });
+
+      $('#remote .typeahead').typeahead(null, {
+        name: 'best-pictures',
+        display: 'title',
+        source: movies
+      });
+    </script>
 
     {% block javascript %}{% endblock javascript %}
 
