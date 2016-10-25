@@ -3,10 +3,11 @@ from users.models import Collection
 from .serializers import LangSerializer, CountrySerializer, CelebritySerializer, Celebrity_langSerializer, RoleSerializer, Role_langSerializer, SagaSerializer, Saga_langSerializer, GenreSerializer, Genre_langSerializer, EmotionSerializer, Emotion_langSerializer, StreamingSerializer, SourceSerializer, MovieSerializer, Movie_langSerializer, RatingSerializer, CatalogueSerializer, Catalogue_langSerializer, ParticipationSerializer
 from .serializers_custom import MovieListCustomSerializer, RatingAppSerializer, ParticipationAppSerializer, GenreAppSerializer
 
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, generics
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q
 
 
 class LangViewSet(viewsets.ModelViewSet):
@@ -152,10 +153,17 @@ class Movie_langViewSet(viewsets.ModelViewSet):
     serializer_class = MovieListCustomSerializer
     queryset = Movie_lang.objects.all()
 
-    if "" is not None:
+    def get_queryset(self):
+        queryset = Movie_lang.objects.all()
 
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('title',)
+        title = self.request.query_params.get('title',None)
+        code = self.request.query_params.get('code',None)
+        print (title)
+        if title is not None:
+            queryset = Movie_lang.objects.filter(Q(title__icontains = title) | Q(movie__original_title__icontains = title),lang__code = code)
+        return queryset
+    #filter_backends = (filters.SearchFilter,)
+    #search_fields = ('title',)
 
 class RatingViewSet(viewsets.ModelViewSet):
     serializer_class = RatingSerializer
