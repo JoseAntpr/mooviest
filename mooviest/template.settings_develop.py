@@ -1,4 +1,4 @@
-from mooviest.settings import *
+from mooviest.settings_develop import *
 
 DEBUG = False
 
