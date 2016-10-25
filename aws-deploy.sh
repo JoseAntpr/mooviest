@@ -1,3 +1,9 @@
+# Creates a new branch only to perform the deployment
+git branch aws-deploy
+
+# Sets Debug to false
+./replace-string-subfolders-extension.sh py "DEBUG = True" "DEBUG = False"
+
 # Replaces "mooviest.settings_develop" to "mooviest_settings_deploy" in all .py files
 ./replace-string-subfolders-extension.sh py mooviest.settings_develop mooviest.settings
 echo "Reemplazados 'mooviest.settings_develop' por 'mooviest.settings' en archivos .py"
@@ -23,6 +29,9 @@ if eb deploy test; then (
     seq  -f "-" -s '' "$(tput cols)";
     echo "Cadenas de settings reestablecidas al estado previo"
     echo "Despliegue en Amazon EB completado"
+    echo "Volviendo a la rama develop"
+    git checkout develop
+    git branch -D aws-deploy
     )
 else
     seq  -f "!" -s '' "$(tput cols)";
