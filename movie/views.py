@@ -5,7 +5,7 @@ from users.models import Profile, User, Collection, TypeMovie
 
 def index(request, movie_id):
     movie =  get_object_or_404(Movie, pk = movie_id)
-    movie_lang = movie.get_movie_lang('en')
+    movie_lang = movie.get_movie_lang(request.user.profile.lang)
     celebs = movie.participations.filter(movie = movie.pk)
     # typemovie = string with collection its in
     user = request.user
@@ -46,5 +46,5 @@ def changeCollection(request, movie_id):
             collection.save()
     else:
         print("ERROR: user does not exist")
-    
+
     return redirect('/movie/' + movie_id)
