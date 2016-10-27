@@ -2,6 +2,7 @@ from rest_framework import serializers
 from movie.models import Movie, Movie_lang, Rating, Country, Genre, Genre_lang, Celebrity, Participation, Celebrity_lang
 from users.models import Collection
 
+
 class CountryAppSerializer(serializers.ModelSerializer):
     class Meta:
         model = Country

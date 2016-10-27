@@ -184,3 +184,7 @@ class ParticipationViewSet(viewsets.ModelViewSet):
     serializer_class = ParticipationSerializer
     queryset = Participation.objects.all()
     http_method_names = ['get', 'post', 'head', 'put', 'patch']
+
+class MovieBasicViewSet(viewsets.ModelViewSet):
+    serializer_class = MovieSerializer
+    queryset = Movie.objects.all()
