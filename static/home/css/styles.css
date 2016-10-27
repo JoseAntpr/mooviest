@@ -208,3 +208,7 @@ ul.stack {
     width: 30px;
     height: 30px;
 }
+.profile{
+	color: black !important;
+	padding:15px 0px !important;
+}

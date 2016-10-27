@@ -65,7 +65,9 @@
                   <a href="{% url 'users_profile' user.id %}"><img src="{{ user.profile.avatar_thumbnail.url }}" class="img-circle"></a>
                 </li>
                 <li>
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}<span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle profile" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                  </a>
                   <ul class="dropdown-menu">
           					<li><a href="{% url 'users_logout' %}">{% trans "Exit" %}</a></li>
                     <li><a href="{% url 'users_profile' user.id %}">Perfil</a></li>
