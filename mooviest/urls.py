@@ -71,6 +71,8 @@ urlpatterns = [
     # Movie URLs
     url(r'^movie/(?P<movie_id>[0-9]+)/$', 'movie.views.index', name = 'movie'),
     url(r'^movie/(?P<movie_id>[0-9]+)/change-collection$', 'movie.views.changeCollection', name = 'movie_changeCollection'),
+    url(r'^search/$', 'movie.views.search',name = "move_search"),
+    url(r'^busqueda/$','movie.views.busqueda',name='busqueda'),
 
     # Users URLs
     url(r'^login$', 'users.views.login', name = 'users_login'),
