@@ -18,9 +18,98 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/base.html:64
-msgid "Exit"
-msgstr "Salir"
+# base.html
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#: templates/base.html:59
+msgid "Search for another movie..."
+msgstr "Busca otra película..."
+
+#: templates/base.html:73
+msgid "Log out"
+msgstr "Cerrar sesión"
+
+#: templates/base.html:74
+msgid "Profile"
+msgstr "Perfil"
+
+#: templates/base.html:75
+msgid "Settings"
+msgstr "Ajustes"
+
+#: templates/base.html:80
+msgid "Login"
+msgstr "Iniciar sesión"
+
+#: templates/base.html:75
+msgid "Sign up"
+msgstr "Regístrate"
+
+#: templates/base.html:98
+msgid "About"
+msgstr "Acerca de"
+
+#: templates/base.html:101
+msgid "With Mooviest you can easily check the movies you've seen with a simple swipe gesture. These movies you've seen and favourite actors combined with your context and everyday mood will allow Mooviest to provide you with much better recommendations."
+msgstr "Con Mooviest podrás marcar tus películas vistas de manera fácil y cómoda con un simple gesto de swipe.Tus películas vistas y actores preferidos junto con tu contexto y estado de ánimo del día a día permiten a Mooviest realizar recomendaciones de películas mucho más acertadas."
+
+#: templates/base.html:105
+msgid "Our bunker"
+msgstr "Nuestro bunker"
+
+#: templates/base.html:116
+msgid "Links"
+msgstr "Enlaces"
+
+# setting.html
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#: templates/users/setting.html:13
+msgid "Personal information"
+msgstr "Información personal"
+
+#: templates/users/setting.html:14
+msgid "Change password"
+msgstr "Cambio de contraseña"
+
+#: templates/users/setting.html:43
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: templates/users/setting.html:51
+msgid "Name"
+msgstr "Nombre"
+
+#: templates/users/setting.html:58
+msgid "Lastname"
+msgstr "Apellidos"
+
+#: templates/users/setting.html:65
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: templates/users/setting.html:78
+msgid "Gender"
+msgstr "Género"
+
+#: templates/users/setting.html:94
+msgid "City"
+msgstr "Ciudad"
+
+#: templates/users/setting.html:101
+msgid "Postal code"
+msgstr "Código postal"
+
+# users/model.py
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#: users/models.py:14
+msgid "Female"
+msgstr "Femenino"
+
+#: users/models.py:15
+msgid "Male"
+msgstr "Masculino"
+
 
 #: mooviest/settings.py:119
 msgid "English"

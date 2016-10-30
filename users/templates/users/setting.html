@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load i18n %}
 {% block title %} Setting de usuario {% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
@@ -9,8 +10,8 @@
   <div class="row">
     <div class=" col-md-offset-2 col-md-2" role="nav">
       <ul class="nav nav-pills nav-stacked">
-        <li role="presentation"><a href="{% url 'users_settings' %}">Información personal</a></li>
-        <li role="presentation"><a href="{% url 'users_password' %}">Cambio de contraseña</a></li>
+        <li role="presentation"><a href="{% url 'users_settings' %}">{% trans "Personal information" %}</a></li>
+        <li role="presentation"><a href="{% url 'users_password' %}">{% trans "Change password" %}</a></li>
       </ul>
     </div>
     <div class="col-md-8">
@@ -40,25 +41,29 @@
                 <div class="form-group {%if setting_form.username.errors %}has-error{%endif%}">
                   <div class="col-lg-offset-2 col-lg-8 " >
                     <label class="control-label"> {% for error in setting_form.username.errors %} {{error}} {%endfor%}</label>
-                    {% render_field setting_form.username type="text" class+="form-control" placeholder="Nombre de usuario" %}
+                    {% trans "Username" as username %}
+                    {% render_field setting_form.username type="text" class+="form-control" placeholder=username %}
                   </div>
                 </div>
                 <div class="form-group {%if setting_form.firstname.errors %}has-error{%endif%}">
                   <div class="col-lg-offset-2 col-lg-8 ">
                     <label class="control-label"> {% for error in setting_form.firstname.errors %} {{error}} {%endfor%}</label>
-                    {% render_field setting_form.firstname type="text" class+="form-control" placeholder="Nombre" %}
+                    {% trans "Name" as name %}
+                    {% render_field setting_form.firstname type="text" class+="form-control" placeholder=name  %}
                   </div>
                 </div>
                 <div class="form-group {%if setting_form.lastname.errors %}has-error{%endif%}" >
                   <div class="col-lg-offset-2 col-lg-8 ">
                     <label class="control-label"> {% for error in setting_form.lastname.errors %} {{error}} {%endfor%}</label>
-                    {% render_field setting_form.lastname type="text" class+="form-control" placeholder="Apellidos" %}
+                    {% trans "Lastname" as lastname %}
+                    {% render_field setting_form.lastname type="text" class+="form-control" placeholder=lastname %}
                   </div>
                 </div>
                 <div class="form-group {%if setting_form.email.errors %}has-error{%endif%}">
                   <div class="col-lg-offset-2 col-lg-8 ">
                     <label class="control-label"> {% for error in setting_form.email.errors %} {{error}} {%endfor%}</label>
-                    {% render_field setting_form.email type="email" class+="form-control" placeholder="email" %}
+                    {% trans "Email" as email %}
+                    {% render_field setting_form.email type="email" class+="form-control" placeholder=email %}
                   </div>
                 </div>
                 <div class="form-group {%if setting_form.born.errors %}has-error{%endif%}">
@@ -70,7 +75,7 @@
                 <div class="form-group {%if setting_form.gender.errors %}has-error{%endif%}">
                   <div class="col-lg-offset-2 col-lg-8 ">
                     <label class="control-label"> {% for error in setting_form.gender.errors %} {{error}} {%endfor%}</label>
-                    <label>Sexo</label>
+                    <label>{% trans "Gender" %}</label>
                     <br>
                     <label class="radio-inline">
                       {% render_field setting_form.gender type="radio" %}
@@ -86,13 +91,15 @@
                 <div class="form-group {%if setting_form.city.errors %}has-error{%endif%}">
                   <div class="col-lg-offset-2 col-lg-8 ">
                     <label class="control-label"> {% for error in setting_form.city.errors %} {{error}} {%endfor%}</label>
-                    {% render_field setting_form.city class="form-control" placeholder="Ciudad" %}
+                    {% trans "City" as city %}
+                    {% render_field setting_form.city class="form-control" placeholder=city %}
                   </div>
                 </div>
                 <div class="form-group {%if setting_form.postalcode.errors %}has-error{%endif%}">
                   <div class="col-lg-offset-2 col-lg-8 ">
                     <label class="control-label"> {% for error in setting_form.postalcode.errors %} {{error}} {%endfor%}</label>
-                    {% render_field setting_form.postalcode class="form-control" placeholder="Código postal" %}
+                    {% trans "Postal code" as postalcode %}
+                    {% render_field setting_form.postalcode class="form-control" placeholder=postalcode %}
                   </div>
                 </div>
                 <div class="form-group">

@@ -212,3 +212,40 @@ ul.stack {
 	color: black !important;
 	padding:15px 0px !important;
 }
+.search{
+	overflow: hidden;
+	width: 400px;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+.search>input{
+	width: 100% !important;
+}
+
+.inner-addon {
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .fa-search {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align glyph */
+.left-addon .fa-search { left:  0px;}
+.right-addon .fa-search { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+.open>.dropdown-toggle {
+	background-color: rgba(211, 211, 211, 0) !important;
+	color: white !important;
+}
+.dropdown-menu{
+	background-color: #940123 !important;
+	margin: 11px !important;
+	border-top: none !important;
+}

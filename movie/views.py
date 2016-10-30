@@ -54,7 +54,7 @@ def changeCollection(request, movie_id):
 def search(request):
     if 'q' in request.GET and request.GET['q']:
         q = request.GET['q']
-        movies = Movie_lang.objects.filter(Q(title__icontains = q) | Q(movie__original_title__icontains = q),lang__code = request.LANGUAGE_CODE).value(title)
+        movies = Movie_lang.objects.filter(Q(title__icontains = q) | Q(movie__original_title__icontains = q),lang__code = request.LANGUAGE_CODE)
         if len(movies) == 1:
             return redirect ('movie',movie_id=movies[0].id)
         else:

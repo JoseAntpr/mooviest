@@ -96,88 +96,9 @@
       </div>
 
     </div>
-    <div class="sidebars">
-      <div class="sidebar left" style="left: -400px;">Left</div>
-      <div class="sidebar right" style="right: -400px;">
-        <a class="btn" data-action="close" data-side="right"><span class="glyphicon glyphicon-remove"></span></a>
-      </div>
-      <div class="sidebar top" style="top: -400px;">Top</div>
-      <div class="sidebar bottom" style="bottom: -400px;">Bottom</div>
-    </div>
+
 
 {% endblock content %}
 
 {% block javascript%}
-
-  <!-- Side bar -->
-  <script>
-    $(document).ready(function() {
-       // All sides
-       var sides = ["left", "top", "right", "bottom"];
-       $("h1 span.version").text($.fn.sidebar.version);
-
-       // Initialize sidebars
-       for (var i = 0; i < sides.length; ++i) {
-           var cSide = sides[i];
-           $(".sidebar." + cSide).sidebar({side: cSide});
-       }
-
-       // Click handlers
-       $(".btn[data-action]").on("click", function () {
-           var $this = $(this);
-           var action = $this.attr("data-action");
-           var side = $this.attr("data-side");
-           $(".sidebar." + side).trigger("sidebar:" + action);
-           if (action == "open") {
-             $(".content").css("width", "70%");
-             $("footer").css("width", "70%");
-           } else if (action == "close") {
-             $(".content").css("width", "100%");
-             $("footer").css("width", "100%");
-           }
-           return false;
-       });
-    });
-  </script>
-
-  <!-- Swipe effect -->
-  <script>
-    $(function() {
-      $('button.seen').on('click', function() {
-        swipe('animated fadeOutRightBig');
-        swapBottomMovie();
-      });
-
-      $('button.watchlist').on('click', function() {
-        swipe('animated fadeOutLeftBig');
-        swapBottomMovie();
-      });
-
-      $('button.favourite').on('click', function() {
-        swipe('animated fadeOutUpBig');
-        swapBottomMovie();
-      });
-
-      $('button.not-seen').on('click', function() {
-        swipe('animated fadeOutDownBig');
-        swapBottomMovie();
-      });
-    });
-
-    function swipe(classes) {
-      $('.poster-top').addClass(classes);
-      $('.poster-top').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-        $('.poster-top').removeClass(classes);
-        $('.poster-bottom').removeClass('poster-bottom').addClass('poster-aux');
-        $('.poster-top').removeClass('poster-top').addClass('poster-bottom');
-        $('.poster-aux').removeClass('poster-aux').addClass('poster-top');
-      });
-    }
-
-    function swapBottomMovie() {
-      //$('.poster-bottom #poster').attr('src', 'https://ca.movieposter.com/posters/archive/main/108/MPW-54063');
-    }
-
-  </script>
-
-  {% endblock javascript %}
+{% endblock javascript %}

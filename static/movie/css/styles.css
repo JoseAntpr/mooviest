@@ -1,0 +1,48 @@
+.hline{
+  margin-bottom: 15px;
+}
+.celebrity-container{
+  height: 100px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.celebrity-container>p{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.celebrity-container>img{
+  height: 80px;
+  width: 60px;
+  object-fit: cover;
+  margin:auto;
+}
+
+.information-container>p{
+  text-align: justify;
+}
+.card-buttons{
+  padding-top: 5px;
+  margin-top: 5px;
+  border-radius: 3px;
+  height: 50px;
+}
+.poster{
+  border-radius: 5px;
+}
+.movie-information{
+  margin-top:100px;
+  margin-bottom: 100px;
+  background: white;
+  border-radius: 7px;
+  padding-top: 50px;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-bottom: 50px;
+}
+
+.well img.poster {
+  width: 90%;
+  height: 150px;
+}

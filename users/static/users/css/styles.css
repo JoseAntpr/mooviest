@@ -24,7 +24,7 @@
 }
 
 .profile-detail {
-  margin-top: 600px;
+  margin-top: 570px;
 }
 
 .avatar-wrapper{
@@ -61,10 +61,49 @@
   transition: 0.3s;
   border-radius: 5px;
   background-color: white;
+  padding-top: 10px;
+  padding-bottom: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
   margin-right:10px;
 }
+.followerCard>img{
+  height: 60px;
+  width: 60px;
+}
 .followerContainer{
   padding: 2px 16px;
+}
+.nav-profile{
+  border: none !important;
+}
+.nav-profile>.active{
+  border-bottom: #940123 solid 3px;
+  border-top:none;
+  border-left: none;
+  border-right: none;
+}
+.nav-profile>.active>a{
+  border:none !important;
+  color: #940123 !important;
+  background: none !important;
+}
+.nav-profile>li>a:hover{
+  border-bottom: #940123 solid 3px;
+  border-top:none;
+  border-left: none;
+  border-right: none;
+  color: #940123 !important;
+  background: none !important;
+}
+.nav-profile>li>a{
+  color:black !important;
+  text-decoration: none !important;
+}
+.profile-content{
+  min-height: 500px;
+}
+.follow-card-img{
+  height: 60px !important;
+  width: 60px !important;
 }
