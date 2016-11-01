@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from movie.models import Movie, Movie_lang, Rating, Country, Genre, Genre_lang, Celebrity, Participation, Celebrity_lang
+from movie.models import Role, Role_lang, Movie, Movie_lang, Rating, Country, Genre, Genre_lang, Celebrity, Participation, Celebrity_lang
 from users.models import Collection
 
 class CountryAppSerializer(serializers.ModelSerializer):
@@ -40,8 +40,15 @@ class CelebrityAppSerializer(serializers.ModelSerializer):
         model = Celebrity
         fields = ('id', 'name', 'born', 'image', 'twitter_account', 'address')
 
+class RoleAppSerializer(serializers.BaseSerializer):
+    def to_representation(self, obj):
+        lang = self.context['lang']
+        role_lang = Role_lang.objects.get(lang = lang, role = obj)
+        return role_lang.name
+
 class ParticipationAppSerializer(serializers.ModelSerializer):
     celebrity = CelebrityAppSerializer(many= False)
+    role = RoleAppSerializer(many= False)
     class Meta:
         model = Participation
         fields = ('celebrity', 'role', 'character', 'award')
