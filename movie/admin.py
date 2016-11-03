@@ -33,6 +33,16 @@ class MovieAdmin(nested_admin.NestedModelAdmin):
         CatalogueInline,
     ]
 
+    # def get_search_results(self, request, queryset, search_term):
+    #     queryset, use_distinct = super(MovieAdmin, self).get_search_results(request, queryset, search_term)
+    #     movie_langs = Movie_lang.objects.filter(
+    #             Q(title__icontains=search_term) | Q(movie__original_title__icontains=search_term), lang__code='es')
+    #
+    # # add to queryset the results of finding the Movies that matches the movie_langs ids
+    #     queryset |= Movie.objects.filter()
+    #     return queryset, use_distinct
+
+
 class Saga_langInline(admin.StackedInline):
     model = Saga_lang
     extra = 1
