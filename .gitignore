@@ -5,7 +5,7 @@ scripts/datos_sin_numero.txt
 scripts/lastline.txt
 scripts/log.txt
 scripts/imds.txt
-
+media/user
 *.pyc
 *.db
 

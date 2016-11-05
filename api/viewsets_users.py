@@ -171,7 +171,7 @@ class UserViewSet(GenericViewSet):
             }
         )
 
-    @detail_route(methods = ['get'])
+    @detail_route(methods = ['get']) 
     def collection(self,request,pk=None):
         user = User.objects.get(pk=pk)
 

@@ -160,7 +160,7 @@ class Movie_langViewSet(viewsets.ModelViewSet):
         code = self.request.query_params.get('code',None)
         print (title)
         if title is not None:
-            queryset = Movie_lang.objects.filter(Q(title__icontains = title) | Q(movie__original_title__icontains = title),lang__code = code)
+            queryset = Movie_lang.objects.filter(Q(title__icontains = title) | Q(movie__original_title__icontains = title),lang__code = code).order_by('id')
         return queryset
     #filter_backends = (filters.SearchFilter,)
     #search_fields = ('title',)
