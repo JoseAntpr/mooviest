@@ -3,6 +3,7 @@ from users.models import Collection
 from .serializers import LangSerializer, CountrySerializer, CelebritySerializer, Celebrity_langSerializer, RoleSerializer, Role_langSerializer, SagaSerializer, Saga_langSerializer, GenreSerializer, Genre_langSerializer, EmotionSerializer, Emotion_langSerializer, StreamingSerializer, SourceSerializer, MovieSerializer, Movie_langSerializer, RatingSerializer, CatalogueSerializer, Catalogue_langSerializer, ParticipationSerializer
 from .serializers_custom import MovieListCustomSerializer, RatingAppSerializer, ParticipationAppSerializer, GenreAppSerializer
 
+from rest_framework.decorators import list_route,detail_route
 from rest_framework import viewsets, filters, generics
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
@@ -176,19 +177,19 @@ class Movie_langViewSet(viewsets.ModelViewSet):
         return queryset
     #filter_backends = (filters.SearchFilter,)
     #search_fields = ('title',)
-class Movie_lang_Cast_ViewSet(viewsets.ModelViewSet):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    serializer_class = MovieListCustomSerializer
-    queryset = Movie_lang.objects.all()
-
-    def get_queryset(self):
+    @list_route(methods = ['get'])
+    def participation(self,request,pk=None):
         celebrity = self.request.query_params.get('celebrity',None)
         code = self.request.query_params.get('code',None)
-        if celebrity is not None:
-            queryset = Movie_lang.objects.filter(lang__code = code, movie__participation__celebrity = celebrity).order_by('title').distinct()
-        return queryset
+
+        queryset = Movie_lang.objects.filter(lang__code = code, movie__participation__celebrity = celebrity).order_by('title').distinct()
+
+        page = self.paginate_queryset(queryset)
+        serializer = serializer = MovieListCustomSerializer(many=True, instance=page)
+
+        return self.get_paginated_response(serializer.data)
+
+        return  Response(serializer.data)
 
 class RatingViewSet(viewsets.ModelViewSet):
     serializer_class = RatingSerializer

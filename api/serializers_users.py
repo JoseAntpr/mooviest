@@ -40,7 +40,7 @@ class ProfileRegisterSerializer(serializers.ModelSerializer):
         fields = ('lang','avatar',)
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    profile = ProfileRegisterSerializer()
+    profile = ProfileRegisterSerializer(many=True)
     class Meta:
         model = User
         fields = ('id','username','email','password','profile')
@@ -121,3 +121,8 @@ class UserSerializer(serializers.ModelSerializer) :
             raise serializers.ValidationError('Email ya registrado en la base de datos')
         else:
             return data
+
+class ProfileFollowSerializer(serializers.BaseSerializer):
+    def to_representation(self,obj):
+        serializer = UserSerializer(instance=obj.user)
+        return serializer.data
