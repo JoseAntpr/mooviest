@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet,MovieBasicViewSet
+from api.viewsets import LangViewSet, CountryViewSet, CelebrityViewSet, Celebrity_langViewSet, RoleViewSet, Role_langViewSet, SagaViewSet, Saga_langViewSet, GenreViewSet, Genre_langViewSet, EmotionViewSet, Emotion_langViewSet, StreamingViewSet, SourceViewSet, MovieViewSet, Movie_langViewSet, RatingViewSet, CatalogueViewSet, Catalogue_langViewSet, ParticipationViewSet,MovieBasicViewSet, Movie_lang_Cast_ViewSet
 from api.viewsets_users import UserViewSet,CollectionViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
@@ -43,6 +43,7 @@ router.register(r'movie', MovieViewSet)
 router.register(r'movie_released', MovieByReleasedViewSet)
 router.register(r'movie_search',MovieSearchViewSet)
 router.register(r'movie_lang', Movie_langViewSet)
+router.register(r'movie_lang_participation', Movie_lang_Cast_ViewSet)
 router.register(r'rating', RatingViewSet)
 router.register(r'catalogue', CatalogueViewSet)
 router.register(r'catalogue_lang', Catalogue_langViewSet)

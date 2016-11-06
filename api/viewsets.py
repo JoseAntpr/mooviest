@@ -7,8 +7,7 @@ from rest_framework import viewsets, filters, generics
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Q
-
+from django.db.models import Q, Prefetch
 
 class LangViewSet(viewsets.ModelViewSet):
     serializer_class = LangSerializer
@@ -177,23 +176,19 @@ class Movie_langViewSet(viewsets.ModelViewSet):
         return queryset
     #filter_backends = (filters.SearchFilter,)
     #search_fields = ('title',)
-# class Movie_lang_Cast_ViewSet(viewsets.ModelViewSet):
-#
-#     authentication_classes = (TokenAuthentication,)
-#     permission_classes = (IsAuthenticated,)
-#
-#     serializer_class = MovieListCustomSerializer
-#     queryset = Movie_lang.objects.all()
-#
-#     def get_queryset(self):
-#         queryset = Movie_lang.objects.all()
-#
-#         title = self.request.query_params.get('title',None)
-#         code = self.request.query_params.get('code',None)
-#         print (title)
-#         if title is not None:
-#             queryset = Movie_lang.objects.filter(Q(title__icontains = title) | Q(movie__original_title__icontains = title),lang__code = code).order_by('id')
-#         return queryset
+class Movie_lang_Cast_ViewSet(viewsets.ModelViewSet):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = MovieListCustomSerializer
+    queryset = Movie_lang.objects.all()
+
+    def get_queryset(self):
+        celebrity = self.request.query_params.get('celebrity',None)
+        code = self.request.query_params.get('code',None)
+        if celebrity is not None:
+            queryset = Movie_lang.objects.filter(movie__participation__celebrity = celebrity, lang__code = code)
+        return queryset
 
 class RatingViewSet(viewsets.ModelViewSet):
     serializer_class = RatingSerializer
