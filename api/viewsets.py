@@ -172,7 +172,7 @@ class Movie_langViewSet(viewsets.ModelViewSet):
         code = self.request.query_params.get('code',None)
         print (title)
         if title is not None:
-            queryset = Movie_lang.objects.filter(Q(title__icontains = title) | Q(movie__original_title__icontains = title),lang__code = code).order_by('title','id')
+            queryset = Movie_lang.objects.filter(Q(title__icontains = title) | Q(movie__original_title__icontains = title),lang__code = code).order_by('title').distinct()
         return queryset
     #filter_backends = (filters.SearchFilter,)
     #search_fields = ('title',)
@@ -187,7 +187,7 @@ class Movie_lang_Cast_ViewSet(viewsets.ModelViewSet):
         celebrity = self.request.query_params.get('celebrity',None)
         code = self.request.query_params.get('code',None)
         if celebrity is not None:
-            queryset = Movie_lang.objects.filter(movie__participation__celebrity = celebrity, lang__code = code)
+            queryset = Movie_lang.objects.filter(lang__code = code, movie__participation__celebrity = celebrity).order_by('title').distinct()
         return queryset
 
 class RatingViewSet(viewsets.ModelViewSet):
