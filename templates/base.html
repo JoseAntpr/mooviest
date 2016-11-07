@@ -53,25 +53,34 @@
             <a class="navbar-brand" href="{% url 'home' %}">M</a>
           </div>
       		<div class="collapse navbar-collapse" id="navbar">
+            <form class="navbar-form navbar-left" role="search" action="/search/" method="get">
+              <div class="form-group search inner-addon right-addon">
+                <i class="fa fa-search"></i>
+                <input type="search" id="search" class="form-control" placeholder="{% trans "Search for another movie..." %}" name="q">
+              </div>
+              <!--<button type="submit" class="btn btn-default btn-warning"><i class="fa fa-search"></i></button>-->
+            </form>
       			<ul class="nav navbar-nav navbar-right">
               {% if user.is_authenticated %}
                 <li>
                   <a href="{% url 'users_profile' user.id %}"><img src="{{ user.profile.avatar_thumbnail.url }}" class="img-circle"></a>
                 </li>
                 <li>
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}<span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle profile" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                  </a>
                   <ul class="dropdown-menu">
-          					<li><a href="{% url 'users_logout' %}">{% trans "Exit" %}</a></li>
-                    <li><a href="{% url 'users_profile' user.id %}">Perfil</a></li>
-          					<li><a href="{% url 'users_settings' %}">Ajustes</a></li>
+          					<li><a href="{% url 'users_logout' %}">{% trans "Log out" %}</a></li>
+                    <li><a href="{% url 'users_profile' user.id %}">{% trans "Profile" %}</a></li>
+          					<li><a href="{% url 'users_settings' %}">{% trans "Settings" %}</a></li>
           				</ul>
                 </li>
               {% else %}
               <li>
-                  <a href="{% url 'users_login' %}">Entrar</a>
+                  <a href="{% url 'users_login' %}">{% trans "Login" %}</a>
               </li>
               <li>
-                  <a href="{% url 'users_register' %}">Registrate</a>
+                  <a href="{% url 'users_register' %}">{% trans "Sign up" %}</a>
               </li>
               {% endif %}
           	</ul>
@@ -86,15 +95,14 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-4">
-              <h4>Acerca de</h4>
+              <h4>{% trans "About" %}</h4>
               <div class="hline-w"></div>
               <p>
-                Con Mooviest podrás marcar tus películas vistas de manera fácil y cómoda con un simple gesto de swipe. Tus películas vistas y actores preferidos junto con tu contexto
-                y estado de ánimo del día a día permiten a Mooviest realizar recomendaciones de películas mucho más acertadas.
+                {% trans "With Mooviest you can easily check the movies you've seen with a simple swipe gesture. These movies you've seen and favourite actors combined with your context and everyday mood will allow Mooviest to provide you with much better recommendations." %}
                </p>
             </div>
             <div class="col-lg-4">
-              <h4>Enlaces</h4>
+              <h4>{% trans "Links"%}</h4>
               <div class="hline-w"></div>
               <p>
                 <a href="http://facebook.com/mooviest" target="_blank"><i class="fa fa-facebook"></i></a>
@@ -105,7 +113,7 @@
               </p>
             </div>
             <div class="col-lg-4">
-              <h4>Nuestro Bunker</h4>
+              <h4>{% trans "Our bunker" %}</h4>
               <div class="hline-w"></div>
               <p>
                 C/ Rioja, 25<br/>
@@ -121,8 +129,9 @@
 
     <!-- JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sidebar/3.3.2/jquery.sidebar.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.min.js"></script>
+
 
     {% block javascript %}{% endblock javascript %}
 

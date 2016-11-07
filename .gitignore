@@ -9,6 +9,8 @@ scripts/imds.txt
 *.pyc
 *.db
 
+.idea
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
