@@ -1,28 +1,40 @@
+"""API permissions module.
+
+This module specifies permissions that allow different actions over
+the application objects using `Django Rest Framework`_.
+
+.. _Django Rest Framework:
+   http://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/
+
+"""
 from rest_framework.permissions import BasePermission
 
-class UserPermission(BasePermission):
 
-    def has_permission(self,request,view):
+class UserPermission(BasePermission):
+    def has_permission(self, request, view):
         """
-        Define si el usuario autenticado en request.user tiene permiso para realizar
-        la acción(GET,POST,PUT o Delete)
+        Determines if the authenticated user should have permissions
+        to perform GET, POST, PUT or DELETE actions.
+
+        :param view: The view where the permission should be granted
+        :param request: The request object
         """
-        if view.action == 'create':
-            return True
-        elif request.user.is_superuser:
-            return True
-        elif view.action == 'login':
-            return True
-        elif view.action in ['retrieve','update','destroy']:
+        if view.action == 'create' or view.action == 'login' or view.action in ['retrieve', 'update', 'destroy']:
             return True
         elif view.action == 'list':
             return False
         else:
             return request.user.is_authenticated()
-    def has_object_permission(self,request,view,obj):
+
+
+    def has_object_permission(self, request, view, obj):
         """
-        Define si el usuario autenticado en request.user tiene permiso para realizar
-        la accion (GET,PUT o delete) sobre el object obj
+        Determines if the authenticated user should have permissions
+        to perform GET, POST, PUT or DELETE actions on an object.
+
+        :param view: The view where the permission should be granted
+        :param request: The request object
+        :param obj: The object
         """
         if view.action == 'retrieve':
             return request.user.is_authenticated()

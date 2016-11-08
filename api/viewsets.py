@@ -109,7 +109,7 @@ class MovieViewSet(viewsets.ModelViewSet):
         ratingsSerializer = RatingAppSerializer(source='rating_set', many=True, instance = ratings)
 
         participations = Participation.objects.filter(movie = movie)
-        participationSerializer = ParticipationAppSerializer(source='participation_set', many=True, instance = participations)
+        participationSerializer = ParticipationAppSerializer(source='participation_set', many=True, instance = participations, context={'lang':movie_lang.lang.id})
 
         genres = Genre.objects.filter(movie = movie)
         genresSerializer = GenreAppSerializer(source='rating_set', many=True, instance = genres, context={'lang':movie_lang.lang.id})
