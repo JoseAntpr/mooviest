@@ -5,12 +5,14 @@ from movie.models import Lang, Country, Movie,Movie_lang, Emotion, Celebrity
 from imagekit.models import ProcessedImageField,ImageSpecField
 from imagekit.processors import ResizeToFill,SmartResize
 
+from django.utils.translation import ugettext_lazy as _
+
 FEMALE = "FE"
 MALE = "MA"
 
 GENDER_CHOICES = (
-    (FEMALE, "Female"),
-    (MALE, "Male")
+    (FEMALE, _("Female")),
+    (MALE, _("Male"))
 )
 
 RELATIONSHIP_FOLLOWING = 1

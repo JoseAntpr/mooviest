@@ -291,8 +291,8 @@ class Movie_lang(models.Model):
     synopsis = models.TextField(blank=True, null=True)
     image = models.CharField(max_length=255, null=True, blank=True)
     trailer = models.CharField(max_length=255, null=True, blank=True)
-    # def __str__(self):              # __unicode__ on Python 2
-    #    return self.title
+    def __str__(self):              # __unicode__ on Python 2
+        return self.title
 
 
 class Rating(models.Model):

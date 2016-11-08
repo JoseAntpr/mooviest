@@ -36,7 +36,7 @@ class DB:
         "role": "/api/role/",
         "role_lang": "/api/role_lang/",
         "source": "/api/source/",
-        "movie": "/api/movie/",
+        "movie": "/api/movie_released/",
         "movie_lang": "/api/movie_lang/",
         "celebrity": "/api/celebrity/",
         "celebrity_lang": "/api/celebrity_lang/",
@@ -49,8 +49,8 @@ class DB:
     def __init__(self,user,password):
         # Autenticación y generación de usuario para la llamada a la API
         userAndPass = b64encode(str(user+":"+password).encode("utf-8")).decode("ascii")
-        self.connection = http.client.HTTPConnection("127.0.0.1",8000)
-        self.headers = { "Authorization" : "Basic " + userAndPass,
+        self.connection = http.client.HTTPConnection("127.0.0.1",8080)
+        self.headers = { "Authorization" : "Token " + "f490e66764821709149a760265da5e9b0c4a7cc1",
                     "Content-type": "application/json"}
 
     def insert_data(self,api_url, js):
