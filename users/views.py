@@ -131,6 +131,7 @@ def profile(request,user_id):
     seenlist = userProfile.profile.get_list("seen")
     watchlist = userProfile.profile.get_list("watchlist")
     favouritelist = userProfile.profile.get_list("favourite")
+    
     #likeCelebritiesList = userProfile.profile.get_list(flag,"")
     context = {
         'userProfile':userProfile,

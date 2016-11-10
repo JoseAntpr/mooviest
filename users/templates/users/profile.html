@@ -53,7 +53,7 @@
         <div class="col-lg-12">
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="listas">
-              <div class="row">
+              <!--<div class="row">
                 <div class="col-lg-4">
                   <div class="movieCard">
                     <img src="http://images5.fanpop.com/image/photos/30600000/Avengers-the-avengers-30656125-500-348.jpg" class="img-responsive" style="width:100%"/>
@@ -76,6 +76,41 @@
                     <div class="movieContainer">
                       <h4>Películas Pendientes</h4>
                     </div>
+                  </div>
+                </div>
+              </div>-->
+              <hr>
+              <ul class="nav nav-tabs nav-profile">
+                <li class="active"><a href="#vistas" aria-controls="vistas" role="tab" data-toggle="tab">Vistas</a></li>
+                <li><a href="#favoritas" aria-controls="favoritas" role="tab" data-toggle="tab">Favoritas</a></li>
+                <li><a href="#pendientes" aria-controls="pendientes" role="tab" data-toggle="tab">Pendientes</a></li>
+              </ul>
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="vistas">
+                  <div class="row">
+                  {% for movie in seenlist %}
+                    <div class="col-lg-2 col-md-2">
+                      <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/{{ movie.image }}" alt="" />
+                    </div>
+                  {% endfor %}
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="favoritas">
+                  <div class="row">
+                  {% for movie in favouritelist %}
+                    <div class="col-lg-2 col-md-2">
+                      <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/{{ movie.image }}" alt="" />
+                    </div>
+                  {% endfor %}
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="pendientes">
+                  <div class="row">
+                  {% for movie in watchlist %}
+                    <div class="col-lg-2 col-md-2">
+                      <img class="img-responsive" src="https://img.tviso.com/ES/poster/w200/{{ movie.image }}" alt="" />
+                    </div>
+                  {% endfor %}
                   </div>
                 </div>
               </div>
