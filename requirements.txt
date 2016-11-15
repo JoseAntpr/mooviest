@@ -14,8 +14,10 @@ djangorestframework==3.3.3
 gunicorn==19.4.5
 pilkit==1.1.13
 Pillow==3.3.1
+PredictionIO==0.9.8
 psycopg2==2.6.1
 python-monkey-business==1.0.0
+pytz==2016.7
 requests==2.7.0
 requests-futures==0.9.5
 six==1.10.0
