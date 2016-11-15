@@ -186,5 +186,7 @@ class ParticipationViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'head', 'put', 'patch']
 
 class MovieBasicViewSet(viewsets.ModelViewSet):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()

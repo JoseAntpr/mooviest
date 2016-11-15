@@ -49,7 +49,7 @@ class DB:
     def __init__(self,user,password):
         # Autenticación y generación de usuario para la llamada a la API
         userAndPass = b64encode(str(user+":"+password).encode("utf-8")).decode("ascii")
-        self.connection = http.client.HTTPConnection("127.0.0.1",8080)
+        self.connection = http.client.HTTPConnection("127.0.0.1",8000)
         self.headers = { "Authorization" : "Token " + "f490e66764821709149a760265da5e9b0c4a7cc1",
                     "Content-type": "application/json"}
 

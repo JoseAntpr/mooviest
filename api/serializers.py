@@ -74,10 +74,9 @@ class SourceSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 class MovieSerializer(serializers.ModelSerializer):
-    genres = GenreSerializer(many=True, read_only=True)
     class Meta:
         model = Movie
-        fields = ('id', 'genres', 'participations','emotions', 'saga', 'catalogues', 'ratings', 'original_title', 'runtime', 'released', 'backdrop', 'movie_producer', 'saga_order', 'average')
+        fields = ('id', 'genres', 'participations', 'langs', 'emotions', 'saga', 'catalogues', 'ratings', 'original_title', 'runtime', 'released', 'backdrop', 'movie_producer', 'saga_order', 'average')
 
 class Movie_langSerializer(serializers.ModelSerializer):
 
