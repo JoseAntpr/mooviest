@@ -78,7 +78,8 @@ class MovieListCustomSerializer(serializers.BaseSerializer):
             getCollection = Collection.objects.get(movie=obj.movie.id, user=self.context['user_id'])
             collection = {
                 'id': getCollection.id,
-                'typeMovie': getCollection.typeMovie.name
+                'typeMovie': getCollection.typeMovie.name,
+                'pub_date': getCollection.pub_date
             }
 
         except:
@@ -89,6 +90,7 @@ class MovieListCustomSerializer(serializers.BaseSerializer):
             'average': obj.movie.average,
             'collection': collection,
             'image': obj.image,
+            'backdrop': obj.movie.backdrop,
             'title': obj.title,
             'movie_lang_id': obj.id
         }

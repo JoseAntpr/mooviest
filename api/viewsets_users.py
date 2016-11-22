@@ -1,9 +1,9 @@
 import json
 from django.core import serializers
 from django.shortcuts import get_object_or_404
-from users.models import Profile, Collection, Lang
+from users.models import Profile, Collection, Lang, RELATIONSHIP_FOLLOWING
 from movie.models import Movie
-from .serializers_users import UserRegisterSerializer, UserSerializer, CollectionSerializer, MoviesListSerializer
+from .serializers_users import UserRegisterSerializer, UserSerializer, CollectionSerializer, MoviesListSerializer, ProfileFollowSerializer
 from .serializers import Movie_langSerializer
 from .serializers_custom import MovieListCustomSerializer
 from django.contrib.auth.models import User
@@ -18,7 +18,7 @@ from rest_framework import status,viewsets
 from rest_framework.viewsets import GenericViewSet,ModelViewSet
 from api.permissions import UserPermission
 from django.forms import model_to_dict
-
+from django.db.models import Q
 from users.functions import authenticate_function
 
 class CollectionViewSet(ModelViewSet):
@@ -75,6 +75,12 @@ class UserViewSet(GenericViewSet):
         profile = user.profile
         lang = Lang.objects.get(pk = profile.lang.id)
 
+        followers = user.profile.get_followers()
+        followings = user.profile.get_following()
+
+        serializer_followers = ProfileFollowSerializer(many=True, instance=followers)
+        serializer_followings = ProfileFollowSerializer(many=True, instance=followings)
+
         return Response(
             {
                 'user':{
@@ -83,6 +89,8 @@ class UserViewSet(GenericViewSet):
                     'first_name': user.first_name,
                     'last_name': user.last_name,
                     'email': user.email,
+                    'followers':serializer_followers.data,
+                    'following':serializer_followings.data,
                     'profile':{
                         'born': profile.born,
                         'avatar': profile.avatar.url,
@@ -136,7 +144,7 @@ class UserViewSet(GenericViewSet):
 
 
         username = data.get('username')
-        password=data.get('password')
+        password = data.get('password')
 
 
         user = authenticate_function(username,password)
@@ -170,6 +178,15 @@ class UserViewSet(GenericViewSet):
                 'token': token,
             }
         )
+    @list_route(methods = ['get'])
+    def search(self,request,pk=None):
+        name = self.request.query_params.get('name',None)
+
+        queryset = User.objects.filter(Q(username__icontains = name) | Q(email__icontains = name) | Q(first_name__icontains = name)).order_by('username').distinct()
+        page = self.paginate_queryset(queryset)
+        serializer = UserSerializer(many=True, instance=page)
+
+        return self.get_paginated_response(serializer.data)
 
     @detail_route(methods = ['get'])
     def collection(self,request,pk=None):
@@ -192,3 +209,54 @@ class UserViewSet(GenericViewSet):
         serializer = MovieListCustomSerializer(many=True, instance=page, context={'user_id': pk})
 
         return self.get_paginated_response(serializer.data)
+
+    @detail_route(methods = ['post'])
+    def follow(self,request,pk=None):
+        user = User.objects.get(pk=pk)
+        user_id = int(request.data.get('user'))
+        userFollowed = User.objects.get(pk=user_id)
+        is_follow = request.data.get('is_follow')
+        if is_follow:
+            user.profile.follow(userFollowed.profile,RELATIONSHIP_FOLLOWING)
+        else:
+            user.profile.unfollow(userFollowed.profile,RELATIONSHIP_FOLLOWING)
+
+        followings = user.profile.get_following()
+        serializer_followings = ProfileFollowSerializer(many=True, instance=followings)
+        return Response(
+            {
+                'following':serializer_followings.data,
+                'status':status.HTTP_200_OK,
+            }
+        )
+    @detail_route(methods = ['post'])
+    def lang(self,request,pk=None):
+        user = User.objects.get(pk=pk)
+        lang_code = request.data.get('lang_code')
+        lang = Lang.objects.get(code = lang_code)
+
+        user.profile.lang = lang
+        user.profile.save()
+
+        message = 'Login successfully'
+        http_code = status.HTTP_200_OK
+        token = Token.objects.get_or_create(user=user)[0].key
+        data = {
+            'id':user.id,
+            'username':user.username,
+            'email':user.email,
+            'profile': {
+                'lang': {
+                    'code': user.profile.lang.code,
+                },
+                'avatar': str(user.profile.avatar)
+            }
+        }
+        return Response(
+            {
+                'message': message,
+                'user': data,
+                'status': http_code,
+                'token': token,
+            }
+        )
