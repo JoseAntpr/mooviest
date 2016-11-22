@@ -10,10 +10,10 @@
     	</div>
     </div>
 
-	{% if movies %}
+	{% if movies or users %}
 	    {% for movie in movies%}
 	    <div class="well">
-	    	<a href="{% url 'movie' movie.movie.id %}">
+	      <a href="{% url 'movie' movie.movie.id %}">
 		    	<div class="row">
 		    		<div class="col-md-1">
 		    			<img class="img-responsive poster" src="https://img.tviso.com/ES/poster/w430/{{ movie.image }}" alt="">
@@ -26,6 +26,26 @@
 		    </a>
 	    </div>
 	    {% endfor %}
+      {% for u in users %}
+        {% if user.username != u.username %}
+          <div class="well">
+              <div class="row">
+                <div class="col-md-1">
+                  <img class="img-responsive poster" src = "{{ u.profile.avatar.url }}" >
+                </div>
+                <div class="col-md-10">
+                  <a href="{% url 'users_profile' u.id %}">
+                    <h4>{{u.username}}</h4>
+                  </a>
+                  <a href="{% url 'users_profile' u.id %}">
+                    <p>{{u.first_name}} {{u.last_name}}</p>
+                  </a>
+                </div>
+              </div>
+          </div>
+        {%endif%}
+      {% endfor %}
+
 	{% else %}
 	  <p>No movies matched your search criteria</p>
 	{% endif%}

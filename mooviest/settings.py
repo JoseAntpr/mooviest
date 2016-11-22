@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'mooviest',
     'home',
     'movie',
-    'contact',
     'api',
     'rest_framework',
     'rest_framework.authtoken',

@@ -33,12 +33,6 @@ class CollectionViewSet(ModelViewSet):
 
 
 class UserViewSet(GenericViewSet):
-
-    #def list(self,request):
-    #    return Response('listado',status=status.HTTP_200_OK)
-    #queryset = User.objects.all()
-    #serializer_class = UserSerializer
-
     authentication_classes = (TokenAuthentication,)
     permission_classes = (UserPermission,)
 

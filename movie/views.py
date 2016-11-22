@@ -55,10 +55,13 @@ def search(request):
     if 'q' in request.GET and request.GET['q']:
         q = request.GET['q']
         movies = Movie_lang.objects.filter(Q(title__icontains = q) | Q(movie__original_title__icontains = q),lang__code = request.LANGUAGE_CODE)
-        if len(movies) == 1:
-            return redirect ('movie',movie_id=movies[0].id)
-        else:
-            return render(request,'movie/search.html',{'movies':movies, 'query': q})
+        #users = User.objects.filter(Q(username = q) | Q(first_name = q) | Q(last_name = q))
+        users = User.objects.filter(username__icontains = q)
+        #if len(movies) == 1:
+        #    return redirect ('movie',movie_id=movies[0].id)
+        #else:
+        print(users)
+        return render(request,'movie/search.html',{'movies':movies,'users': users, 'query': q})
     else:
         return HttpResponde("You Submmited an empty form.")
 
