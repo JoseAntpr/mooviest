@@ -40,7 +40,7 @@ class ProfileRegisterSerializer(serializers.ModelSerializer):
         fields = ('lang','avatar',)
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    profile = ProfileRegisterSerializer(many=True)
+    profile = ProfileRegisterSerializer()
     class Meta:
         model = User
         fields = ('id','username','email','password','profile')
