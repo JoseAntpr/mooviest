@@ -30,7 +30,7 @@ class Country(models.Model):
         name: The name of the `Country` object
         code: The character sequence that identifies the object. Examples: 'US', 'XX'
     """
-    language = models.ForeignKey(Lang, null=True, on_delete=models.SET_NULL)
+    lang = models.ForeignKey(Lang, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=20, null=False)
     code = models.CharField(max_length=10, null=False, default='US')
 
