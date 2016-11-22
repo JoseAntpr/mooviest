@@ -3,12 +3,12 @@ from users.models import Collection
 from .serializers import LangSerializer, CountrySerializer, CelebritySerializer, Celebrity_langSerializer, RoleSerializer, Role_langSerializer, SagaSerializer, Saga_langSerializer, GenreSerializer, Genre_langSerializer, EmotionSerializer, Emotion_langSerializer, StreamingSerializer, SourceSerializer, MovieSerializer, Movie_langSerializer, RatingSerializer, CatalogueSerializer, Catalogue_langSerializer, ParticipationSerializer
 from .serializers_custom import MovieListCustomSerializer, RatingAppSerializer, ParticipationAppSerializer, GenreAppSerializer
 
+from rest_framework.decorators import list_route,detail_route
 from rest_framework import viewsets, filters, generics
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Q
-
+from django.db.models import Q, Prefetch
 
 class LangViewSet(viewsets.ModelViewSet):
     serializer_class = LangSerializer
@@ -104,15 +104,25 @@ class MovieViewSet(viewsets.ModelViewSet):
         #             'date_update': r.date_update
         #         }
         #     )
+        try:
+            ratings = Rating.objects.filter(movie=movie)
+            ratingsSerializer = RatingAppSerializer(source='rating_set', many=True, instance = ratings)
+            ratings = ratingsSerializer.data
+        except:
+            ratings = []
+        try:
+            participations = Participation.objects.filter(movie = movie)
+            participationSerializer = ParticipationAppSerializer(source='participation_set', many=True, instance = participations, context={'lang':movie_lang.lang.id})
+            participations = participationSerializer.data
+        except:
+            participations = []
 
-        ratings = Rating.objects.filter(movie=movie)
-        ratingsSerializer = RatingAppSerializer(source='rating_set', many=True, instance = ratings)
-
-        participations = Participation.objects.filter(movie = movie)
-        participationSerializer = ParticipationAppSerializer(source='participation_set', many=True, instance = participations, context={'lang':movie_lang.lang.id})
-
-        genres = Genre.objects.filter(movie = movie)
-        genresSerializer = GenreAppSerializer(source='rating_set', many=True, instance = genres, context={'lang':movie_lang.lang.id})
+        try:
+            genres = Genre.objects.filter(movie = movie)
+            genresSerializer = GenreAppSerializer(source='rating_set', many=True, instance = genres, context={'lang':movie_lang.lang.id})
+            genres = genresSerializer.data
+        except:
+            genres = []
 
         try:
             getCollection = Collection.objects.get(movie = movie_lang.movie, user = request.query_params.get('user_id'))
@@ -124,7 +134,7 @@ class MovieViewSet(viewsets.ModelViewSet):
         except:
             collection = None
 
-        return Response(
+        res = Response(
             {
                 'id': movie.id,
                 'movie_lang_id': movie_lang.id,
@@ -138,12 +148,15 @@ class MovieViewSet(viewsets.ModelViewSet):
                 'backdrop': movie.backdrop,
                 'image': movie_lang.image,
                 'movie_producer': movie.movie_producer,
-                'genres': genresSerializer.data,
+                'genres': genres,
                 'country': None,
-                'ratings': ratingsSerializer.data,
-                'participations': participationSerializer.data
+                'ratings': ratings,
+                'participations': participations
             }
         )
+        print(res)
+        return res
+
 
 class Movie_langViewSet(viewsets.ModelViewSet):
 
@@ -160,10 +173,23 @@ class Movie_langViewSet(viewsets.ModelViewSet):
         code = self.request.query_params.get('code',None)
         print (title)
         if title is not None:
-            queryset = Movie_lang.objects.filter(Q(title__icontains = title) | Q(movie__original_title__icontains = title),lang__code = code)
+            queryset = Movie_lang.objects.filter(Q(title__icontains = title) | Q(movie__original_title__icontains = title),lang__code = code).order_by('title').distinct()
         return queryset
     #filter_backends = (filters.SearchFilter,)
     #search_fields = ('title',)
+    @list_route(methods = ['get'])
+    def participation(self,request,pk=None):
+        celebrity = self.request.query_params.get('celebrity',None)
+        code = self.request.query_params.get('code',None)
+
+        queryset = Movie_lang.objects.filter(lang__code = code, movie__participation__celebrity = celebrity).order_by('title').distinct()
+
+        page = self.paginate_queryset(queryset)
+        serializer = serializer = MovieListCustomSerializer(many=True, instance=page)
+
+        return self.get_paginated_response(serializer.data)
+
+        return  Response(serializer.data)
 
 class RatingViewSet(viewsets.ModelViewSet):
     serializer_class = RatingSerializer
@@ -186,5 +212,7 @@ class ParticipationViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'head', 'put', 'patch']
 
 class MovieBasicViewSet(viewsets.ModelViewSet):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()

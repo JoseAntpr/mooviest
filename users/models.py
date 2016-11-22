@@ -79,7 +79,7 @@ class Profile(models.Model):
         return self.get_related_to(RELATIONSHIP_FOLLOWING)
 
     def get_list(self,list_name=None):
-        return Movie_lang.objects.filter(lang__code = self.lang.code, movie__collection__user=self,movie__collection__typeMovie__name=list_name)
+        return Movie_lang.objects.filter(lang__code=self.lang.code, movie__collection__user=self,movie__collection__typeMovie__name=list_name).order_by('-movie__collection__pub_date')
 
     def get_swipe(self):
         return Movie_lang.objects.filter(lang__code = self.lang.code).exclude(movie__collection__user=self).order_by('?')[:10]
