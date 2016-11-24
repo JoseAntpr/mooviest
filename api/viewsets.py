@@ -192,6 +192,9 @@ class Movie_langViewSet(viewsets.ModelViewSet):
         return  Response(serializer.data)
 
 class RatingViewSet(viewsets.ModelViewSet):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    
     serializer_class = RatingSerializer
     queryset = Rating.objects.all()
     http_method_names = ['get', 'post', 'head', 'put', 'patch']

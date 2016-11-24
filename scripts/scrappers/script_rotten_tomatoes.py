@@ -1,6 +1,6 @@
 import urllib.request, json
 from bs4 import BeautifulSoup
-from . import interface
+from .import interface
 
 # get_url_rottentomatoes_by_omdb(id_imdb), return rottentomatoes url by omdb
 #   Params
@@ -253,3 +253,16 @@ def update_rating(db, rating_audience_id, rating_expert_id, sourceid):
         error_message += msg
 
     return error_code, error_message, res_audience, res_expert
+
+# id_imdb = "tt0120737"
+# error_code, msg, sourceid = get_url_rottentomatoes_by_omdb(id_imdb)
+# print(sourceid)
+
+# url = "https://www.rottentomatoes.com/m/the_lord_of_the_rings_the_fellowship_of_the_ring"
+# error_code, msg, soup = interface.get_soup(url)
+# # print(soup)
+# # rating, count = get_expert_rating(soup)
+# # print(rating,count)
+#
+# rating, count = get_audience_rating(soup)
+# print(rating,count)

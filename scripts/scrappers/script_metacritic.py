@@ -1,6 +1,6 @@
 import urllib.request, json
 from bs4 import BeautifulSoup
-from . import interface
+from .import interface
 
 
 # get_url_metacritic_by_imdb(imdb), return metacritic url by imdb
@@ -41,13 +41,14 @@ def get_url_metacritic_by_imdb(imdb):
 #       - rating, rating of Metacritic
 #       - count, count of Metacritic
 #
-def format_params(rating, count):
+def format_params(rating,count,count2,count3):
     error_code = False
     error_message = ""
     try:
-        count = count.replace("ratings","").strip()
         rating = int(rating.replace(".", "").replace(",", ""))
         count = int(count.replace(".", "").replace(",", ""))
+        count += int(count2.replace(".", "").replace(",", ""))
+        count += int(count3.replace(".", "").replace(",", ""))
     except:
         rating = 0
         count = 0
@@ -65,22 +66,21 @@ def get_rating(soup):
     error_code = False
     error_message = ""
     rating = ""
-    count = ""
+    count = 0
     try:
-        lista = soup.find_all("div",{"class":"user"})
-        if len(lista) > 0:
-            rating = lista[0].get_text().strip()
-            lista = soup.find_all("div",{"class":"details side_details"})
-            lista = lista[0].find_all("span",{"class":"count"})
-            count = lista[0].find("a").get_text().lower()
+        countp = soup.find_all("div",{"class":"count"})
+        rating = soup.find_all("span",{"class":"user"})[0].get_text().strip()
+        countPositive = soup.find_all("div",{"class":"count"})[3].get_text().strip()
+        countMixed = soup.find_all("div",{"class":"count"})[4].get_text().strip()
+        countNegative = soup.find_all("div",{"class":"count"})[5].get_text().strip()
     except:
         rating = ""
-        count = ""
+        count = 0
         error_code = True
         error_message = "Error get audience, rating Metacritic\n"
     if error_code:
         return error_code, error_message, rating, count
-    return format_params(rating, count)
+    return format_params(rating, countPositive, countMixed, countNegative)
 
 # get_rating_expert(soup): sourceid returns, rating and count formatted
 #
@@ -91,20 +91,21 @@ def get_rating_expert(soup):
     error_code = False
     error_message = ""
     rating = ""
-    count = ""
+    count = "0"
     try:
-        lista = soup.find_all("div",{"class":"metascore_wrap highlight_metascore"})
-        if len(lista) > 0:
-            rating = lista[0].find_all("span",{"itemprop":"ratingValue"})[0].get_text().strip()
-            count = lista[0].find_all("span",{"itemprop":"reviewCount"})[0].get_text().strip()
+        rating = soup.find_all("span",{"class":"metascore_w"})[0].get_text().strip()
+        countPositive = soup.find_all("div",{"class":"count"})[0].get_text().strip()
+        countMixed = soup.find_all("div",{"class":"count"})[1].get_text().strip()
+        countNegative = soup.find_all("div",{"class":"count"})[2].get_text().strip()
     except:
         rating = ""
-        count = ""
+        count = "0"
         error_code = True
         error_message = "Error get expert, rating Metacritic\n"
     if error_code:
         return error_code, error_message, rating, count
-    return format_params(rating, count)
+
+    return format_params(rating, countPositive,countMixed,countNegative)
 
 # insert(db, movie_id, url, soup, expert), insert rating in mooviest db
 #
@@ -121,10 +122,10 @@ def insert(db, movie_id, url, soup, expert):
     res = {}
     rating = 0
     count = 0
-    name = "Metacritic"
+    name = "MetacriticAudience"
     if expert:
         error_code, msg, rating, count = get_rating_expert(soup)
-        name = "Metacritic Expert"
+        name = "MetacriticExpert"
     else:
         error_code, msg, rating, count = get_rating(soup)
 
@@ -132,11 +133,12 @@ def insert(db, movie_id, url, soup, expert):
         error_message += msg
         return error_code, error_message, res
 
+    sourceid = url.replace("http://www.metacritic.com/movie/", "")
     params = json.dumps(
         {
             "source": db.SOURCES["Metacritic"],
             "movie": movie_id,
-            "sourceid": url,
+            "sourceid": sourceid,
             "name": name,
             "rating": rating,
             "count": count
@@ -241,3 +243,24 @@ def update_rating(db, rating_id, rating_expert_id, sourceid):
     error_message += msg
 
     return (error_code or error_code_expert), error_message, res, res_expert
+
+# id_imdb = "tt0120737"
+#
+# # error_code, msg, url= get_url_metacritic_by_imdb(id_imdb)
+# # print(error_code, msg, url)
+# url = "http://www.metacritic.com/movie/rules-dont-apply"
+# error_code, msg, soup = interface.get_soup(url)
+# # print(error_code, msg, soup)
+#
+# error_code, error_message, rating, count = get_rating(soup)
+# print("rating:",rating,count)
+# error_code, error_message, rating, count = get_rating_expert(soup)
+# print("rating expert:",rating,count)
+
+# error_code, msg, res = insert(db, movie_id, url, soup, False)
+# error_message += msg
+#
+# error_code_expert, msg, res_expert = insert(db, movie_id, url, soup, True)
+# error_message += msg
+#
+# return (error_code or error_code_expert), error_message, res, res_expert
